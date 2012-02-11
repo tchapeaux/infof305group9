@@ -1,4 +1,3 @@
-import java.io.*;
 import java.util.*;
 import java.lang.*;
 import java.awt.*;
@@ -10,7 +9,7 @@ public class Pannel extends JFrame implements Runnable{
 
     public Pannel(int width, int height, Simulation[] listSimulations){
         
-        this.setTitle("Task Scheduler Emulation");
+        this.setTitle("Task Scheduler Simulation");
         this.setSize(width, height);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setLocationRelativeTo(null);
