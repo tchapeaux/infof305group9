@@ -6,7 +6,7 @@ import javax.swing.*;
 
 public class SimulationPanel extends JPanel {
 
-	public static final int pixelsPerSecond = 50;
+	public static final int pixelsPerSecond = 200;
 	public static final int pixelsForText=200;
 
 	protected Simulation sim;
@@ -22,15 +22,16 @@ public class SimulationPanel extends JPanel {
 		{
 
 			//Draw task enter & deadline as rectangle
-			if (t1+(getWidth()-pixelsForText)/pixelsPerSecond-3 > task.getStartTime() & t1-3 < task.getEndTime())
 			{
 				int startPos=155+(int)((-t1+task.getStartTime())*pixelsPerSecond);
 				int endPos=startPos+(int)(task.getEndTime()-task.getStartTime())*pixelsPerSecond;
 				int firstPix=Math.max(6,startPos);
 				int lastPix=Math.min(getWidth()-pixelsForText,endPos);
-				g.drawLine(firstPix,8+i*high,lastPix, 8+i*high);
-				g.drawLine(firstPix,8+(i+1)*high,lastPix, 8+(i+1)*high);
-				
+				if (lastPix > 5 & firstPix < getWidth()-pixelsForText)
+				{
+					g.drawLine(firstPix,8+i*high,lastPix, 8+i*high);
+					g.drawLine(firstPix,8+(i+1)*high,lastPix, 8+(i+1)*high);
+				}
 				if (Math.max(5,startPos) !=5)
 				{
 					g.drawLine(firstPix,8+i*high,firstPix, 8+(i+1)*high);
@@ -56,6 +57,14 @@ public class SimulationPanel extends JPanel {
 		font = new Font("Arial", Font.PLAIN, 15);
 		g.setFont(font);          
 		g.drawString(sim.getSchedulerType(), getWidth()-pixelsForText+15, 50);
+
+		font = new Font("Arial", Font.PLAIN, 15);
+		g.setFont(font);          
+		g.drawString("Energy used:", getWidth()-pixelsForText+15, 70);
+		
+		font = new Font("Arial", Font.PLAIN, 35);
+		g.setFont(font);          
+		g.drawString(String.valueOf(sim.getEnergyUsed()), getWidth()-pixelsForText+60, 130);
 		
 		g.setColor(Color.red);
 		g.drawLine(155, 6, 155, getHeight()-6);

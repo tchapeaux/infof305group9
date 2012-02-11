@@ -47,6 +47,7 @@ public class Main {
 				try {
 					Thread.sleep(100);
 				} catch (Exception e) {/*TODO*/};
+
 			} while ((currentTime - startTime)/1000 < Main.TIME_INTERVAL);
         }
 }

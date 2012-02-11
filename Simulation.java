@@ -1,4 +1,3 @@
-import java.io.*;
 import java.util.*;
 import java.lang.*;
 
@@ -32,18 +31,18 @@ public class Simulation
 	// Compute the evolution of the system in the interval between currentTime and currentTime + elapsedMs
 	{
 		float startPoint = this.currentTime;
-		float endPoint = this.currentTime + elapsedMs;
+		//float endPoint = this.currentTime + elapsedMs;
 
 		// TODO : if in-line algorithm : reschedule the tasks
 		// Find the most prioritary task to be computed
 		for(Task task:taskBatch) // ??-> does this go through the array in the logical order??
 		{
-			if (task.completion < 100
+			if (task.getCompletion() < 1.0
 			 && task.getStartTime() <= startPoint
 			 && startPoint < task.getEndTime())
 			// --> the task is chosen to be computed
 			{
-				float timeLeftToCompute = ((100 - task.getCompletion())/100)*task.getActualEt();
+				float timeLeftToCompute = (((float)1.0 - task.getCompletion()))*task.getActualEt();
 				// The actual time spent on that task is either
 				//		- elapsedMs if the task is not completed during the rest of the interval
 				//		- timeLeftToCompute if the task is completed before the end of the interval
