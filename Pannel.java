@@ -1,12 +1,12 @@
-import java.util.*;
-import java.lang.*;
+//import java.util.*;
+//import java.lang.*;
 import java.awt.*;
 import javax.swing.*;
 
 public class Pannel extends JFrame implements Runnable{
  
     protected JPanel container = new JPanel();
-
+    private static final long serialVersionUID = 1L;
     public Pannel(int width, int height, Simulation[] listSimulations){
         
         this.setTitle("Task Scheduler Simulation");

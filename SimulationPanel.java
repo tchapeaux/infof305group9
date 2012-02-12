@@ -1,6 +1,7 @@
-import java.io.*;
+//import java.io.*;
 import java.util.*;
-import java.lang.*;
+import java.util.List;
+//import java.lang.*;
 import java.awt.*;
 import javax.swing.*;
 
@@ -8,6 +9,8 @@ public class SimulationPanel extends JPanel {
 
 	public static final int pixelsPerSecond = 200;
 	public static final int pixelsForText=200;
+	public static final int presentTimeLine=155;
+    private static final long serialVersionUID = 1L;
 
 	protected Simulation sim;
 	public SimulationPanel(Simulation simu) {sim=simu;}
@@ -23,7 +26,7 @@ public class SimulationPanel extends JPanel {
 
 			//Draw task enter & deadline as rectangle
 			{
-				int startPos=155+(int)((-t1+task.getStartTime())*pixelsPerSecond);
+				int startPos=presentTimeLine+(int)((-t1+task.getStartTime())*pixelsPerSecond);
 				int endPos=startPos+(int)(task.getEndTime()-task.getStartTime())*pixelsPerSecond;
 				int firstPix=Math.max(6,startPos);
 				int lastPix=Math.min(getWidth()-pixelsForText,endPos);
@@ -43,9 +46,23 @@ public class SimulationPanel extends JPanel {
 			}
 			
 			//draw Completion
+			{
+				List<float[]> evolution=task.getCompletionEvolution();
+				for (int j=0; j<evolution.size(); j++)
+				{
+					int startx= (int) ((evolution.get(j)[0] - Main.getStartTime())/1000 +task.getStartTime())*pixelsPerSecond;
+					int starty= (int) (8+i*high+high*evolution.get(j)[1]);
+					g.drawLine(startx, starty, startx, starty);
+				}
+			}
 			
 			//draw Work
-			
+			{
+				int startx=  (int) (Math.max(presentTimeLine,presentTimeLine+(int)((-t1+task.getStartTime())*pixelsPerSecond))); 
+				int starty= (int) (8+i*high+high*task.getCompletion());
+				g.fillRect(startx, starty+2, (int)task.worstComputationTimeLeft()*pixelsPerSecond, (int)(1.0-task.getCompletion())*high-4);
+				g.drawString(String.valueOf(task.getCompletion()*100), startx-30, starty+high/2+5);
+			}
 		}
 		g.setColor(Color.black);
 		g.drawLine(getWidth()-pixelsForText, 6, getWidth()-pixelsForText, getHeight()-6);
@@ -67,6 +84,6 @@ public class SimulationPanel extends JPanel {
 		g.drawString(String.valueOf(sim.getEnergyUsed()), getWidth()-pixelsForText+60, 130);
 		
 		g.setColor(Color.red);
-		g.drawLine(155, 6, 155, getHeight()-6);
+		g.drawLine(presentTimeLine, 6, presentTimeLine, getHeight()-6);
 	}               
 }
