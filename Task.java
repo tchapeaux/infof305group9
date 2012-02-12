@@ -30,15 +30,17 @@ public class Task
 		public float getActualEt() {return this.actual_et;}
 
 	protected List<float[]> completion = new ArrayList<float[]>(); // float [0] = time; float [1] = completion (0->1)
+	// TODO: get rid of the magic numbers
+	// --> add a "CompletionPoint" class?
 		public float getCompletion() {return (this.completion.get(this.completion.size()-1))[1];}
 		public List<float[]> getCompletionEvolution() {return completion;}
 		public void updateCompletion(float interv)
 		{
-			float tmp[]=new float[2];
+			float newCompletionPoint[]=new float[2];
 			Date t = new Date();
-			tmp[0]=t.getTime();
-			tmp[1]=this.getCompletion();
-			this.completion.add(tmp);
+			newCompletionPoint[0]=t.getTime();
+			newCompletionPoint[1]=this.getCompletion() + interv;
+			this.completion.add(newCompletionPoint);
 		}
 
 		public float worstComputationTimeLeft()
@@ -52,10 +54,10 @@ public class Task
 
 	public Task()
 	{
-		float tmp[]=new float[2];
-		tmp[0]=Main.getStartTime();
-		tmp[1]=0;
-		this.completion.add(tmp);
+		float firstCompletionPoint[]=new float[2];
+		firstCompletionPoint[0]=Main.getStartTime();
+		firstCompletionPoint[1]=0;
+		this.completion.add(firstCompletionPoint);
 		this.speed = 1;
 		this.id = Task.getNextID();
 	}
@@ -77,7 +79,7 @@ public class Task
 	}
 
 	public void generateValuesFor(float timeInterval)
-	// create a random task whose start and ending time are in timeInterval
+	// set random values for the task, with start and ending time in timeInterval
 	{
 		float duration = Task.generateInRange(timeInterval/4, 3*timeInterval/4);
 		float newSt = Task.generateInRange((float)0.0, timeInterval - duration);

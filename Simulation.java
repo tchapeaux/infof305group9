@@ -7,6 +7,7 @@ public class Simulation
 	protected Task[] taskBatch;
 	protected Scheduler scheduler;
 	protected float currentTime; // elapsed time
+		public float getCurrentTime() {return this.currentTime;}
 	protected int energyUsed;
 		public int getEnergyUsed() {return this.energyUsed;}
 
@@ -31,12 +32,17 @@ public class Simulation
 	// Compute the evolution of the system in the interval between currentTime and currentTime + elapsedMs
 	{
 		float startPoint = this.currentTime;
-		//float endPoint = this.currentTime + elapsedMs;
 
 		// TODO : if in-line algorithm : reschedule the tasks
 		// Find the most prioritary task to be computed
 		for(Task task:taskBatch) // ??-> does this go through the array in the logical order??
 		{
+			/*
+			System.out.println("::::::::");
+			System.out.println(Float.toString(task.getCompletion()));
+			System.out.println(Float.toString(task.getStartTime()) + " <= " + Float.toString(startPoint));
+			System.out.println(Float.toString(task.getEndTime()) + " > " + Float.toString(startPoint));
+			*/
 			if (task.getCompletion() < 1.0
 			 && task.getStartTime() <= startPoint
 			 && startPoint < task.getEndTime())
@@ -46,12 +52,13 @@ public class Simulation
 				// The actual time spent on that task is either
 				//		- elapsedMs if the task is not completed during the rest of the interval
 				//		- timeLeftToCompute if the task is completed before the end of the interval
-				float taskComputationTime = Math.min((float)(elapsedMs/1000.0), timeLeftToCompute);
-				task.updateCompletion((int)(task.getSpeed()*(taskComputationTime/task.getActualEt())));
+				float taskComputationTime = Math.min(elapsedMs, timeLeftToCompute);
+				task.updateCompletion((task.getSpeed()*(taskComputationTime/task.getActualEt())));
 
 
 				this.currentTime = this.currentTime + taskComputationTime;
 				//TODO : energy used
+
 
 				if (taskComputationTime < elapsedMs)
 				// --> Another task will be computed during the remaining of the interval.
@@ -59,10 +66,12 @@ public class Simulation
 					this.compute(elapsedMs - taskComputationTime);
 				}
 
-				System.out.println("new completion : " + Float.toString(task.getCompletion()));
+
+				// System.out.println("new completion : " + Float.toString(task.getCompletion()));
 				break;
 			}
 		}
+
 		if (startPoint == this.currentTime)
 		// no computable task were found
 		// --> time passes anyway
