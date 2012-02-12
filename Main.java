@@ -4,7 +4,7 @@ import java.util.*;
 
 public class Main {
 
-		protected static final int TIME_INTERVAL = 6000; // ms
+		protected static final int TIME_INTERVAL = 15000; // ms
 		protected static final int NUMBER_OF_SIMS = 3;
 
 		protected static Pannel pannel;
@@ -44,7 +44,7 @@ public class Main {
 					sim.compute(interval);
 				}
 				try {
-					Thread.sleep(100);
+					Thread.sleep(10);
 				} catch (Exception e) {e.printStackTrace();};
 
 			} while ((currentTime - startTime) < Main.TIME_INTERVAL);

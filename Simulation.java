@@ -67,7 +67,7 @@ public class Simulation
 				}
 
 
-				// System.out.println("new completion : " + Float.toString(task.getCompletion()));
+				System.out.println("new completion : " + Float.toString(task.getCompletion()));
 				break;
 			}
 		}
