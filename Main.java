@@ -4,7 +4,7 @@ import java.util.*;
 
 public class Main {
 
-		protected static final int TIME_INTERVAL = 6; // s
+		protected static final int TIME_INTERVAL = 6000; // ms
 		protected static final int NUMBER_OF_SIMS = 3;
 
 		protected static Pannel pannel;
@@ -29,7 +29,6 @@ public class Main {
 			long lastTime = startTime;
 			long currentTime = startTime;
 
-
 			pannel = new Pannel(1200,800,simulations);
 			pannel.run();
 
@@ -46,8 +45,8 @@ public class Main {
 				}
 				try {
 					Thread.sleep(100);
-				} catch (Exception e) {/*TODO*/};
+				} catch (Exception e) {e.printStackTrace();};
 
-			} while ((currentTime - startTime)/1000 < Main.TIME_INTERVAL);
+			} while ((currentTime - startTime) < Main.TIME_INTERVAL);
         }
 }
