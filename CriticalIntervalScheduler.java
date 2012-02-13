@@ -4,16 +4,16 @@ public class CriticalIntervalScheduler implements Scheduler
 {
 	public void schedule(Task[] batch)
 	{
-		try 
+		try
 		{
 			this.checkFeasability(batch);
 			this.EDF(batch);
-		} 
-		catch (Exception e) 
+		}
+		catch (Exception e)
 		{
 			e.printStackTrace();
-		} 
-		finally 
+		}
+		finally
 		{
 			for (Task task:batch)
 			{
