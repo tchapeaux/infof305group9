@@ -22,6 +22,7 @@ public class Main {
 			for(int i = 0; i < Main.NUMBER_OF_SIMS; i++)
 			{
 				simulations[i] = new Simulation(taskBatch, new DumbScheduler());
+				//simulations[i] = new Simulation(taskBatch, new CriticalIntervalScheduler());
 			}
 
 			Date t = new Date();
