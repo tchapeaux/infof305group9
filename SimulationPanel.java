@@ -18,12 +18,11 @@ public class SimulationPanel extends JPanel {
 	public void paintComponent(Graphics g){
 		g.drawRoundRect(5, 5, getWidth()-10, getHeight()-10, 20, 20);
 		Date t = new Date();
-		double t1 = (double)(t.getTime() - Main.getStartTime())/1000;
+		double t1 = sim.getCurrentTime();
 		int height = Math.min(50,(getHeight())/sim.getNumberOfTasks()-1);
 		Task task;
 		for (int i=0; (task=sim.getTask(i))!= null;i++)
 		{
-
 			//Draw task enter & deadline as rectangle
 			{
 				int startPos=presentTimeLine+(int)((-t1+task.getStartTime()/1000)*pixelsPerSecond);
