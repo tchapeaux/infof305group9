@@ -31,9 +31,11 @@ public class Task
 
 	protected List<float[]> completion = new ArrayList<float[]>(); // float [0] = time; float [1] = completion (0->1)
 	// TODO: get rid of the magic numbers
-	// --> add a "CompletionPoint" class?
+	// --> add a "CompletionPoint" class (struct)?
 		public float getCompletion() {return (this.completion.get(this.completion.size()-1))[1];}
+
 		public List<float[]> getCompletionEvolution() {return completion;}
+
 		public void updateCompletion(float interv)
 		{
 			float newCompletionPoint[]=new float[2];
@@ -43,10 +45,15 @@ public class Task
 			this.completion.add(newCompletionPoint);
 		}
 
-		public float worstComputationTimeLeft()
-		{
-			return (wcet - this.getCompletion()*wcet);
-		}
+	public void giveCPU(float duration, float speed)
+	{
+		this.updateCompletion(speed*duration/this.getActualEt());
+	}
+
+	public float worstComputationTimeLeft()
+	{
+		return (wcet - this.getCompletion()*wcet);
+	}
 
 	protected float speed;
 		public float getSpeed() {return this.speed;}

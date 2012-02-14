@@ -8,8 +8,8 @@ public class Simulation
 	protected Scheduler scheduler;
 	protected float currentTime; // elapsed time
 		public float getCurrentTime() {return this.currentTime;}
-	protected int energyUsed;
-		public int getEnergyUsed() {return this.energyUsed;}
+	protected float energyUsed;
+		public float getEnergyUsed() {return this.energyUsed;}
 
 	public Simulation(Task[] taskBatch, Scheduler scheduler)
 	{
@@ -32,58 +32,51 @@ public class Simulation
 	// Compute the evolution of the system in the interval between currentTime and currentTime + elapsedMs
 	{
 		float startPoint = this.currentTime;
+		float endPoint = startPoint + elapsedMs;
+		Stack<Task> tasksInInterval = new Stack<Task>();
 
 		// TODO : if in-line algorithm : reschedule the tasks
-		// Find the most prioritary task to be computed
-		for(Task task:taskBatch) // ??-> does this go through the array in the logical order??
+		for(Task eachTask:taskBatch) // ??-> does this go through the array in the logical order??
 		{
-			/*
-			System.out.println("::::::::");
-			System.out.println(Float.toString(task.getCompletion()));
-			System.out.println(Float.toString(task.getStartTime()) + " <= " + Float.toString(startPoint));
-			System.out.println(Float.toString(task.getEndTime()) + " > " + Float.toString(startPoint));
-			*/
-			if (task.getCompletion() < 1.0
-			 && task.getStartTime() <= startPoint
-			 && startPoint < task.getEndTime())
-			// --> the task is chosen to be computed
+			if (eachTask.getCompletion() < 1.0
+			 && !(eachTask.getStartTime() > endPoint) // the task is not AFTER the interval
+			 && !(eachTask.getEndTime() < startPoint)) // the task is not BEFORE the interval
 			{
-				float timeLeftToCompute = (((float)1.0 - task.getCompletion()))*task.getActualEt();
-				// The actual time spent on that task is either
-				//		- elapsedMs if the task is not completed during the rest of the interval
-				//		- timeLeftToCompute if the task is completed before the end of the interval
-				float taskComputationTime = Math.min(elapsedMs, timeLeftToCompute);
-				task.updateCompletion((task.getSpeed()*(taskComputationTime/task.getActualEt())));
-
-
-				this.currentTime = this.currentTime + taskComputationTime;
-				//TODO : energy used
-
-
-				if (taskComputationTime < elapsedMs)
-				// --> Another task will be computed during the remaining of the interval.
-				{
-					this.compute(elapsedMs - taskComputationTime);
-				}
-
-
-				System.out.println("new completion : " + Float.toString(task.getCompletion()));
-				break;
+				tasksInInterval.push(eachTask);
 			}
 		}
 
-		if (startPoint == this.currentTime)
-		// no computable task were found
-		// --> time passes anyway
+		if (!tasksInInterval.empty())
 		{
-				this.currentTime = this.currentTime + elapsedMs;
+			// We must divide the time interval between all the computable tasks.
+			TimeDivision td = new TimeDivision(startPoint, endPoint);
+			for(Task i = tasksInInterval.pop();!tasksInInterval.empty(); i = tasksInInterval.pop())
+			{
+				td.addTask(i);
+			}
+
+			// Now we give CPU time to each time according to our TimeDivision
+			for (TimeDivisionElem elem:td.getTDElemList())
+			{
+				if (elem.taskID == 0)
+					continue;
+				Task t = this.getTask(elem.taskID);
+				float compTime = elem.computationEndTime - elem.computationStartTime;
+				t.giveCPU(compTime, t.getSpeed());
+
+				// energy
+				this.energyUsed = this.energyUsed + t.getSpeed()*compTime;
+			}
 		}
+
+		this.currentTime = this.currentTime + elapsedMs;
 	}
 
-	public Task getTask(int i)
+	public Task getTask(long i)
 	{
-		if (i<taskBatch.length)
-			return taskBatch[i];
+		for (Task t:taskBatch)
+			if (t.getId() == i)
+				return t;
 		return null;
 	}
 
