@@ -15,6 +15,11 @@ public class Main {
 			return startTime;
 		}
 
+		public static long getTIME_INTERVAL()
+		{
+			return TIME_INTERVAL;
+		}
+
 
         public static void main(String[] args){
 			Task[] taskBatch = Task.createRandomBatch(10, Main.TIME_INTERVAL);
@@ -27,27 +32,9 @@ public class Main {
 
 			Date t = new Date();
 			startTime = t.getTime(); // number of ms since epoch
-			long lastTime = startTime;
-			long currentTime = startTime;
 
 			pannel = new Pannel(1200,800,simulations);
 			pannel.run();
 
-			do
-			{
-				t = new Date();
-				lastTime = currentTime;
-				currentTime = t.getTime();
-				long interval = (currentTime - lastTime);
-
-				for (Simulation sim:simulations)
-				{
-					sim.compute(interval);
-				}
-				try {
-					Thread.sleep(10);
-				} catch (Exception e) {e.printStackTrace();};
-
-			} while ((currentTime - startTime) < Main.TIME_INTERVAL);
         }
 }

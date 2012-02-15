@@ -26,13 +26,14 @@ public class TimeDivision
 		TimeDivisionElem tmpTDE = null;
 
 		// computationTimes is never empty -> no need to check here
-		for(TimeDivisionElem elem = li.next(); li.hasNext(); elem = li.next())
+		
+		TimeDivisionElem elem;
+		do
 		// Note: chronological order.
 		{
+			elem = li.next();
 			if (elem.computationEndTime < t.getStartTime())
 				continue;
-
-			System.out.println("hello");
 
 			// elem is not completely before task -> we will put the current task here then break
 
@@ -68,5 +69,6 @@ public class TimeDivision
 			}
 			break;
 		}
+		while (li.hasNext());
 	}
 }

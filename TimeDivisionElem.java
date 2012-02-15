@@ -23,4 +23,9 @@ public class TimeDivisionElem
 		this.computationStartTime = st;
 		this.computationEndTime = et;
 	}
+
+	public String toString()
+	{
+		return "ID: " + this.taskID + " CompStartTime: " + this.computationStartTime + "endTime: " + this.computationEndTime;
+	}
 }

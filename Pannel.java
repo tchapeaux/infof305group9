@@ -2,13 +2,17 @@
 //import java.lang.*;
 import java.awt.*;
 import javax.swing.*;
+import java.util.*;
 
-public class Pannel extends JFrame implements Runnable{
+public class Pannel extends JFrame {
 
     protected JPanel container = new JPanel();
-    private static final long serialVersionUID = 1L;
+    protected static final long serialVersionUID = 1L;
+	protected Simulation[] listSimulation;
+
     public Pannel(int width, int height, Simulation[] listSimulations){
 
+		listSimulation=listSimulations;
         this.setTitle("Task Scheduler Simulation");
         this.setSize(width, height);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -35,11 +39,27 @@ public class Pannel extends JFrame implements Runnable{
     }
 
     public void run(){
-		while (true)
+		
+		long lastTime = Main.getStartTime();
+		long currentTime = lastTime;
+		
+		while ((currentTime - Main.getStartTime()) < Main.getTIME_INTERVAL())
 		{
+
+			Date t = new Date();
+			lastTime = currentTime;
+			currentTime = t.getTime();
+			long interval = (currentTime - lastTime);
+
+			for (int i=0; i< listSimulation.length; i++)
+			{
+				listSimulation[i].compute(interval);
+			}
 			container.repaint();
 			try {
 				Thread.sleep(20);
+
+
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
