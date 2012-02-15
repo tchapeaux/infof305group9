@@ -58,6 +58,7 @@ public class Simulation
 			// Now we give CPU time to each time according to our TimeDivision
 			for (TimeDivisionElem elem:td.getTDElemList())
 			{
+				System.out.println(elem.toString());
 				if (elem.taskID == 0)
 					continue;
 				Task t = this.getTask(elem.taskID);
@@ -67,6 +68,7 @@ public class Simulation
 				// energy
 				this.energyUsed = this.energyUsed + t.getSpeed()*compTime;
 			}
+				System.out.println("---Time-Division-CONTINUE--");
 		}
 
 		this.currentTime = this.currentTime + elapsedMs;

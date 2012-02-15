@@ -60,7 +60,7 @@ public class SimulationPanel extends JPanel {
 				int startx=  (int) (Math.max(presentTimeLine,presentTimeLine+(int)((-t1+task.getStartTime()/1000)*pixelsPerSecond)));
 				int starty= (int) (8+i*height+height*task.getCompletion());
 				g.fillRect(startx, starty+2, (int)task.worstComputationTimeLeft()/1000*pixelsPerSecond, (int)(1.0-task.getCompletion())*height-4);
-				g.drawString(Float.toString(task.getCompletion()*100), startx-30, starty+height/2+5);
+				g.drawString(Float.toString((int)Math.min(task.getCompletion()*100,100)), startx-30, starty+height/2+5);
 			}
 		}
 		g.setColor(Color.black);
@@ -84,5 +84,10 @@ public class SimulationPanel extends JPanel {
 
 		g.setColor(Color.red);
 		g.drawLine(presentTimeLine, 6, presentTimeLine, getHeight()-6);
+	}
+
+	public Simulation getSimulation()
+	{
+		return sim;
 	}
 }
