@@ -55,6 +55,7 @@ public class Pannel extends JFrame {
 			{
 				listSimulation[i].compute(interval);
 			}
+			System.out.println("-=REPAINT=-");
 			container.repaint();
 			try {
 				Thread.sleep(20);

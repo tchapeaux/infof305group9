@@ -9,7 +9,7 @@ public class SimulationPanel extends JPanel {
 
 	public static final int pixelsPerSecond = 200;
 	public static final int pixelsForText=200;
-	public static final int presentTimeLine=155;
+	public static final int presentTimeLine=255;
     private static final long serialVersionUID = 1L;
 
 	protected Simulation sim;
@@ -25,8 +25,9 @@ public class SimulationPanel extends JPanel {
 		{
 			//Draw task enter & deadline as rectangle
 			{
-				int startPos=presentTimeLine+(int)((-t1+task.getStartTime()/1000)*pixelsPerSecond);
-				int endPos=startPos+(int)(task.getEndTime()-task.getStartTime())/1000*pixelsPerSecond;
+				int startPos=presentTimeLine+(int)((-t1+task.getStartTime())/1000*pixelsPerSecond);
+				int endPos=startPos+(int)((task.getEndTime()-task.getStartTime())/1000*pixelsPerSecond);
+
 				int firstPix=Math.max(6,startPos);
 				int lastPix=Math.min(getWidth()-pixelsForText,endPos);
 				if (lastPix > 5 & firstPix < getWidth()-pixelsForText)
@@ -57,9 +58,15 @@ public class SimulationPanel extends JPanel {
 
 			//draw Work
 			{
-				int startx=  (int) (Math.max(presentTimeLine,presentTimeLine+(int)((-t1+task.getStartTime()/1000)*pixelsPerSecond)));
+				int startx=  (int) (Math.max(presentTimeLine,presentTimeLine+(int)((-t1+task.getStartTime())/1000*pixelsPerSecond)));
 				int starty= (int) (8+i*height+height*task.getCompletion());
-				g.fillRect(startx, starty+2, (int)task.worstComputationTimeLeft()/1000*pixelsPerSecond, (int)(1.0-task.getCompletion())*height-4);
+
+				System.out.println("Startx: "+startx);
+				System.out.println("Starty: "+starty);
+				System.out.println("worst: "+task.worstComputationTimeLeft());
+				System.out.println("completion: "+task.getCompletion());
+				
+				g.fillRect(startx, starty+2, Math.min (getWidth()-startx-pixelsForText,(int)(task.worstComputationTimeLeft()/1000*pixelsPerSecond)), (int)((1.0-task.getCompletion())*height)-4);
 				g.drawString(Float.toString((int)Math.min(task.getCompletion()*100,100)), startx-30, starty+height/2+5);
 			}
 		}
