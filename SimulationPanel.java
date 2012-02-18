@@ -1,13 +1,10 @@
-//import java.io.*;
-import java.util.*;
 import java.util.List;
-//import java.lang.*;
 import java.awt.*;
 import javax.swing.*;
 
 public class SimulationPanel extends JPanel {
 
-	public static final int pixelsPerSecond = 200;
+	public static final int pixelsPerSecond = 100;
 	public static final int pixelsForText=200;
 	public static final int presentTimeLine=255;
     private static final long serialVersionUID = 1L;
@@ -17,7 +14,6 @@ public class SimulationPanel extends JPanel {
 	public int i=0;
 	public void paintComponent(Graphics g){
 		g.drawRoundRect(5, 5, getWidth()-10, getHeight()-10, 20, 20);
-		Date t = new Date();
 		double t1 = sim.getCurrentTime();
 		int height = Math.min(50,(getHeight())/sim.getNumberOfTasks()-1);
 		Task task;
@@ -50,7 +46,8 @@ public class SimulationPanel extends JPanel {
 				List<float[]> evolution=task.getCompletionEvolution();
 				for (int j=0; j<evolution.size(); j++)
 				{
-					int startx= (int) ((evolution.get(j)[0] - Main.getStartTime())/1000 +task.getStartTime()/1000)*pixelsPerSecond;
+					int startx= (int) ((evolution.get(j)[0]-sim.getCurrentTime())/1000*pixelsPerSecond);
+					System.out.println(j+" terme: "+(evolution.get(j)[0]-sim.getCurrentTime()));
 					int starty= (int) (8+i*height+height*evolution.get(j)[1]);
 					g.drawLine(startx, starty, startx, starty); // TODO:????
 				}
@@ -61,13 +58,8 @@ public class SimulationPanel extends JPanel {
 				int startx=  (int) (Math.max(presentTimeLine,presentTimeLine+(int)((-t1+task.getStartTime())/1000*pixelsPerSecond)));
 				int starty= (int) (8+i*height+height*task.getCompletion());
 
-				System.out.println("Startx: "+startx);
-				System.out.println("Starty: "+starty);
-				System.out.println("worst: "+task.worstComputationTimeLeft());
-				System.out.println("completion: "+task.getCompletion());
-				
 				g.fillRect(startx, starty+2, Math.min (getWidth()-startx-pixelsForText,(int)(task.worstComputationTimeLeft()/1000*pixelsPerSecond)), (int)((1.0-task.getCompletion())*height)-4);
-				g.drawString(Float.toString((int)Math.min(task.getCompletion()*100,100)), startx-30, starty+height/2+5);
+				g.drawString(Float.toString((int)Math.min(task.getCompletion()*100,100)), startx-35, 8+i*height+height/2+5);
 			}
 		}
 		g.setColor(Color.black);

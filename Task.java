@@ -40,7 +40,7 @@ public class Task
 		{
 			float newCompletionPoint[]=new float[2];
 			Date t = new Date();
-			newCompletionPoint[0]=t.getTime();
+			newCompletionPoint[0]=t.getTime()-Main.getStartTime();
 			newCompletionPoint[1]=this.getCompletion() + interv;
 			this.completion.add(newCompletionPoint);
 		}
