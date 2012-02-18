@@ -47,8 +47,6 @@ public class Task
 
 	public void giveCPU(float duration, float speed)
 	{
-		System.out.println("---GIVE-CPU-FOR---");
-		System.out.println(duration);
 		this.updateCompletion(speed*duration/this.getActualEt());
 	}
 
