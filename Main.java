@@ -22,12 +22,12 @@ public class Main {
 
 
         public static void main(String[] args){
+
 			Task[] taskBatch = Task.createRandomBatch(10, Main.TIME_INTERVAL);
 			Simulation[] simulations = new Simulation[Main.NUMBER_OF_SIMS];
 			for(int i = 0; i < Main.NUMBER_OF_SIMS; i++)
 			{
 				simulations[i] = new Simulation(taskBatch, new DumbScheduler());
-				//simulations[i] = new Simulation(taskBatch, new CriticalIntervalScheduler());
 			}
 
 			Date t = new Date();
@@ -36,5 +36,8 @@ public class Main {
 			pannel = new Pannel(1200,800,simulations);
 			pannel.run();
 
+			/*Task[] testBatch = Task.createTestBatch();
+			SmallestPathScheduler Sch = new SmallestPathScheduler();
+			Sch.schedule(testBatch);*/
         }
 }

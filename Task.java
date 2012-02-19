@@ -112,4 +112,27 @@ public class Task
 		return batch;
 	}
 
+	public static Task[] createTestBatch()
+	{
+		// for Schedulers
+
+		Task[] batch;
+		batch = new Task[6];
+
+		batch[0] = new Task();
+		batch[0].setValues(0, 120, 60, 0);
+		batch[1] = new Task();
+		batch[1].setValues(0, 230, 10, 0);
+		batch[2] = new Task();
+		batch[2].setValues(0, 250, 20, 0);
+		batch[3] = new Task();
+		batch[3].setValues(150, 230, 40, 0);
+		batch[4] = new Task();
+		batch[4].setValues(180, 520, 30, 0);
+		batch[5] = new Task();
+		batch[5].setValues(500, 550, 10, 0);
+
+		return batch;
+	}
+
 }
