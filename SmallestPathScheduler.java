@@ -12,7 +12,9 @@ public class SmallestPathScheduler implements Scheduler
 			LinkedList<Point2DFloat> La = new LinkedList<Point2DFloat>();
 			LinkedList<Point2DFloat> Ld = new LinkedList<Point2DFloat>();
 
-			this.makePointsLists(L, La, Ld, batch);
+			this.makeLAList(La, batch);
+			this.makeLDList(Ld, batch);
+			this.makeLList(La, Ld, L);
 
 			//this.EDF(batch);
 			//this.checkFeasability(batch);
@@ -30,7 +32,7 @@ public class SmallestPathScheduler implements Scheduler
 		}
 	}
 
-	protected void makePointsLists(LinkedList<Point2DFloat> L, LinkedList<Point2DFloat> La, LinkedList<Point2DFloat> Ld, Task[] batch)
+	protected void makeLAList(LinkedList<Point2DFloat> La, Task[] batch)
 	{
 		Task[] theBatchTemp = batch.clone();
 		float theDurationsSum = 0;
@@ -48,14 +50,54 @@ public class SmallestPathScheduler implements Scheduler
 		{
 			La.addLast(new Point2DFloat(theBatchTemp[i].getStartTime(), theDurationsSum));		
 			i++;
-			if(i < theBatchTemp.length)
-				theDurationsSum += theBatchTemp[i-1].getWcet();
+			theDurationsSum += theBatchTemp[i-1].getWcet();
 		}
 
 		/*for (int j = 0; j < La.size(); j++)
 		{
 			System.out.println(La.get(j).getX());
 			System.out.println(La.get(j).getY());
+		}*/
+	}
+
+	protected void makeLDList(LinkedList<Point2DFloat> Ld, Task[] batch)
+	{
+		Task[] theBatchTemp = batch.clone();
+		float theDurationsSum = 0;
+		int i = 0;
+		float theEndTime;
+	
+		// like EDF so we loose efficience but the two functions remain independant
+		Arrays.sort(theBatchTemp, new EndTimeComparator());
+
+		while(i < theBatchTemp.length)
+		{
+			theEndTime = theBatchTemp[i].getEndTime();
+			theDurationsSum += theBatchTemp[i].getWcet();
+			i++;
+			while (i < theBatchTemp.length && theEndTime == theBatchTemp[i].getEndTime())
+			{
+				theEndTime = theBatchTemp[i].getEndTime();
+				theDurationsSum += theBatchTemp[i].getWcet();
+				i++;					
+			}
+
+			Ld.addLast(new Point2DFloat(theEndTime, theDurationsSum));
+		}
+
+		/*for (int j = 0; j < Ld.size(); j++)
+		{
+			System.out.println(Ld.get(j).getX());
+			System.out.println(Ld.get(j).getY());
+		}*/
+	}
+
+	protected void makeLList(LinkedList<Point2DFloat> La, LinkedList<Point2DFloat> Ld, LinkedList<Point2DFloat> L)
+	{
+		/*for (int j = 0; j < Ld.size(); j++)
+		{
+			System.out.println(Ld.get(j).getX());
+			System.out.println(Ld.get(j).getY());
 		}*/
 	}
 

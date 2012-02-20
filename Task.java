@@ -112,10 +112,9 @@ public class Task
 		return batch;
 	}
 
+	// for SmallestPathScheduler test
 	public static Task[] createTestBatch()
 	{
-		// for Schedulers
-
 		Task[] batch;
 		batch = new Task[6];
 
