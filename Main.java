@@ -36,6 +36,7 @@ public class Main {
 			pannel = new Pannel(1200,800,simulations);
 			pannel.run();
 
+			// test SmallestPathScheduler
 			/*Task[] testBatch = Task.createTestBatch();
 			SmallestPathScheduler Sch = new SmallestPathScheduler();
 			Sch.schedule(testBatch);*/
