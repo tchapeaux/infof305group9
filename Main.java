@@ -23,22 +23,24 @@ public class Main {
 
         public static void main(String[] args){
 
-			Task[] taskBatch = Task.createRandomBatch(10, Main.TIME_INTERVAL);
-			Simulation[] simulations = new Simulation[Main.NUMBER_OF_SIMS];
-			for(int i = 0; i < Main.NUMBER_OF_SIMS; i++)
-			{
-				simulations[i] = new Simulation(taskBatch, new DumbScheduler());
-			}
+		Task[] taskBatch = Task.createRandomBatch(10, Main.TIME_INTERVAL);
+		Simulation[] simulations = new Simulation[Main.NUMBER_OF_SIMS];
+		for(int i = 0; i < Main.NUMBER_OF_SIMS; i++)
+		{
+			simulations[i] = new Simulation(taskBatch, new DumbScheduler());
+		}
 
-			Date t = new Date();
-			startTime = t.getTime(); // number of ms since epoch
+		Date t = new Date();
+		startTime = t.getTime(); // number of ms since epoch
 
-			pannel = new Pannel(1200,800,simulations);
-			pannel.run();
+		pannel = new Pannel(1200,800,simulations);
+		pannel.run();
 
-			// test SmallestPathScheduler
-			/*Task[] testBatch = Task.createTestBatch();
-			SmallestPathScheduler Sch = new SmallestPathScheduler();
-			Sch.schedule(testBatch);*/
+		// test Schedulers
+        	/*Task[] testBatch = Task.createTestBatch();
+		SmallestPathScheduler Sp = new SmallestPathScheduler();
+		SingleFrequencyScheduler Sf = new SingleFrequencyScheduler();
+		Sp.schedule(testBatch);
+		Sf.schedule(testBatch);*/
         }
 }

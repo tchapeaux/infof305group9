@@ -112,9 +112,9 @@ public class Task
 		return batch;
 	}
 
-	// for SmallestPathScheduler test
-	public static Task[] createTestBatch()
-	{
+	// for Schedulers test
+    	public static Task[] createTestBatch()
+    	{
 		Task[] batch;
 		batch = new Task[6];
 
@@ -132,6 +132,5 @@ public class Task
 		batch[5].setValues(500, 550, 10, 0);
 
 		return batch;
-	}
-
+    	}
 }
