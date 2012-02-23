@@ -10,15 +10,37 @@ public class Simulation
 		public float getCurrentTime() {return this.currentTime;}
 	protected float energyUsed;
 		public float getEnergyUsed() {return this.energyUsed;}
+	protected float timeInterval;
+		
+	protected Point2DFloatList speeds;
+	protected Point2DFloatList getSpeeds() {return speeds;}
+	// each speeds[i] means that the CPU has to go at speed speeds[i].x until currentTime = speeds[i].y 
+	public float getCurrentSpeed()
+	{
+		float speed = 1;
+		float t = 0;
+		for (Point2DFloat p:getSpeeds())
+		{
+			if (t + p.getY() > getCurrentTime())
+				return speed;
+			
+			speed = p.getX();
+			t += p.getY();
+		}
+		return 1;
+	}
 
-	public Simulation(Task[] taskBatch, Scheduler scheduler)
+	public Simulation(Task[] taskBatch, Scheduler scheduler, float timeInterval)
 	{
 		this.currentTime = 0;
 		this.energyUsed = 0;
+		this.timeInterval = timeInterval;
 
 		this.taskBatch = Arrays.copyOf(taskBatch, taskBatch.length); // each Simulation needs its own version of the same batch
 		this.scheduler = scheduler;
-		scheduler.schedule(this.taskBatch);
+		speeds = scheduler.schedule(this.taskBatch, timeInterval);
+		System.out.println("my scheduler is " + scheduler.getName() + " and this is what I got :");
+		speeds.print();
 	}
 
 	public float upperAcceptedSpeed(float speed)
@@ -50,10 +72,12 @@ public class Simulation
 		{
 			// We must divide the time interval between all the computable tasks.
 			TimeDivision td = new TimeDivision(startPoint, endPoint);
-			for(Task i = tasksInInterval.pop();!tasksInInterval.empty(); i = tasksInInterval.pop())
+			Task i = null;
+			do
 			{
+				i = tasksInInterval.pop();
 				td.addTask(i);
-			}
+			} while (!tasksInInterval.empty());
 
 			// Now we give CPU time to each time according to our TimeDivision
 			for (TimeDivisionElem elem:td.getTDElemList())
@@ -62,10 +86,10 @@ public class Simulation
 					continue;
 				Task t = this.getTask(elem.taskID);
 				float compTime = elem.computationEndTime - elem.computationStartTime;
-				t.giveCPU(compTime, t.getSpeed());
+				t.giveCPU(compTime, this.getCurrentSpeed());
 
 				// energy
-				this.energyUsed = this.energyUsed + t.getSpeed()*compTime;
+				this.energyUsed = this.energyUsed + this.getCurrentSpeed()*compTime;
 			}
 		}
 

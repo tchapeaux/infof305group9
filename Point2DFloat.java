@@ -1,7 +1,7 @@
 
 public class Point2DFloat implements Cloneable{
 
-    	float x;
+    float x;
 	float y;
 
 	public float getX() {return this.x;}
