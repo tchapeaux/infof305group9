@@ -13,17 +13,17 @@ public class SimulationPanel extends JPanel {
 	public SimulationPanel(Simulation simu) {sim=simu;}
 	public int i=0;
 	public void paintComponent(Graphics g){
-		g.drawRoundRect(5, 5, getWidth()-10, getHeight()-10, 20, 20);
+		
 		double t1 = sim.getCurrentTime();
-		int height = Math.min(50,(getHeight())/sim.getNumberOfTasks()-1);
+		int height = Math.min(50,(getHeight())/sim.getNumberOfTasks()-6);
 		Task task;
 		for (int i=0; (task=sim.getTask(i))!= null;i++)
 		{
 			g.setColor(Color.black);
 			//Draw task enter & deadline as rectangle
 			{
-				int startPos=presentTimeLine+(int)((-t1+task.getStartTime())/1000*pixelsPerSecond);
-				int endPos=startPos+(int)((task.getEndTime()-task.getStartTime())/1000*pixelsPerSecond);
+				int startPos=presentTimeLine+(int)((-t1+task.getStartTime())*pixelsPerSecond/1000);
+				int endPos=startPos+(int)((task.getEndTime()-task.getStartTime())*pixelsPerSecond/1000);
 
 				int firstPix=Math.max(6,startPos);
 				int lastPix=Math.min(getWidth()-pixelsForText,endPos);
@@ -41,7 +41,7 @@ public class SimulationPanel extends JPanel {
 					g.drawLine(lastPix,8+i*height,lastPix, 8+(i+1)*height);
 				}
 			}
-			g.setColor(Main.getColor()[i]);
+			g.setColor(Main.getColor()[task.getId()]);
 			
 			//draw Completion
 			{
@@ -69,11 +69,22 @@ public class SimulationPanel extends JPanel {
 				int starty= (int) (8+i*height+height*task.getCompletion());
 				
 				g.fillRect(startx, starty+2, Math.max(0,Math.min (getWidth()-startx-pixelsForText,(int)(task.worstComputationTimeLeft()/1000*pixelsPerSecond))), (int)((1.0-task.getCompletion())*(height-4)));
-				//System.out.println("Task "+i+": "+task.worstComputationTimeLeft());
 				g.drawString(Float.toString((int)Math.min(task.getCompletion()*100,100)), startx-35, 8+i*height+height/2+5);
 			}
 		}
+		drawPannelText(g);
+	}
+
+	public Simulation getSimulation()
+	{
+		return sim;
+	}
+	
+	public void drawPannelText(Graphics g){
+
 		g.setColor(Color.black);
+		g.drawRoundRect(5, 5, getWidth()-10, getHeight()-10, 20, 20);
+		
 		g.drawLine(getWidth()-pixelsForText, 6, getWidth()-pixelsForText, getHeight()-6);
 
 		Font font = new Font("Arial", Font.BOLD, 20);
@@ -94,10 +105,5 @@ public class SimulationPanel extends JPanel {
 
 		g.setColor(Color.red);
 		g.drawLine(presentTimeLine, 6, presentTimeLine, getHeight()-6);
-	}
-
-	public Simulation getSimulation()
-	{
-		return sim;
 	}
 }
