@@ -19,6 +19,7 @@ public class SimulationPanel extends JPanel {
 		Task task;
 		for (int i=0; (task=sim.getTask(i))!= null;i++)
 		{
+			g.setColor(Color.black);
 			//Draw task enter & deadline as rectangle
 			{
 				int startPos=presentTimeLine+(int)((-t1+task.getStartTime())/1000*pixelsPerSecond);
@@ -40,7 +41,8 @@ public class SimulationPanel extends JPanel {
 					g.drawLine(lastPix,8+i*height,lastPix, 8+(i+1)*height);
 				}
 			}
-
+			g.setColor(Main.getColor()[i]);
+			
 			//draw Completion
 			{
 				List<float[]> evolution=task.getCompletionEvolution();
