@@ -3,14 +3,14 @@ import java.util.*;
 public class Task
 {
 
-	protected static long nextID = 0;
-		public static long getNextID()
+	protected static int nextID = 0;
+		public static int getNextID()
 		{
 			return nextID++;
 		}
 
-	protected long id;
-		public long getId() {return this.id;}
+	protected int id;
+		public int getId() {return this.id;}
 
 	protected float startTime;
 		public float getStartTime() {return this.startTime;}
@@ -32,22 +32,22 @@ public class Task
 	protected List<float[]> completion = new ArrayList<float[]>(); // float [0] = time; float [1] = completion (0->1)
 	// TODO: get rid of the magic numbers
 	// --> add a "CompletionPoint" class (struct)?
-		public float getCompletion() {return (this.completion.get(this.completion.size()-1))[1];}
+	
+	public float getCompletion() {return (this.completion.get(this.completion.size()-1))[1];}
 
-		public List<float[]> getCompletionEvolution() {return completion;}
+	public List<float[]> getCompletionEvolution() {return completion;}
 
-		public void updateCompletion(float interv)
-		{
-			float newCompletionPoint[]=new float[2];
-			Date t = new Date();
-			newCompletionPoint[0]=t.getTime()-Main.getStartTime();
-			newCompletionPoint[1]=this.getCompletion() + interv;
-			this.completion.add(newCompletionPoint);
-		}
+	public void updateCompletion(float duration, float interv)
+	{
+		float newCompletionPoint[]=new float[2];
+		newCompletionPoint[0]=completion.get(completion.size()-1)[0]+duration;
+		newCompletionPoint[1]=this.getCompletion() + interv;
+		this.completion.add(newCompletionPoint);
+	}
 
 	public void giveCPU(float duration, float speed)
 	{
-		this.updateCompletion(speed*(duration/this.getActualEt()));
+		this.updateCompletion(duration, speed*(duration/this.getActualEt()));
 	}
 
 	public float worstComputationTimeLeft()
@@ -58,7 +58,7 @@ public class Task
 	public Task()
 	{
 		float firstCompletionPoint[]=new float[2];
-		firstCompletionPoint[0]=Main.getStartTime();
+		firstCompletionPoint[0]=0;
 		firstCompletionPoint[1]=0;
 		this.completion.add(firstCompletionPoint);
 		this.id = Task.getNextID();
@@ -67,9 +67,16 @@ public class Task
 	public void setValues(float st, float et, float wcet, float actual_et)
 	{
 		this.startTime = st;
+		this.completion.get(0)[0]=st;
 		this.endTime = et;
 		this.wcet = wcet;
 		this.actual_et = actual_et;
+	}
+	
+	public void setValues(float st, float et, float wcet, float actual_et, int id)
+	{
+		this.setValues(st, et, wcet, actual_et);
+		this.id=id;
 	}
 
 	public static float generateInRange(float min, float max)
@@ -127,5 +134,12 @@ public class Task
 		batch[5].setValues(13000, 14000, 500, 500);
 
 		return batch;
+    }
+    
+    public Task clone()
+    {
+    	Task task = new Task();
+    	task.setValues(this.startTime, this.endTime, this.wcet, this.actual_et, this.id);
+		return task;
     }
 }

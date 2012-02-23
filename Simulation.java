@@ -17,14 +17,11 @@ public class Simulation
 	// each speeds[i] means that the CPU has to go at speed speeds[i].x until currentTime = speeds[i].y 
 	public float getCurrentSpeed()
 	{
-		float speed = 1;
 		float t = 0;
 		for (Point2DFloat p:getSpeeds())
 		{
 			if (t + p.getY() > getCurrentTime())
-				return speed;
-			
-			speed = p.getX();
+				return p.getX();
 			t += p.getY();
 		}
 		return 1;
@@ -36,11 +33,14 @@ public class Simulation
 		this.energyUsed = 0;
 		this.timeInterval = timeInterval;
 
-		this.taskBatch = Arrays.copyOf(taskBatch, taskBatch.length); // each Simulation needs its own version of the same batch
+		this.taskBatch = new Task[taskBatch.length];
+		for (int i=0; i<taskBatch.length; i++)
+		{
+			this.taskBatch[i] = taskBatch[i].clone();
+		}
+		
 		this.scheduler = scheduler;
 		speeds = scheduler.schedule(this.taskBatch, timeInterval);
-		System.out.println("my scheduler is " + scheduler.getName() + " and this is what I got :");
-		speeds.print();
 	}
 
 	public float upperAcceptedSpeed(float speed)
@@ -53,6 +53,7 @@ public class Simulation
 	public void compute(float elapsedMs)
 	// Compute the evolution of the system in the interval between currentTime and currentTime + elapsedMs
 	{
+
 		float startPoint = this.currentTime;
 		float endPoint = startPoint + elapsedMs;
 		Stack<Task> tasksInInterval = new Stack<Task>();
@@ -89,7 +90,7 @@ public class Simulation
 				t.giveCPU(compTime, this.getCurrentSpeed());
 
 				// energy
-				this.energyUsed = this.energyUsed + this.getCurrentSpeed()*compTime;
+				this.energyUsed = this.energyUsed + this.getCurrentSpeed()*this.getCurrentSpeed()*compTime;//quadratic evolution of energy use
 			}
 		}
 
