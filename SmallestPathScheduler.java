@@ -4,30 +4,30 @@ import java.util.*;
 	and rearrange the tasks vector according to EDF priority */
 public class SmallestPathScheduler implements Scheduler
 {
-	public void schedule(Task[] batch)
+	public Point2DFloatList schedule(Task[] batch, float timeInterval)
 	{
+		Point2DFloatList L = new Point2DFloatList();
+		Point2DFloatList La = new Point2DFloatList();
+		Point2DFloatList Ld = new Point2DFloatList();
+		Point2DFloatList V = new Point2DFloatList();
+		Point2DFloatList speeds = new Point2DFloatList();
 		try
-		{	
-			Point2DFloatList L = new Point2DFloatList();
-			Point2DFloatList La = new Point2DFloatList();
-			Point2DFloatList Ld = new Point2DFloatList();
-			Point2DFloatList V = new Point2DFloatList();
-			Point2DFloatList speeds = new Point2DFloatList();
-
+		{
 			this.checkFeasability(batch);
 			this.makeUpperPointsList(La, batch);
 			this.makeLowerPointsList(Ld, batch);
 			// check A(t) >= D(t)
 			this.meltLists(La, Ld, L);
 			this.makeSmallestPath(L, La, Ld, V);
-                        this.computeSpeeds(V, speeds);
-                        this.checkSpeeds(speeds);
+            this.computeSpeeds(V, speeds);
+            this.checkSpeeds(speeds);
 			this.EDF(batch);
 		}
 		catch (Exception e)
 		{
 			e.printStackTrace();
 		}
+		return speeds;
 	}
 
 	protected void makeUpperPointsList(Point2DFloatList La, Task[] batch)
@@ -61,7 +61,7 @@ public class SmallestPathScheduler implements Scheduler
 		float theEndTime;
 		Ld.addLast(new Point2DFloat(0, 0));
 	
-		// like EDF so we loose efficience but the two functions remain independant
+		// like EDF so we loose efficiency but the two functions remain independent
 		Arrays.sort(theBatchTemp, new EndTimeComparator());
 
 		while(i < theBatchTemp.length)

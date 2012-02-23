@@ -47,7 +47,7 @@ public class Task
 
 	public void giveCPU(float duration, float speed)
 	{
-		this.updateCompletion(speed*duration/this.getActualEt());
+		this.updateCompletion(speed*(duration/this.getActualEt()));
 	}
 
 	public float worstComputationTimeLeft()
@@ -55,17 +55,12 @@ public class Task
 		return (wcet - this.getCompletion()*wcet);
 	}
 
-	protected float speed;
-		public float getSpeed() {return this.speed;}
-		public void setSpeed(float newSpeed) {this.speed = newSpeed;}
-
 	public Task()
 	{
 		float firstCompletionPoint[]=new float[2];
 		firstCompletionPoint[0]=Main.getStartTime();
 		firstCompletionPoint[1]=0;
 		this.completion.add(firstCompletionPoint);
-		this.speed = 1;
 		this.id = Task.getNextID();
 	}
 
@@ -113,24 +108,24 @@ public class Task
 	}
 
 	// for Schedulers test
-    	public static Task[] createTestBatch()
-    	{
+    public static Task[] createTestBatch()
+    {
 		Task[] batch;
 		batch = new Task[6];
 
 		batch[0] = new Task();
-		batch[0].setValues(1000, 5000, 2000, 1500);
+		batch[0].setValues(1000, 2000, 500, 500);
 		batch[1] = new Task();
-		batch[1].setValues(1500, 7000, 3000, 2800);
+		batch[1].setValues(4000, 5000, 500, 500);
 		batch[2] = new Task();
-		batch[2].setValues(5500, 10000, 3000, 2750);
+		batch[2].setValues(6000, 7000, 500, 500);
 		batch[3] = new Task();
-		batch[3].setValues(9000, 12000, 2500, 2000);
+		batch[3].setValues(9000, 10000, 500, 500);
 		batch[4] = new Task();
-		batch[4].setValues(3000, 14000, 1000, 950);
+		batch[4].setValues(11000, 12000, 500, 500);
 		batch[5] = new Task();
-		batch[5].setValues(13000, 14500, 1000, 950);
+		batch[5].setValues(13000, 14000, 500, 500);
 
 		return batch;
-    	}
+    }
 }

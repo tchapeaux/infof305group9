@@ -1,11 +1,11 @@
 public class DumbScheduler implements Scheduler
 {
-	public void schedule(Task[] batch)
+	public Point2DFloatList schedule(Task[] batch, float timeInterval)
 	{
-		for (Task task:batch)
-		{
-			task.setSpeed(1);
-		}
+		Point2DFloat p = new Point2DFloat(1,timeInterval);
+		Point2DFloatList l = new Point2DFloatList();
+		l.add(p);
+		return l;
 	}
 
 	public String getName()

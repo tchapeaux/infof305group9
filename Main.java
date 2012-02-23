@@ -26,15 +26,17 @@ public class Main {
 
         public static void main(String[] args){
 
-			Task[] taskBatch = Task.createRandomBatch(NUMBER_OF_TASK, Main.TIME_INTERVAL);
+			// Task[] taskBatch = Task.createRandomBatch(NUMBER_OF_TASK, Main.TIME_INTERVAL);
+        	Task[] taskBatch = Task.createTestBatch();
 			createRandomBatchColor(NUMBER_OF_TASK);
 			Simulation[] simulations = new Simulation[Main.NUMBER_OF_SIMS];
 			
-			simulations[0] = new Simulation(taskBatch, new SmallestPathScheduler());
+			simulations[0] = new Simulation(taskBatch, new SmallestPathScheduler(), TIME_INTERVAL);
+			simulations[1] = new Simulation(taskBatch, new SingleFrequencyScheduler(), TIME_INTERVAL);
 			
-			for(int i = 1; i < Main.NUMBER_OF_SIMS; i++)
+			for(int i = 2; i < Main.NUMBER_OF_SIMS; i++)
 			{
-				simulations[i] = new Simulation(taskBatch, new DumbScheduler());
+				simulations[i] = new Simulation(taskBatch, new DumbScheduler(), TIME_INTERVAL);
 			}
 
 			Date t = new Date();

@@ -3,7 +3,12 @@ import java.util.*;
 
 public class Point2DFloatList extends LinkedList<Point2DFloat>{
    
-    public Point2DFloat get(int i)
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -3685724234208861669L;
+
+	public Point2DFloat get(int i)
     {
         return (Point2DFloat)super.get(i);
     }
