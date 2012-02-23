@@ -31,6 +31,7 @@ public class Pannel extends JFrame {
 
         this.setContentPane(container);
         this.setVisible(true);
+        this.run();
     }
 
     public Pannel(Simulation[] listSimulations){

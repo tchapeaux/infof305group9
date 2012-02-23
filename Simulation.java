@@ -16,7 +16,7 @@ public class Simulation
 		this.currentTime = 0;
 		this.energyUsed = 0;
 
-		this.taskBatch = Arrays.copyOf(taskBatch, taskBatch.length); // each Simulation needs its own batch
+		this.taskBatch = Arrays.copyOf(taskBatch, taskBatch.length); // each Simulation needs its own version of the same batch
 		this.scheduler = scheduler;
 		scheduler.schedule(this.taskBatch);
 	}
