@@ -1,7 +1,7 @@
 
 import java.util.*;
 
-public class Point2DFloatList extends LinkedList{
+public class Point2DFloatList extends LinkedList<Point2DFloat>{
    
     public Point2DFloat get(int i)
     {

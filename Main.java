@@ -41,7 +41,6 @@ public class Main {
 			startTime = t.getTime(); // number of ms since epoch
 
 			pannel = new Pannel(1200,800,simulations);
-			pannel.run();
 
 			// test Schedulers
         	/*Task[] testBatch = Task.createTestBatch();

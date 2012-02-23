@@ -69,7 +69,7 @@ public class SimulationPanel extends JPanel {
 				int starty= (int) (8+i*height+height*task.getCompletion());
 				
 				g.fillRect(startx, starty+2, Math.max(0,Math.min (getWidth()-startx-pixelsForText,(int)(task.worstComputationTimeLeft()/1000*pixelsPerSecond))), (int)((1.0-task.getCompletion())*(height-4)));
-				System.out.println("Task "+i+": "+task.worstComputationTimeLeft());
+				//System.out.println("Task "+i+": "+task.worstComputationTimeLeft());
 				g.drawString(Float.toString((int)Math.min(task.getCompletion()*100,100)), startx-35, 8+i*height+height/2+5);
 			}
 		}
