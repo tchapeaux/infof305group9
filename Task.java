@@ -119,17 +119,17 @@ public class Task
 		batch = new Task[6];
 
 		batch[0] = new Task();
-		batch[0].setValues(0, 120, 60, 0);
+		batch[0].setValues(1000, 5000, 2000, 1500);
 		batch[1] = new Task();
-		batch[1].setValues(0, 230, 10, 0);
+		batch[1].setValues(1500, 7000, 3000, 2800);
 		batch[2] = new Task();
-		batch[2].setValues(0, 250, 20, 0);
+		batch[2].setValues(5500, 10000, 3000, 2750);
 		batch[3] = new Task();
-		batch[3].setValues(150, 230, 40, 0);
+		batch[3].setValues(9000, 12000, 2500, 2000);
 		batch[4] = new Task();
-		batch[4].setValues(180, 520, 30, 0);
+		batch[4].setValues(3000, 14000, 1000, 950);
 		batch[5] = new Task();
-		batch[5].setValues(500, 550, 10, 0);
+		batch[5].setValues(13000, 14500, 1000, 950);
 
 		return batch;
     	}
