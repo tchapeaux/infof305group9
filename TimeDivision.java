@@ -14,7 +14,7 @@ public class TimeDivision
 		this.startTime = startTime;
 		this.endTime = endTime;
 		this.computationTimes = new LinkedList<TimeDivisionElem>();
-		computationTimes.add(new TimeDivisionElem(0,startTime, endTime));
+		computationTimes.add(new TimeDivisionElem(-1,startTime, endTime));
 	}
 
 	public void addTask(Task t)

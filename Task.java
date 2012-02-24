@@ -9,6 +9,19 @@ public class Task
 			return nextID++;
 		}
 
+    private static boolean isFeasable(Task[] batch, float timeInterval) {
+        try
+        {
+            SingleFrequencyScheduler test = new SingleFrequencyScheduler();
+            test.schedule(batch, timeInterval);
+        }
+        catch (Exception e)
+        {
+            return false;
+        }
+        return true;
+    }
+
 	protected int id;
 		public int getId() {return this.id;}
 
@@ -37,17 +50,17 @@ public class Task
 
 	public List<float[]> getCompletionEvolution() {return completion;}
 
-	public void updateCompletion(float duration, float interv)
+	public void updateCompletion(float duration, float interv, float actualTime)
 	{
 		float newCompletionPoint[]=new float[2];
-		newCompletionPoint[0]=completion.get(completion.size()-1)[0]+duration;
+		newCompletionPoint[0]=actualTime;
 		newCompletionPoint[1]=this.getCompletion() + interv;
 		this.completion.add(newCompletionPoint);
 	}
 
-	public void giveCPU(float duration, float speed)
+	public void giveCPU(float duration, float speed, float actualTime)
 	{
-		this.updateCompletion(duration, speed*(duration/this.getActualEt()));
+		this.updateCompletion(duration, speed*(duration/this.getActualEt()), actualTime);
 	}
 
 	public float worstComputationTimeLeft()
@@ -87,31 +100,35 @@ public class Task
 		return (float)(temp/1000.0) + min;
 	}
 
-	public void generateValuesFor(float timeInterval)
+	public void generateValuesFor(float timeInterval, int id, int numberOfTasks)
 	// set random values for the task, with start and ending time in timeInterval
 	{
-		float duration = Task.generateInRange(timeInterval/4, 3*timeInterval/4);
-		float newSt = Task.generateInRange((float)0.0, timeInterval - duration);
+		float duration = Task.generateInRange(timeInterval/10, timeInterval/4);
+		float newSt = Task.generateInRange((float)0.0, timeInterval - duration); 
 		float newEt = newSt + duration;
-		float newWcet = Task.generateInRange(duration/2, duration);
+                float tempMax = Math.min(duration/2,timeInterval/numberOfTasks);
+		float newWcet = Task.generateInRange(tempMax/2, tempMax);
 		float newActualEt = Task.generateInRange(newWcet/2, newWcet);
 
-		this.setValues(newSt, newEt, newWcet, newActualEt);
+		this.setValues(newSt, newEt, newWcet, newActualEt, id);
 	}
 
 	public static Task[] createRandomBatch(int numberOfTasks, float timeInterval)
 	{
-		// TODO : better generation (considering number of tasks, etc)
+            // TODO : better generation (considering number of tasks, etc)
 
-		Task[] batch;
-		batch = new Task[numberOfTasks];
-		for (int i = 0; i < numberOfTasks; ++i)
-		{
-			batch[i] = new Task();
-			batch[i].generateValuesFor(timeInterval);
-		}
-
-		return batch;
+            Task[] batch;
+            batch = new Task[numberOfTasks];
+            do
+            {
+                for (int i = 0; i < numberOfTasks; ++i)
+                {
+                    batch[i] = new Task();
+                    batch[i].generateValuesFor(timeInterval,i,numberOfTasks);
+                }
+            }
+            while (!isFeasable(batch, timeInterval));
+            return batch;
 	}
 
 	// for Schedulers test

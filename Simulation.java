@@ -73,7 +73,6 @@ public class Simulation
 				tasksInInterval.push(eachTask);
 			}
 		}
-
 		setIsComputing(false);
 		if (!tasksInInterval.empty())
 		{
@@ -90,11 +89,11 @@ public class Simulation
 			// Now we give CPU time to each time according to our TimeDivision
 			for (TimeDivisionElem elem:td.getTDElemList())
 			{
-				if (elem.taskID == 0)
+				if (elem.taskID == -1)
 					continue;
 				Task t = this.getTask(elem.taskID);
 				float compTime = elem.computationEndTime - elem.computationStartTime;
-				t.giveCPU(compTime, this.getCurrentSpeed());
+				t.giveCPU(compTime, this.getCurrentSpeed(), this.currentTime);
 
 				// energy
 				this.energyUsed = this.energyUsed + this.getCurrentSpeed()*this.getCurrentSpeed()*compTime;//quadratic evolution of energy use
