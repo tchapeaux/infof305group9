@@ -11,10 +11,10 @@ public class Simulation
 	protected float energyUsed;
 		public float getEnergyUsed() {return this.energyUsed;}
 	protected float timeInterval;
-		
+
 	protected Point2DFloatList speeds;
 	protected Point2DFloatList getSpeeds() {return speeds;}
-	// each speeds[i] means that the CPU has to go at speed speeds[i].x until currentTime = speeds[i].y 
+	// each speeds[i] means that the CPU has to go at speed speeds[i].x until currentTime = speeds[i].y
 	public float getCurrentSpeed()
 	{
 		float t = 0;
@@ -27,6 +27,10 @@ public class Simulation
 		return 1;
 	}
 
+	protected boolean isComputing;
+	    public boolean isComputing() {return isComputing;}
+	    protected void setIsComputing(boolean newValue) {isComputing=newValue;}
+
 	public Simulation(Task[] taskBatch, Scheduler scheduler, float timeInterval)
 	{
 		this.currentTime = 0;
@@ -38,9 +42,10 @@ public class Simulation
 		{
 			this.taskBatch[i] = taskBatch[i].clone();
 		}
-		
+
 		this.scheduler = scheduler;
 		speeds = scheduler.schedule(this.taskBatch, timeInterval);
+		isComputing = false;
 	}
 
 	public float upperAcceptedSpeed(float speed)
@@ -69,8 +74,10 @@ public class Simulation
 			}
 		}
 
+		setIsComputing(false);
 		if (!tasksInInterval.empty())
 		{
+		    setIsComputing(true);
 			// We must divide the time interval between all the computable tasks.
 			TimeDivision td = new TimeDivision(startPoint, endPoint);
 			Task i = null;

@@ -13,7 +13,7 @@ public class SimulationPanel extends JPanel {
 	public SimulationPanel(Simulation simu) {sim=simu;}
 	public int i=0;
 	public void paintComponent(Graphics g){
-		
+
 		double t1 = sim.getCurrentTime();
 		int height = Math.min(50,(getHeight())/sim.getNumberOfTasks()-6);
 		Task task;
@@ -42,7 +42,7 @@ public class SimulationPanel extends JPanel {
 				}
 			}
 			g.setColor(Main.getColor()[task.getId()]);
-			
+
 			//draw Completion
 			{
 				List<float[]> evolution=task.getCompletionEvolution();
@@ -53,7 +53,7 @@ public class SimulationPanel extends JPanel {
 					int starty= (int) (8+i*height+height*evolution.get(j-1)[1]);
 					int endy= (int) (8+i*height+height*evolution.get(j)[1]);
 					if (j==1)
-						g.drawLine(endx, starty, endx, endy); 
+						g.drawLine(endx, starty, endx, endy);
 					else
 					{
 						g.drawLine(startx, starty, endx, endy);
@@ -67,7 +67,7 @@ public class SimulationPanel extends JPanel {
 			{
 				int startx= (int) (Math.max(presentTimeLine,presentTimeLine+(int)((-t1+task.getStartTime())/1000*pixelsPerSecond)));
 				int starty= (int) (8+i*height+height*task.getCompletion());
-				
+
 				g.fillRect(startx, starty+2, Math.max(0,Math.min (getWidth()-startx-pixelsForText,(int)(task.worstComputationTimeLeft()/1000*pixelsPerSecond))), (int)((1.0-task.getCompletion())*(height-4)));
 				g.drawString(Float.toString((int)Math.min(task.getCompletion()*100,100)), startx-35, 8+i*height+height/2+5);
 			}
@@ -79,13 +79,13 @@ public class SimulationPanel extends JPanel {
 	{
 		return sim;
 	}
-	
+
 	public void drawPannelText(Graphics g){
 
 		// SimulationPanel outline
 		g.setColor(Color.black);
 		g.drawRoundRect(5, 5, getWidth()-10, getHeight()-10, 20, 20);
-		
+
 		// Separator
 		g.drawLine(getWidth()-pixelsForText, 6, getWidth()-pixelsForText, getHeight()-6);
 
@@ -104,10 +104,13 @@ public class SimulationPanel extends JPanel {
 		font = new Font("Arial", Font.PLAIN, 35);
 		g.setFont(font);
 		g.drawString(String.valueOf((int)sim.getEnergyUsed()), getWidth()-pixelsForText+60, 130);
-		 
+
 		font = new Font("Arial", Font.PLAIN, 15);
 		g.setFont(font);
-		g.drawString("CPU Speed : " + Float.toString(sim.getCurrentSpeed()), getWidth()-pixelsForText+15, 180);
+		float CPUSpeed = 0;
+		if(sim.isComputing())
+		    CPUSpeed = sim.getCurrentSpeed();
+		g.drawString("CPU Speed : " + Float.toString(CPUSpeed), getWidth()-pixelsForText+15, 180);
 		g.setColor(Color.red);
 		g.drawLine(presentTimeLine, 6, presentTimeLine, getHeight()-6);
 	}
