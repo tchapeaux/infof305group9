@@ -58,7 +58,6 @@ public class Panel extends JFrame {
 			for (int i=0; i< listSimulation.length; i++)
 			{
 				listSimulation[i].compute(interval);
-				System.out.println(Boolean.toString(listSimulation[i].isDone()));
 				if (listSimulation[i].isDone())
 				    allSimulationsAreDone = true; // !!! this suppose that all simulations are going at the same speed
 			}
