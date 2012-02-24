@@ -1,13 +1,11 @@
-//import java.io.*;
 import java.awt.Color;
 import java.util.*;
-//import java.sql.Timestamp;
 
 public class Main {
 
-		protected static final int TIME_INTERVAL = 15000; // ms
+		protected static final int TIME_INTERVAL = 30000; // ms
 		protected static final int NUMBER_OF_SIMS = 3;
-		protected static final int NUMBER_OF_TASK = 10;
+		protected static final int NUMBER_OF_TASK = 6;
 
 		protected static Pannel pannel;
 		protected static long startTime;
@@ -26,8 +24,9 @@ public class Main {
 
         public static void main(String[] args){
 
-			// Task[] taskBatch = Task.createRandomBatch(NUMBER_OF_TASK, Main.TIME_INTERVAL);
-        	Task[] taskBatch = Task.createTestBatch();
+			Task[] taskBatch = Task.createRandomBatch(NUMBER_OF_TASK, Main.TIME_INTERVAL);
+                        
+                        //Task[] taskBatch = Task.createTestBatch();
 			createRandomBatchColor(NUMBER_OF_TASK);
 			Simulation[] simulations = new Simulation[Main.NUMBER_OF_SIMS];
 			
@@ -36,8 +35,8 @@ public class Main {
 			
 			for(int i = 2; i < Main.NUMBER_OF_SIMS; i++)
 			{
-				simulations[i] = new Simulation(taskBatch, new DumbScheduler(), TIME_INTERVAL);
-			}
+                            simulations[i] = new Simulation(taskBatch, new DumbScheduler(), TIME_INTERVAL);
+			}   
 
 			Date t = new Date();
 			startTime = t.getTime(); // number of ms since epoch

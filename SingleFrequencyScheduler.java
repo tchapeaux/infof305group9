@@ -5,7 +5,7 @@ public class SingleFrequencyScheduler implements Scheduler {
     
     public Point2DFloatList schedule(Task[] batch, float timeInterval)
     {
-        float theSpeed = this.computeSpeed(batch);
+        float theSpeed = this.computeSpeed(batch,timeInterval);
     	try
     	{	
             this.checkFeasability(theSpeed);
@@ -22,11 +22,11 @@ public class SingleFrequencyScheduler implements Scheduler {
         return l;
     }
     
-    protected float computeSpeed(Task[] batch)
+    protected float computeSpeed(Task[] batch,float timeInterval)
     {
         float theSpeed = 0;
         for (Task task:batch)
-            theSpeed += ( task.getWcet() / task.getEndTime() );
+            theSpeed += ( task.getWcet() / timeInterval );
         return theSpeed;
     }
     
