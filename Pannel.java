@@ -9,6 +9,9 @@ public class Pannel extends JFrame {
     protected JPanel container = new JPanel();
     protected static final long serialVersionUID = 1L;
 	protected Simulation[] listSimulation;
+	protected float timeFactor = 5F;
+	public float getTimeFactor() {return timeFactor;}
+	public void setTimeFactor(float newValue) {timeFactor = newValue;}
 
     public Pannel(int width, int height, Simulation[] listSimulations){
 
@@ -40,21 +43,25 @@ public class Pannel extends JFrame {
     }
 
     public void run(){
-		
+
 		long lastTime = Main.getStartTime();
 		long currentTime = lastTime;
-		
-		while ((currentTime - Main.getStartTime()) < Main.getTIME_INTERVAL())
-		{
+		boolean allSimulationsAreDone = false;
 
+		while (!allSimulationsAreDone)
+		{
 			Date t = new Date();
 			lastTime = currentTime;
 			currentTime = t.getTime();
-			long interval = (currentTime - lastTime);
+			float interval = (currentTime - lastTime)*timeFactor;
 
 			for (int i=0; i< listSimulation.length; i++)
 			{
 				listSimulation[i].compute(interval);
+				System.out.println(Boolean.toString(listSimulation[i].isDone()));
+				if (listSimulation[i].isDone())
+				    allSimulationsAreDone = true;
+				    // !!! this suppose that all simulations are going at the same speed
 			}
 			container.repaint();
 			try {

@@ -3,14 +3,14 @@ import java.util.*;
 
 public class Simulation
 {
-
 	protected Task[] taskBatch;
 	protected Scheduler scheduler;
 	protected float currentTime; // elapsed time
 		public float getCurrentTime() {return this.currentTime;}
 	protected float energyUsed;
 		public float getEnergyUsed() {return this.energyUsed;}
-	protected float timeInterval;
+	protected float timeInterval; // duration of the time interval considered by the simulation
+	public boolean isDone() { return (currentTime >= timeInterval); }
 
 	protected Point2DFloatList speeds;
 	protected Point2DFloatList getSpeeds() {return speeds;}
