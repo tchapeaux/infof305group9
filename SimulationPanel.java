@@ -82,9 +82,11 @@ public class SimulationPanel extends JPanel {
 	
 	public void drawPannelText(Graphics g){
 
+		// SimulationPanel outline
 		g.setColor(Color.black);
 		g.drawRoundRect(5, 5, getWidth()-10, getHeight()-10, 20, 20);
 		
+		// Separator
 		g.drawLine(getWidth()-pixelsForText, 6, getWidth()-pixelsForText, getHeight()-6);
 
 		Font font = new Font("Arial", Font.BOLD, 20);
@@ -102,7 +104,10 @@ public class SimulationPanel extends JPanel {
 		font = new Font("Arial", Font.PLAIN, 35);
 		g.setFont(font);
 		g.drawString(String.valueOf((int)sim.getEnergyUsed()), getWidth()-pixelsForText+60, 130);
-
+		 
+		font = new Font("Arial", Font.PLAIN, 15);
+		g.setFont(font);
+		g.drawString("CPU Speed : " + Float.toString(sim.getCurrentSpeed()), getWidth()-pixelsForText+15, 180);
 		g.setColor(Color.red);
 		g.drawLine(presentTimeLine, 6, presentTimeLine, getHeight()-6);
 	}

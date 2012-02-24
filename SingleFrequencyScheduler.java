@@ -5,7 +5,7 @@ public class SingleFrequencyScheduler implements Scheduler {
     
     public Point2DFloatList schedule(Task[] batch, float timeInterval)
     {
-        float theSpeed = this.computeSpeed(batch, timeInterval);
+        float theSpeed = this.computeSpeed(batch);
     	try
     	{	
             this.checkFeasability(theSpeed);
@@ -22,17 +22,17 @@ public class SingleFrequencyScheduler implements Scheduler {
         return l;
     }
     
-    protected float computeSpeed(Task[] batch, float timeInterval)
+    protected float computeSpeed(Task[] batch)
     {
         float theSpeed = 0;
         for (Task task:batch)
-            theSpeed += ( task.getWcet() / timeInterval );
+            theSpeed += ( task.getWcet() / task.getEndTime() );
         return theSpeed;
     }
     
     protected void checkFeasability(float theSpeed) throws Exception
-    {   
-	if (theSpeed > 1)
+    {
+    	if (theSpeed > 1)
             throw new Exception("Unfeasable System!");
     }
 
