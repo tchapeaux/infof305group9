@@ -3,7 +3,7 @@ import java.util.*;
 
 public class Main {
 
-		protected static final int TIME_INTERVAL = 30000; // ms
+		protected static final int TIME_INTERVAL = 15000; // ms
 		protected static final int NUMBER_OF_SIMS = 3;
 		protected static final int NUMBER_OF_TASK = 6;
 
@@ -24,19 +24,18 @@ public class Main {
 
         public static void main(String[] args){
 
-			Task[] taskBatch = Task.createRandomBatch(NUMBER_OF_TASK, Main.TIME_INTERVAL);
-                        
-                        //Task[] taskBatch = Task.createTestBatch();
+			//Task[] taskBatch = Task.createRandomBatch(NUMBER_OF_TASK, Main.TIME_INTERVAL);
+                        Task[] taskBatch = Task.createTestBatch();
 			createRandomBatchColor(NUMBER_OF_TASK);
 			Simulation[] simulations = new Simulation[Main.NUMBER_OF_SIMS];
-			
+
 			simulations[0] = new Simulation(taskBatch, new SmallestPathScheduler(), TIME_INTERVAL);
 			simulations[1] = new Simulation(taskBatch, new SingleFrequencyScheduler(), TIME_INTERVAL);
-			
+
 			for(int i = 2; i < Main.NUMBER_OF_SIMS; i++)
 			{
                             simulations[i] = new Simulation(taskBatch, new DumbScheduler(), TIME_INTERVAL);
-			}   
+			}
 
 			Date t = new Date();
 			startTime = t.getTime(); // number of ms since epoch
@@ -50,12 +49,12 @@ public class Main {
 		Sp.schedule(testBatch);
 		Sf.schedule(testBatch);*/
         }
-        
+
         public static Color[] getColor()
         {
         	return colorList;
         }
-        
+
         protected static void createRandomBatchColor(int numberTask)
         {
         	colorList = new Color[numberTask];
