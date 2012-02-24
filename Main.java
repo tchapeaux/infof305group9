@@ -7,7 +7,7 @@ public class Main {
 		protected static final int NUMBER_OF_SIMS = 3;
 		protected static final int NUMBER_OF_TASK = 6;
 
-		protected static Pannel pannel;
+		protected static Panel pannel;
 		protected static long startTime;
 		protected static Color[] colorList;
 
@@ -40,7 +40,7 @@ public class Main {
 			Date t = new Date();
 			startTime = t.getTime(); // number of ms since epoch
 
-			pannel = new Pannel(1200,800,simulations);
+			pannel = new Panel(1200,800,simulations);
 
 			// test Schedulers
         	/*Task[] testBatch = Task.createTestBatch();
