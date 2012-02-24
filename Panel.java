@@ -4,16 +4,16 @@ import java.awt.*;
 import javax.swing.*;
 import java.util.*;
 
-public class Pannel extends JFrame {
+public class Panel extends JFrame {
 
     protected JPanel container = new JPanel();
     protected static final long serialVersionUID = 1L;
 	protected Simulation[] listSimulation;
-	protected float timeFactor = 5F;
+	protected float timeFactor = 0.5F;
 	public float getTimeFactor() {return timeFactor;}
 	public void setTimeFactor(float newValue) {timeFactor = newValue;}
 
-    public Pannel(int width, int height, Simulation[] listSimulations){
+    public Panel(int width, int height, Simulation[] listSimulations){
 
 		listSimulation=listSimulations;
         this.setTitle("Task Scheduler Simulation");
@@ -37,7 +37,7 @@ public class Pannel extends JFrame {
         this.run();
     }
 
-    public Pannel(Simulation[] listSimulations){
+    public Panel(Simulation[] listSimulations){
 
         this(800,600, listSimulations);
     }
@@ -60,8 +60,7 @@ public class Pannel extends JFrame {
 				listSimulation[i].compute(interval);
 				System.out.println(Boolean.toString(listSimulation[i].isDone()));
 				if (listSimulation[i].isDone())
-				    allSimulationsAreDone = true;
-				    // !!! this suppose that all simulations are going at the same speed
+				    allSimulationsAreDone = true; // !!! this suppose that all simulations are going at the same speed
 			}
 			container.repaint();
 			try {
