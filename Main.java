@@ -24,30 +24,22 @@ public class Main {
 
         public static void main(String[] args){
 
-			//Task[] taskBatch = Task.createRandomBatch(NUMBER_OF_TASK, Main.TIME_INTERVAL);
-                        Task[] taskBatch = Task.createTestBatch();
 			createRandomBatchColor(NUMBER_OF_TASK);
 			Simulation[] simulations = new Simulation[Main.NUMBER_OF_SIMS];
-
-			simulations[0] = new Simulation(taskBatch, new SmallestPathScheduler(), TIME_INTERVAL);
-			simulations[1] = new Simulation(taskBatch, new SingleFrequencyScheduler(), TIME_INTERVAL);
-
+			
+			simulations[0] = new Simulation(new SmallestPathScheduler());
+			simulations[1] = new Simulation(new SingleFrequencyScheduler());			
 			for(int i = 2; i < Main.NUMBER_OF_SIMS; i++)
-			{
-                            simulations[i] = new Simulation(taskBatch, new DumbScheduler(), TIME_INTERVAL);
-			}
+                            simulations[i] = new Simulation(new DumbScheduler());  
 
 			Date t = new Date();
 			startTime = t.getTime(); // number of ms since epoch
 
 			pannel = new Panel(1200,800,simulations);
 
-			// test Schedulers
-        	/*Task[] testBatch = Task.createTestBatch();
-		SmallestPathScheduler Sp = new SmallestPathScheduler();
-		SingleFrequencyScheduler Sf = new SingleFrequencyScheduler();
-		Sp.schedule(testBatch);
-		Sf.schedule(testBatch);*/
+        		/*SmallestPathScheduler.testSmallestPathSchedulersArticleExample();
+			SmallestPathScheduler.testSmallestPathSchedulersLimitCases();
+			SmallestPathScheduler.testSmallestPathSchedulerWithRandomBatch();*/
         }
 
         public static Color[] getColor()

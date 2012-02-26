@@ -3,7 +3,7 @@ import java.util.*;
 
 public class SingleFrequencyScheduler implements Scheduler {
     
-    public Point2DFloatList schedule(Task[] batch, float timeInterval)
+    public boolean schedule(Task[] batch, Point2DFloatList speeds, float timeInterval)
     {
         float theSpeed = this.computeSpeed(batch,timeInterval);
     	try
@@ -17,9 +17,9 @@ public class SingleFrequencyScheduler implements Scheduler {
     	}
         
         Point2DFloat p = new Point2DFloat(theSpeed, timeInterval);
-        Point2DFloatList l = new Point2DFloatList();
-        l.add(p);
-        return l;
+	speeds.clear();
+        speeds.add(p);
+        return true;
     }
     
     protected float computeSpeed(Task[] batch,float timeInterval)
@@ -31,9 +31,9 @@ public class SingleFrequencyScheduler implements Scheduler {
     }
     
     protected void checkFeasability(float theSpeed) throws Exception
-    {
+    {	
     	if (theSpeed > 1)
-            throw new Exception("Unfeasable System!");
+            throw new Exception("Unfeasable System: speed exceeds unit");
     }
 
     protected void EDF(Task[] batch) throws Exception

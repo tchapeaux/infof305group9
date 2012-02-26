@@ -31,20 +31,23 @@ public class Simulation
 	    public boolean isComputing() {return isComputing;}
 	    protected void setIsComputing(boolean newValue) {isComputing=newValue;}
 
-	public Simulation(Task[] taskBatch, Scheduler scheduler, float timeInterval)
+	public Simulation(Scheduler scheduler)
 	{
 		this.currentTime = 0;
 		this.energyUsed = 0;
-		this.timeInterval = timeInterval;
+		this.timeInterval = Main.TIME_INTERVAL;
+		Task[] taskBatch = new Task[Main.NUMBER_OF_TASK];
+		this.taskBatch = new Task[Main.NUMBER_OF_TASK];
 
-		this.taskBatch = new Task[taskBatch.length];
+		Point2DFloatList theSpeeds = new Point2DFloatList();
+		taskBatch = Task.createRandomBatch(Main.NUMBER_OF_TASK, Main.TIME_INTERVAL);
+		while (!scheduler.schedule(taskBatch, theSpeeds, timeInterval))
+			taskBatch = Task.createRandomBatch(Main.NUMBER_OF_TASK, Main.TIME_INTERVAL);
+
 		for (int i=0; i<taskBatch.length; i++)
-		{
 			this.taskBatch[i] = taskBatch[i].clone();
-		}
-
 		this.scheduler = scheduler;
-		speeds = scheduler.schedule(this.taskBatch, timeInterval);
+		this.speeds = theSpeeds;
 		isComputing = false;
 	}
 
