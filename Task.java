@@ -12,8 +12,9 @@ public class Task
     private static boolean isFeasable(Task[] batch, float timeInterval) {
         try
         {
+	    Point2DFloatList theSpeeds = new Point2DFloatList();
             SingleFrequencyScheduler test = new SingleFrequencyScheduler();
-            test.schedule(batch, timeInterval);
+            test.schedule(batch, theSpeeds, timeInterval);
         }
         catch (Exception e)
         {
@@ -130,28 +131,6 @@ public class Task
             while (!isFeasable(batch, timeInterval));
             return batch;
 	}
-
-	// for Schedulers test
-    public static Task[] createTestBatch()
-    {
-		Task[] batch;
-		batch = new Task[6];
-
-		batch[0] = new Task();
-		batch[0].setValues(2000, 3000, 500, 500);
-		batch[1] = new Task();
-		batch[1].setValues(4000, 5000, 500, 500);
-		batch[2] = new Task();
-		batch[2].setValues(6000, 7000, 500, 500);
-		batch[3] = new Task();
-		batch[3].setValues(9000, 10000, 500, 500);
-		batch[4] = new Task();
-		batch[4].setValues(11000, 12000, 500, 500);
-		batch[5] = new Task();
-		batch[5].setValues(13000, 14000, 500, 500);
-
-		return batch;
-    }
 
     public Task clone()
     {

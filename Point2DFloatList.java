@@ -12,6 +12,15 @@ public class Point2DFloatList extends LinkedList<Point2DFloat>{
     {
         return (Point2DFloat)super.get(i);
     }
+
+    /*public boolean add(Point2DFloat p)
+    {
+	//System.out.println("addekes");
+	Point2DFloat thePoint = new Point2DFloat(p.getX(), p.getY());
+	super.add( thePoint );
+	//System.out.println("add");
+	return true;
+    }*/
     
     public boolean contains(Point2DFloat inPoint)
     {
