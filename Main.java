@@ -26,7 +26,7 @@ public class Main {
 
 			createRandomBatchColor(NUMBER_OF_TASK);
 			Simulation[] simulations = new Simulation[Main.NUMBER_OF_SIMS];
-			
+
 			simulations[0] = new Simulation(new SmallestPathScheduler());
 			simulations[1] = new Simulation(new SingleFrequencyScheduler());			
 			for(int i = 2; i < Main.NUMBER_OF_SIMS; i++)

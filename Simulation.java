@@ -5,9 +5,11 @@ public class Simulation
 {
 	protected Task[] taskBatch;
 	protected Scheduler scheduler;
-	protected float currentTime; // elapsed time
-		public float getCurrentTime() {return this.currentTime;}
-	protected float energyUsed;
+	protected float currentTime=0; // elapsed time
+        protected float showedTime=0;
+		public float getCurrentTime() {return this.currentTime+this.showedTime;}
+		public float getRelativeShowedTime() {return this.showedTime;}
+	protected float energyUsed=0;
 		public float getEnergyUsed() {return this.energyUsed;}
 	protected float timeInterval; // duration of the time interval considered by the simulation
 	public boolean isDone() { return (currentTime >= timeInterval); }
@@ -33,8 +35,6 @@ public class Simulation
 
 	public Simulation(Scheduler scheduler)
 	{
-		this.currentTime = 0;
-		this.energyUsed = 0;
 		this.timeInterval = Main.TIME_INTERVAL;
 		Task[] taskBatch = new Task[Main.NUMBER_OF_TASK];
 		this.taskBatch = new Task[Main.NUMBER_OF_TASK];
@@ -48,6 +48,7 @@ public class Simulation
 			this.taskBatch[i] = taskBatch[i].clone();
 		this.scheduler = scheduler;
 		this.speeds = theSpeeds;
+		isComputing = false;
 		isComputing = false;
 	}
 
@@ -123,5 +124,9 @@ public class Simulation
 	{
 		return scheduler.getName();
 	}
+
+    void showTime(int i) {
+        this.showedTime=i;
+    }
 
 }
