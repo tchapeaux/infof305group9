@@ -7,7 +7,7 @@ public class SimulationPanel extends JPanel {
 	public static final int pixelsPerSecond = 100;
 	public static final int pixelsForText=200;
 	public static final int presentTimeLine=255;
-        protected int getPresentTimeLine() {return (int)(presentTimeLine - sim.getRelativeShowedTime()/1000*pixelsPerSecond);}
+        protected int getPresentTimeLine() {return (int)(presentTimeLine - sim.getRelativeShowedTime()*pixelsPerSecond/1000+50);}
     private static final long serialVersionUID = 1L;
 
 	protected Simulation sim;
@@ -54,14 +54,17 @@ public class SimulationPanel extends JPanel {
 					int endx= Math.max(5, (int) ((evolution.get(j)[0]-sim.getCurrentTime())/1000*pixelsPerSecond)+getPresentTimeLine());
 					int starty= (int) (8+i*height+height*evolution.get(j-1)[1]);
 					int endy= (int) (8+i*height+height*evolution.get(j)[1]);
-					if (j==1)
-						g.drawLine(endx, starty, endx, endy);
-					else
-					{
-						g.drawLine(startx, starty, endx, endy);
-						if (j==evolution.size()-1)
-							g.drawLine(Math.max(5, endx), endy, (int)Math.max(5, Math.min((task.getEndTime()-t1)/1000*pixelsPerSecond+getPresentTimeLine(), getPresentTimeLine())), endy);
-					}
+                                        if (startx<this.getWidth() - pixelsForText)
+                                        {
+                                            if (j==1)
+                                                    g.drawLine(endx, starty, Math.min(endx, this.getWidth() - pixelsForText),endy);
+                                            else
+                                            {
+                                                    g.drawLine(startx, starty, endx, endy);
+                                                    if (j==evolution.size()-1)
+                                                            g.drawLine(Math.max(5, endx), endy, (int)Math.max(5, Math.min((task.getEndTime()-t1)/1000*pixelsPerSecond+getPresentTimeLine(), Math.min(getPresentTimeLine(), this.getWidth() - pixelsForText))), endy);
+                                            }
+                                        }
 				}
 			}
 
@@ -115,7 +118,7 @@ public class SimulationPanel extends JPanel {
 		if(sim.isComputing())
 		    CPUSpeed = sim.getCurrentSpeed();
 		g.drawString("CPU Speed : " + Float.toString(CPUSpeed), getWidth()-pixelsForText+15, 180);
-                if (getPresentTimeLine() <= this.getWidth()-pixelsForText | getPresentTimeLine() > 5)
+                if (getPresentTimeLine() <= this.getWidth()-pixelsForText & getPresentTimeLine() > 5)
                 {
                     g.setColor(Color.red);
                     g.drawLine(getPresentTimeLine(), 6, getPresentTimeLine() , getHeight()-6);

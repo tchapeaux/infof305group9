@@ -25,12 +25,15 @@ public class Main {
         public static void main(String[] args){
 
 			createRandomBatchColor(NUMBER_OF_TASK);
-			Simulation[] simulations = new Simulation[Main.NUMBER_OF_SIMS];
-
-			simulations[0] = new Simulation(new SmallestPathScheduler());
-			simulations[1] = new Simulation(new SingleFrequencyScheduler());			
+			
+                        Task[] tasks= Task.createRandomBatch(NUMBER_OF_TASK, TIME_INTERVAL);
+                        
+                        Simulation[] simulations = new Simulation[Main.NUMBER_OF_SIMS];
+                        
+			simulations[0] = new Simulation(new SmallestPathScheduler(), tasks);
+			simulations[1] = new Simulation(new SingleFrequencyScheduler(), tasks);			
 			for(int i = 2; i < Main.NUMBER_OF_SIMS; i++)
-                            simulations[i] = new Simulation(new DumbScheduler());  
+                            simulations[i] = new Simulation(new DumbScheduler(), tasks);  
 
 			Date t = new Date();
 			startTime = t.getTime(); // number of ms since epoch
