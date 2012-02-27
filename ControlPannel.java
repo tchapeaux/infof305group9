@@ -15,7 +15,7 @@ class ControlPannel extends JPanel implements ActionListener, ChangeListener{
     protected Panel father;
     JProgressBar progressBar = new JProgressBar(0, Main.TIME_INTERVAL);
     JSlider timeSlide = new JSlider(JSlider.HORIZONTAL,-Main.TIME_INTERVAL,0, 0);
-    
+        
     public void setProgress(int i)
     {
         progressBar.setValue(i);
@@ -49,10 +49,8 @@ class ControlPannel extends JPanel implements ActionListener, ChangeListener{
         
         
         progressBar.setValue(0);
-        progressBar.setStringPainted(true);
         
         timeSlide.setMajorTickSpacing(10);
-        timeSlide.setPaintTicks(true);
         timeSlide.setVisible(false);
         timeSlide.addChangeListener(this);
         
@@ -95,6 +93,7 @@ class ControlPannel extends JPanel implements ActionListener, ChangeListener{
         father.repaint();
     }
     
+    @Override
     public void stateChanged(ChangeEvent e)
     {
         JSlider source = (JSlider)e.getSource();
