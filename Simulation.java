@@ -128,4 +128,8 @@ public class Simulation
         this.showedTime=i;
     }
 
+    Task[] getTaskBatch() {
+        return taskBatch;
+    }
+
 }

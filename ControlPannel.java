@@ -14,7 +14,7 @@ class ControlPannel extends JPanel implements ActionListener, ChangeListener{
     protected JButton lessSpeed = new JButton("-");
     protected Panel father;
     JProgressBar progressBar = new JProgressBar(0, Main.TIME_INTERVAL);
-    JSlider timeSlide = new JSlider(JSlider.HORIZONTAL,-Main.TIME_INTERVAL,0, 0);
+    JSlider timeSlide = new JSlider(JSlider.HORIZONTAL,-Main.TIME_INTERVAL/2,0, 0);
         
     public void setProgress(int i)
     {
