@@ -6,8 +6,8 @@ public class SimulationPanel extends JPanel {
 
 	public static final int pixelsPerSecond = 100;
 	public static final int pixelsForText=200;
-	public static final int presentTimeLine=255;
-        protected int getPresentTimeLine() {return (int)(presentTimeLine - sim.getRelativeShowedTime()*pixelsPerSecond/1000+50);}
+	public static final int presentTimeLine=305;
+        protected int getPresentTimeLine() {return ((int)(presentTimeLine - sim.getRelativeShowedTime()*pixelsPerSecond/1000));}
     private static final long serialVersionUID = 1L;
 
 	protected Simulation sim;
@@ -18,8 +18,9 @@ public class SimulationPanel extends JPanel {
 
 		double t1 = sim.getCurrentTime();
 		int height = Math.min(50,(getHeight())/sim.getNumberOfTasks()-6);
-		Task task;
-		for (int i=0; (task=sim.getTask(i))!= null;i++)
+		
+                int i=0;
+		for (Task task:sim.getTaskBatch())
 		{
 			g.setColor(Color.black);
 			//Draw task enter & deadline as rectangle
@@ -60,9 +61,21 @@ public class SimulationPanel extends JPanel {
                                                     g.drawLine(endx, starty, Math.min(endx, this.getWidth() - pixelsForText),endy);
                                             else
                                             {
-                                                    g.drawLine(startx, starty, endx, endy);
+                                                    g.drawLine(startx, starty, Math.min(endx, this.getWidth() - pixelsForText), endy);
                                                     if (j==evolution.size()-1)
-                                                            g.drawLine(Math.max(5, endx), endy, (int)Math.max(5, Math.min((task.getEndTime()-t1)/1000*pixelsPerSecond+getPresentTimeLine(), Math.min(getPresentTimeLine(), this.getWidth() - pixelsForText))), endy);
+                                                            g.drawLine(Math.max(5, endx),
+                                                                    endy,
+                                                                    (int)Math.max(
+                                                                        5,
+                                                                        Math.min(
+                                                                            (task.getEndTime()-t1)/1000*pixelsPerSecond+getPresentTimeLine(),
+                                                                            Math.min(
+                                                                                getPresentTimeLine()*2-presentTimeLine,
+                                                                                this.getWidth() - pixelsForText
+                                                                            )
+                                                                        )
+                                                                    ),
+                                                                    endy);
                                             }
                                         }
 				}
@@ -73,11 +86,22 @@ public class SimulationPanel extends JPanel {
 				int startx= (int) (Math.max(getPresentTimeLine(),getPresentTimeLine()+(int)((-t1+task.getStartTime())/1000*pixelsPerSecond)));
 				int starty= (int) (8+i*height+height*task.getCompletion());
 
-				g.fillRect(startx, starty+2, Math.max(0,Math.min (getWidth()-startx-pixelsForText,(int)(task.worstComputationTimeLeft()/1000*pixelsPerSecond))), (int)((1.0-task.getCompletion())*(height-4)));
+				g.fillRect(
+                                        startx+getPresentTimeLine()-presentTimeLine,
+                                        starty+2, 
+                                        Math.max(
+                                            0,
+                                            Math.min (
+                                                getWidth()-startx-pixelsForText,
+                                                (int)(task.worstComputationTimeLeft()/1000*pixelsPerSecond)
+                                            )
+                                        ),
+                                        (int)((1.0-task.getCompletion())*(height-4)));
 				
-                                if (getWidth()-pixelsForText-5 > startx-35)
-                                    g.drawString(Float.toString((int)Math.min(task.getCompletion()*100,100)), startx-35, 8+i*height+height/2+5);
+                                if (getWidth()-pixelsForText-5 > startx-40+getPresentTimeLine()-presentTimeLine)
+                                    g.drawString(Float.toString((int)Math.min(task.getCompletion()*100,100)), startx-35+getPresentTimeLine()-presentTimeLine, 8+i*height+height/2+5);
 			}
+                        i++;
 		}
 		drawPannelText(g);
 	}
@@ -118,10 +142,10 @@ public class SimulationPanel extends JPanel {
 		if(sim.isComputing())
 		    CPUSpeed = sim.getCurrentSpeed();
 		g.drawString("CPU Speed : " + Float.toString(CPUSpeed), getWidth()-pixelsForText+15, 180);
-                if (getPresentTimeLine() <= this.getWidth()-pixelsForText & getPresentTimeLine() > 5)
+                if (getPresentTimeLine()*2-presentTimeLine <= this.getWidth()-pixelsForText)
                 {
                     g.setColor(Color.red);
-                    g.drawLine(getPresentTimeLine(), 6, getPresentTimeLine() , getHeight()-6);
+                    g.drawLine(getPresentTimeLine()*2-presentTimeLine, 6, getPresentTimeLine()*2-presentTimeLine , getHeight()-6);
                     System.out.println("CurrentTime:"+getPresentTimeLine());
                 }
 	}
