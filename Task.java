@@ -10,18 +10,10 @@ public class Task
 		}
 
     private static boolean isFeasable(Task[] batch, float timeInterval) {
-        try
-        {
-	    Point2DFloatList theSpeeds = new Point2DFloatList();
-            SingleFrequencyScheduler test = new SingleFrequencyScheduler();
-            test.schedule(batch, theSpeeds, timeInterval);
+        Point2DFloatList theSpeeds = new Point2DFloatList();
+            SmallestPathScheduler test = new SmallestPathScheduler();
+            return test.schedule(batch, theSpeeds, timeInterval);
         }
-        catch (Exception e)
-        {
-            return false;
-        }
-        return true;
-    }
 
 	protected int id;
 		public int getId() {return this.id;}
@@ -105,7 +97,7 @@ public class Task
 	// set random values for the task, with start and ending time in timeInterval
 	{
 		float duration = Task.generateInRange(timeInterval/10, timeInterval/4);
-		float newSt = Task.generateInRange((float)0.0, timeInterval - duration); 
+		float newSt = Task.generateInRange((float)0.0, timeInterval - duration);
 		float newEt = newSt + duration;
                 float tempMax = Math.min(duration/2,timeInterval/numberOfTasks);
 		float newWcet = Task.generateInRange(tempMax/2, tempMax);
@@ -130,6 +122,24 @@ public class Task
             }
             while (!isFeasable(batch, timeInterval));
             return batch;
+	}
+
+	public static Task[] createTestBatch()
+	{
+        	Task[] batch = new Task[6];
+		batch[0] = new Task();
+		batch[0].setValues(0, 1200, 600, 600);
+		batch[1] = new Task();
+		batch[1].setValues(0, 2300, 100, 100);
+		batch[2] = new Task();
+		batch[2].setValues(0, 2500, 200, 200);
+		batch[3] = new Task();
+		batch[3].setValues(1500, 2300, 400, 400);
+		batch[4] = new Task();
+		batch[4].setValues(1800, 5200, 300, 300);
+		batch[5] = new Task();
+		batch[5].setValues(5000, 5500, 100, 100);
+		return batch;
 	}
 
     public Task clone()

@@ -9,13 +9,13 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 class ControlPannel extends JPanel implements ActionListener, ChangeListener{
-    
+
     protected JButton moreSpeed = new JButton("+");
     protected JButton lessSpeed = new JButton("-");
     protected Panel father;
     JProgressBar progressBar = new JProgressBar(0, Main.TIME_INTERVAL);
     JSlider timeSlide = new JSlider(JSlider.HORIZONTAL,-Main.TIME_INTERVAL/2,0, 0);
-        
+
     public void setProgress(int i)
     {
         progressBar.setValue(i);
@@ -26,47 +26,47 @@ class ControlPannel extends JPanel implements ActionListener, ChangeListener{
             father.repaint();
         }
     }
-    
-    public ControlPannel(Panel father) 
+
+    public ControlPannel(Panel father)
     {
         this.father=father;
-        
+
         this.setVisible(true);
         moreSpeed.setLocation(this.getWidth()-150, this.getHeight()/2);
         //moreSpeed.setSize(20, 20);
         lessSpeed.setLocation(this.getWidth()-130, this.getHeight()/2);
         //lessSpeed.setSize(20, 20);
-        
-        
+
+
         moreSpeed.setActionCommand("speed+");
         moreSpeed.setVisible(true);
-        
+
         lessSpeed.setActionCommand("speed-");
         lessSpeed.setVisible(true);
-        
+
         moreSpeed.addActionListener(this);
         lessSpeed.addActionListener(this);
-        
-        
+
+
         progressBar.setValue(0);
-        
+
         timeSlide.setMajorTickSpacing(10);
         timeSlide.setVisible(false);
         timeSlide.addChangeListener(this);
-        
+
         this.add(timeSlide);
         this.add(progressBar);
         this.add(lessSpeed);
-        this.add(moreSpeed);      
+        this.add(moreSpeed);
     }
-    
+
     @Override
 	public void paintComponent(Graphics g){
-        
+
          g.drawString("Speed: "+father.getTimeFactor(),this.getWidth()-100,this.getHeight()/2);
-        
+
     }
-    
+
     public void actionPerformed(ActionEvent e) {
         if ("speed+".equals(e.getActionCommand()))
         {
@@ -92,7 +92,7 @@ class ControlPannel extends JPanel implements ActionListener, ChangeListener{
         }
         father.repaint();
     }
-    
+
     @Override
     public void stateChanged(ChangeEvent e)
     {
