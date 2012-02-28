@@ -8,7 +8,7 @@ import javax.swing.JSlider;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-class ControlPannel extends JPanel implements ActionListener, ChangeListener{
+class ControlPanel extends JPanel implements ActionListener, ChangeListener{
 
     protected JButton moreSpeed = new JButton("+");
     protected JButton lessSpeed = new JButton("-");
@@ -27,7 +27,7 @@ class ControlPannel extends JPanel implements ActionListener, ChangeListener{
         }
     }
 
-    public ControlPannel(Panel father)
+    public ControlPanel(Panel father)
     {
         this.father=father;
 

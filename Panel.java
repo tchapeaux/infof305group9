@@ -14,7 +14,7 @@ public final class Panel extends JFrame
     protected static final long serialVersionUID = 1L;
 
     protected Simulation[] listSimulation;
-    protected ControlPannel control = new ControlPannel(this);
+    protected ControlPanel control = new ControlPanel(this);
 
     protected float timeFactor = 0.5F;
     public float getTimeFactor() {return timeFactor;}
