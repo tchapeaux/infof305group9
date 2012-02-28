@@ -5,7 +5,7 @@ public class Simulation
 {
 	protected Task[] taskBatch;
 	protected Scheduler scheduler;
-	protected float currentTime=0; // elapsed time
+	protected float currentTime=-5000; // elapsed time
         protected float showedTime=0;
 		public float getCurrentTime() {return this.currentTime+this.showedTime;}
 		public float getRelativeShowedTime() {return this.showedTime;}
@@ -19,12 +19,11 @@ public class Simulation
 	// each speeds[i] means that the CPU has to go at speed speeds[i].x until currentTime = speeds[i].y
 	public float getCurrentSpeed()
 	{
-		float t = 0;
-		for (Point2DFloat p:getSpeeds())
+		for (int i = 0; i < getSpeeds().size(); i++)
 		{
-			if (t + p.getY() > getCurrentTime())
+		    Point2DFloat p = getSpeeds().get(i);
+			if (p.getY() > getCurrentTime())
 				return p.getX();
-			t += p.getY();
 		}
 		return 1;
 	}
@@ -39,16 +38,18 @@ public class Simulation
 		this.taskBatch = new Task[Main.NUMBER_OF_TASK];
 
 		Point2DFloatList theSpeeds = new Point2DFloatList();
-		
+
 		for (int i=0; i<taskBatch.length; i++)
 			this.taskBatch[i] = taskBatch[i].clone();
-                
+
                 scheduler.schedule(this.taskBatch, theSpeeds, timeInterval);
-               
+
 		this.scheduler = scheduler;
 		this.speeds = theSpeeds;
 		isComputing = false;
 		isComputing = false;
+		System.out.println("I'm " + scheduler.getName() + " and I got this :");
+		theSpeeds.print();
 	}
 
 	public float upperAcceptedSpeed(float speed)
@@ -61,14 +62,14 @@ public class Simulation
 	public void compute(float elapsedMs)
 	// Compute the evolution of the system in the interval between currentTime and currentTime + elapsedMs
 	{
-
 		float startPoint = this.currentTime;
 		float endPoint = startPoint + elapsedMs;
 		Stack<Task> tasksInInterval = new Stack<Task>();
 
 		// TODO : if in-line algorithm : reschedule the tasks
-		for(Task eachTask:taskBatch) // ??-> does this go through the array in the logical order??
+		for(int i = 0; i < taskBatch.length; i++) // ??-> does this go through the array in the logical order??
 		{
+		    Task eachTask = taskBatch[i];
 			if (eachTask.getCompletion() < 1.0
 			 && !(eachTask.getStartTime() > endPoint) // the task is not AFTER the interval
 			 && !(eachTask.getEndTime() < startPoint)) // the task is not BEFORE the interval

@@ -97,13 +97,13 @@ public class SimulationPanel extends JPanel {
                                             )
                                         ),
                                         (int)((1.0-task.getCompletion())*(height-4)));
-				
+
                                 if (getWidth()-pixelsForText-5 > startx-40+getPresentTimeLine()-presentTimeLine)
                                     g.drawString(Float.toString((int)Math.min(task.getCompletion()*100,100)), startx-35+getPresentTimeLine()-presentTimeLine, 8+i*height+height/2+5);
 			}
                         i++;
 		}
-		drawPannelText(g);
+		drawPanelText(g);
 	}
 
 	public Simulation getSimulation()
@@ -111,7 +111,7 @@ public class SimulationPanel extends JPanel {
 		return sim;
 	}
 
-	public void drawPannelText(Graphics g){
+	public void drawPanelText(Graphics g){
 
 		// SimulationPanel outline
 		g.setColor(Color.black);
@@ -146,7 +146,6 @@ public class SimulationPanel extends JPanel {
                 {
                     g.setColor(Color.red);
                     g.drawLine(getPresentTimeLine()*2-presentTimeLine, 6, getPresentTimeLine()*2-presentTimeLine , getHeight()-6);
-                    System.out.println("CurrentTime:"+getPresentTimeLine());
                 }
 	}
 }

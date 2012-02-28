@@ -25,15 +25,16 @@ public class Main {
         public static void main(String[] args){
 
 			createRandomBatchColor(NUMBER_OF_TASK);
-			
-                        Task[] tasks= Task.createRandomBatch(NUMBER_OF_TASK, TIME_INTERVAL);
-                        
+
+			Task[] tasks = Task.createRandomBatch(NUMBER_OF_TASK, TIME_INTERVAL);
+			// Task[] tasks= Task.createTestBatch();
+
                         Simulation[] simulations = new Simulation[Main.NUMBER_OF_SIMS];
-                        
+
 			simulations[0] = new Simulation(new SmallestPathScheduler(), tasks);
-			simulations[1] = new Simulation(new SingleFrequencyScheduler(), tasks);			
+			simulations[1] = new Simulation(new SingleFrequencyScheduler(), tasks);
 			for(int i = 2; i < Main.NUMBER_OF_SIMS; i++)
-                            simulations[i] = new Simulation(new DumbScheduler(), tasks);  
+                            simulations[i] = new Simulation(new DumbScheduler(), tasks);
 
 			Date t = new Date();
 			startTime = t.getTime(); // number of ms since epoch
@@ -54,7 +55,7 @@ public class Main {
         {
         	colorList = new Color[numberTask];
         	Random rand = new Random();
-        	for (int i=0; i<numberTask; i++)
+        	for (int i = 0; i<numberTask; i++)
         		colorList[i] = new Color(rand.nextFloat(), rand.nextFloat(), rand.nextFloat());
         }
 }
