@@ -2,7 +2,9 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.io.File;
 import java.util.Date;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
@@ -66,28 +68,29 @@ public final class Panel extends JFrame
     }
 
     public void run(){
-
-		long lastTime = Main.getStartTime();
-		long currentTime = lastTime;
-		boolean allSimulationsAreDone = false;
-
                 while (wait)
                 {
                     try {
-				Thread.sleep(20);
+				Thread.sleep(100);
 
 
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
                 }
+                Date t = new Date();
+                Main.setStartTime(t.getTime());
+                long lastTime = Main.getStartTime();
+		long currentTime = lastTime;
+		boolean allSimulationsAreDone = false;
+                
 		while (!allSimulationsAreDone)
 		{
-			Date t = new Date();
+			t = new Date();
 			lastTime = currentTime;
 			currentTime = t.getTime();
 			float interval = (currentTime - lastTime)*timeFactor;
-
+//System.out.println("interval: "+interval+ " lastTime:"+lastTime+" currentTime:"+currentTime+" RealCurrentTime:"+t.getTime());
 			for (int i=0; i< listSimulation.length; i++)
 			{
 				listSimulation[i].compute(interval);
@@ -112,7 +115,7 @@ public final class Panel extends JFrame
             sim.showTime(i);
     }
 
-    void switchView() {
+    public void switchView() {
         this.setVisible(false);
         if (this.getContentPane() == controlContainer)
         {
@@ -123,9 +126,11 @@ public final class Panel extends JFrame
         {
             this.setContentPane(controlContainer);
             this.wait=false;
+            
         }
         this.setVisible(true);
         this.repaint();
+        
     }
 
     public String printTaskBatch()
@@ -137,5 +142,19 @@ public final class Panel extends JFrame
 	    s += t.print() + "\n";
 	}
 	return s;
+    }
+
+    public void generateBatchFromFile() {
+        JFileChooser chooseFile = new JFileChooser();
+        int returnVal = chooseFile.showOpenDialog(this);
+
+        if (returnVal == JFileChooser.APPROVE_OPTION) {
+            File file = chooseFile.getSelectedFile();
+            Task [] tasks=Task.createBatchFromFile(file.getPath());
+            listSimulation[0] = new Simulation(new SmallestPathScheduler(), tasks);
+            listSimulation[1] = new Simulation(new SingleFrequencyScheduler(), tasks);
+            listSimulation[2] = new Simulation(new DumbScheduler(), tasks);
+            switchView();
+        }
     }
 }

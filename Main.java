@@ -8,13 +8,17 @@ public class Main {
 		protected static final int NUMBER_OF_TASK = 6;
 
 		protected static Panel pannel;
-                protected static GeneratorPanel generator;
 		protected static long startTime;
 		protected static Color[] colorList;
 
 		public static long getStartTime()
 		{
 			return startTime;
+		}
+
+                public static void setStartTime(long i)
+		{
+			startTime= i;
 		}
 
 		public static long getTIME_INTERVAL()
@@ -43,8 +47,7 @@ public class Main {
 
 	    simulations[0] = new Simulation(new SmallestPathScheduler(), tasks);
 	    simulations[1] = new Simulation(new SingleFrequencyScheduler(), tasks);
-	    for(int i = 2; i < Main.NUMBER_OF_SIMS; i++)
-		simulations[i] = new Simulation(new DumbScheduler(), tasks);
+	    simulations[2] = new Simulation(new DumbScheduler(), tasks);
 
 	    Date t = new Date();
 	    startTime = t.getTime(); // number of ms since epoch
