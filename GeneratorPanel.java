@@ -11,6 +11,7 @@ import javax.swing.JPanel;
 public class GeneratorPanel extends JPanel implements ActionListener {
     
     protected JButton randomGen = new JButton("Generate Random batch");
+    protected JButton fileGen = new JButton("Generate batch from file");
     protected Panel father;
     
     GeneratorPanel(Panel father)
@@ -24,7 +25,10 @@ public class GeneratorPanel extends JPanel implements ActionListener {
         randomGen.addActionListener(this);
         this.add(randomGen);
         
-        System.out.println("ok");
+        fileGen.setActionCommand("fromFile");
+        fileGen.setVisible(true);
+        fileGen.addActionListener(this);
+        this.add(fileGen);
     }
     
     @Override
@@ -36,5 +40,7 @@ public class GeneratorPanel extends JPanel implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         if ("random".equals(e.getActionCommand()))
             father.switchView();
+        if ("fromFile".equals(e.getActionCommand()))
+            father.generateBatchFromFile();
     }
 }

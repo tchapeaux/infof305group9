@@ -5,7 +5,7 @@ public class Simulation
 {
 	protected Task[] taskBatch;
 	protected Scheduler scheduler;
-	protected float currentTime=-5000; // elapsed time
+	protected float currentTime=-2000; // elapsed time
         protected float showedTime=0;
 		public float getCurrentTime() {return this.currentTime+this.showedTime;}
 		public float getRelativeShowedTime() {return this.showedTime;}

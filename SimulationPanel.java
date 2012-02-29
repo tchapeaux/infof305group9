@@ -17,6 +17,8 @@ public class SimulationPanel extends JPanel {
 	public int i=0;
     @Override
 	public void paintComponent(Graphics g){
+        
+        //System.out.println("painting");
 
 		double t1 = sim.getCurrentTime();
 		int height = Math.min(50,(getHeight())/sim.getNumberOfTasks()-6);

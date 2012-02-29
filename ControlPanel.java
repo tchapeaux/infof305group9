@@ -14,6 +14,7 @@ import javax.swing.event.ChangeListener;
 
 class ControlPanel extends JPanel implements ActionListener, ChangeListener{
 
+    protected static final float maxSpeed = 2;
     protected JButton moreSpeed = new JButton("+");
     protected JButton lessSpeed = new JButton("-");
     protected JButton makeDump = new JButton("Dump");
@@ -79,9 +80,9 @@ class ControlPanel extends JPanel implements ActionListener, ChangeListener{
     public void actionPerformed(ActionEvent e) {
         if ("speed+".equals(e.getActionCommand()))
         {
-            if (father.getTimeFactor()>=0.9)
+            if (father.getTimeFactor()>=maxSpeed-0.1)
             {
-                father.setTimeFactor(1);
+                father.setTimeFactor(maxSpeed);
                 moreSpeed.setEnabled(false);
             }
             else
