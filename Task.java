@@ -1,3 +1,7 @@
+import java.io.BufferedReader;
+import java.io.DataInputStream;
+import java.io.FileInputStream;
+import java.io.InputStreamReader;
 import java.util.*;
 
 public class Task
@@ -124,6 +128,42 @@ public class Task
             return batch;
 	}
 
+	public static Task[] createBatchFromFile(String filepath)
+	{
+	    Task[] batch = null;
+	    try{
+		FileInputStream fstream = new FileInputStream(filepath);
+	        DataInputStream in = new DataInputStream(fstream);
+		BufferedReader br = new BufferedReader(new InputStreamReader(in));
+	        String strLine = br.readLine();
+		int batchSize = Integer.parseInt(strLine);
+		batch = new Task[batchSize];
+		for (int i = 0; i < batchSize; i++)
+		{
+		    strLine = br.readLine();
+		    String[] values = strLine.split(",");
+		    if (values.length != 4)
+			System.err.println("Error : Incorrect input file");
+		    else
+		    {
+			batch[i] = new Task();
+			batch[i].setValues(
+				Float.parseFloat(values[0]),
+				Float.parseFloat(values[1]),
+				Float.parseFloat(values[2]),
+				Float.parseFloat(values[3])
+				);
+		    }
+
+
+		}
+		in.close();
+	    } catch (Exception e) {
+		System.err.println("Error: " + e.getMessage());
+	    }
+	    return batch;
+	}
+
 	public static Task[] createTestBatch()
 	{
         	Task[] batch = new Task[6];
@@ -147,5 +187,17 @@ public class Task
     	Task task = new Task();
     	task.setValues(this.startTime, this.endTime, this.wcet, this.actual_et, this.id);
 		return task;
+    }
+
+    public String print()
+    {
+	return Float.toString(this.getStartTime())
+		+ " , "
+		+ Float.toString(this.getEndTime())
+		+ " , "
+		+ Float.toString(this.getWcet())
+		+ " , "
+		+ Float.toString(this.getActualEt())
+		;
     }
 }
