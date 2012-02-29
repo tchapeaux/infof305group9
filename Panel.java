@@ -11,8 +11,11 @@ public final class Panel extends JFrame
 
     protected JPanel container = new JPanel();
     protected JPanel controlContainer = new JPanel();
+    protected GeneratorPanel genContainer = new GeneratorPanel(this);
+    
     protected static final long serialVersionUID = 1L;
-
+    protected boolean wait = true;
+    
     protected Simulation[] listSimulation;
     protected ControlPanel control = new ControlPanel(this);
 
@@ -52,7 +55,7 @@ public final class Panel extends JFrame
         controlContainer.add(container, BorderLayout.PAGE_START);
         controlContainer.add(control, BorderLayout.PAGE_END);
 
-        this.setContentPane(controlContainer);
+        this.setContentPane(genContainer);
         this.setVisible(true);
         this.run();
     }
@@ -68,6 +71,16 @@ public final class Panel extends JFrame
 		long currentTime = lastTime;
 		boolean allSimulationsAreDone = false;
 
+                while (wait)
+                {
+                    try {
+				Thread.sleep(20);
+
+
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+                }
 		while (!allSimulationsAreDone)
 		{
 			Date t = new Date();
@@ -97,6 +110,22 @@ public final class Panel extends JFrame
     public void showTime(int i) {
         for (Simulation sim: listSimulation)
             sim.showTime(i);
+    }
+
+    void switchView() {
+        this.setVisible(false);
+        if (this.getContentPane() == controlContainer)
+        {
+            this.setContentPane(genContainer);
+            this.wait=true;
+        }
+        else if (this.getContentPane() == genContainer)
+        {
+            this.setContentPane(controlContainer);
+            this.wait=false;
+        }
+        this.setVisible(true);
+        this.repaint();
     }
 
     public String printTaskBatch()

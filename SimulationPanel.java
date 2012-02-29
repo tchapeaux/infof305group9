@@ -1,6 +1,8 @@
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Graphics;
 import java.util.List;
-import java.awt.*;
-import javax.swing.*;
+import javax.swing.JPanel;
 
 public class SimulationPanel extends JPanel {
 
