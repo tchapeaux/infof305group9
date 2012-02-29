@@ -52,6 +52,7 @@ public class Main {
 	    Date t = new Date();
 	    startTime = t.getTime(); // number of ms since epoch
 
+
 	    pannel = new Panel(1200,800,simulations);
 
 	    /*SmallestPathScheduler.testSmallestPathSchedulersArticleExample();
