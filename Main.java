@@ -8,6 +8,7 @@ public class Main {
 		protected static final int NUMBER_OF_TASK = 6;
 
 		protected static Panel pannel;
+                protected static GeneratorPanel generator;
 		protected static long startTime;
 		protected static Color[] colorList;
 
