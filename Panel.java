@@ -14,14 +14,14 @@ public final class Panel extends JFrame
     protected JPanel container = new JPanel();
     protected JPanel controlContainer = new JPanel();
     protected GeneratorPanel genContainer = new GeneratorPanel(this);
-    
+
     protected static final long serialVersionUID = 1L;
     protected boolean wait = true;
-    
+
     protected Simulation[] listSimulation;
     protected ControlPanel control = new ControlPanel(this);
 
-    protected float timeFactor = 1F;
+    protected float timeFactor = 0.5F;
     public float getTimeFactor() {return timeFactor;}
     public void setTimeFactor(float newValue) {timeFactor = newValue;}
 
@@ -83,7 +83,7 @@ public final class Panel extends JFrame
                 long lastTime = Main.getStartTime();
 		long currentTime = lastTime;
 		boolean allSimulationsAreDone = false;
-                
+
 		while (!allSimulationsAreDone)
 		{
 			t = new Date();
@@ -91,6 +91,7 @@ public final class Panel extends JFrame
 			currentTime = t.getTime();
 			float interval = (currentTime - lastTime)*timeFactor;
 //System.out.println("interval: "+interval+ " lastTime:"+lastTime+" currentTime:"+currentTime+" RealCurrentTime:"+t.getTime());
+
 			for (int i=0; i< listSimulation.length; i++)
 			{
 				listSimulation[i].compute(interval);
@@ -126,11 +127,11 @@ public final class Panel extends JFrame
         {
             this.setContentPane(controlContainer);
             this.wait=false;
-            
+
         }
         this.setVisible(true);
         this.repaint();
-        
+
     }
 
     public String printTaskBatch()
@@ -148,13 +149,13 @@ public final class Panel extends JFrame
         JFileChooser chooseFile = new JFileChooser();
         int returnVal = chooseFile.showOpenDialog(this);
 
-        if (returnVal == JFileChooser.APPROVE_OPTION) {
+        if (returnVal == JFileChooser.APPROVE_OPTION)
+	{
             File file = chooseFile.getSelectedFile();
             Task [] tasks=Task.createBatchFromFile(file.getPath());
             listSimulation[0] = new Simulation(new SmallestPathScheduler(), tasks);
             listSimulation[1] = new Simulation(new SingleFrequencyScheduler(), tasks);
             listSimulation[2] = new Simulation(new DumbScheduler(), tasks);
-            switchView();
         }
     }
 }

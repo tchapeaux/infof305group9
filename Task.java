@@ -40,8 +40,7 @@ public class Task
 		public float getActualEt() {return this.actual_et;}
 
 	protected List<float[]> completion = new ArrayList<float[]>(); // float [0] = time; float [1] = completion (0->1)
-	// TODO: get rid of the magic numbers
-	// --> add a "CompletionPoint" class (struct)?
+	
 
 	public float getCompletion() {return (this.completion.get(this.completion.size()-1))[1];}
 
@@ -62,7 +61,7 @@ public class Task
 
 	public float worstComputationTimeLeft()
 	{
-		return (wcet - this.getCompletion()*wcet);
+		return (1-this.getCompletion())*wcet;
 	}
 
 	public Task()

@@ -77,7 +77,8 @@ class ControlPanel extends JPanel implements ActionListener, ChangeListener{
 
     }
 
-    public void actionPerformed(ActionEvent e) {
+    public void actionPerformed(ActionEvent e)
+    {
         if ("speed+".equals(e.getActionCommand()))
         {
             if (father.getTimeFactor()>=maxSpeed-0.1)
