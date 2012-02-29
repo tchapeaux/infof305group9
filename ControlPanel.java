@@ -1,6 +1,10 @@
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.Date;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
@@ -12,6 +16,7 @@ class ControlPanel extends JPanel implements ActionListener, ChangeListener{
 
     protected JButton moreSpeed = new JButton("+");
     protected JButton lessSpeed = new JButton("-");
+    protected JButton makeDump = new JButton("Dump");
     protected Panel father;
     JProgressBar progressBar = new JProgressBar(0, Main.TIME_INTERVAL);
     JSlider timeSlide = new JSlider(JSlider.HORIZONTAL,-Main.TIME_INTERVAL/2,0, 0);
@@ -44,9 +49,12 @@ class ControlPanel extends JPanel implements ActionListener, ChangeListener{
         lessSpeed.setActionCommand("speed-");
         lessSpeed.setVisible(true);
 
+	makeDump.setActionCommand("dump");
+	makeDump.setVisible(true);
+
         moreSpeed.addActionListener(this);
         lessSpeed.addActionListener(this);
-
+	makeDump.addActionListener(this);
 
         progressBar.setValue(0);
 
@@ -58,6 +66,7 @@ class ControlPanel extends JPanel implements ActionListener, ChangeListener{
         this.add(progressBar);
         this.add(lessSpeed);
         this.add(moreSpeed);
+	this.add(makeDump);
     }
 
     @Override
@@ -90,6 +99,18 @@ class ControlPanel extends JPanel implements ActionListener, ChangeListener{
                 father.setTimeFactor(father.getTimeFactor()-(float)0.1);
             moreSpeed.setEnabled(true);
         }
+	else if ("dump".equals(e.getActionCommand()))
+	{
+	    Date t = new Date();
+	    long nowTime = t.getTime();
+	    try {
+		BufferedWriter out = new BufferedWriter(new FileWriter(Long.toString(nowTime) + ".txt"));
+		out.write(father.printTaskBatch());
+		out.close();
+	    } catch (IOException ex) {
+		ex.printStackTrace();
+	    }
+	}
         father.repaint();
     }
 

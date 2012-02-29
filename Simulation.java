@@ -48,8 +48,8 @@ public class Simulation
 		this.speeds = theSpeeds;
 		isComputing = false;
 		isComputing = false;
-		System.out.println("I'm " + scheduler.getName() + " and I got this :");
-		theSpeeds.print();
+		    // System.out.println("I'm " + scheduler.getName() + " and I got this :");
+		    //theSpeeds.print();
 	}
 
 	public float upperAcceptedSpeed(float speed)

@@ -16,7 +16,7 @@ public final class Panel extends JFrame
     protected Simulation[] listSimulation;
     protected ControlPanel control = new ControlPanel(this);
 
-    protected float timeFactor = 0.5F;
+    protected float timeFactor = 1F;
     public float getTimeFactor() {return timeFactor;}
     public void setTimeFactor(float newValue) {timeFactor = newValue;}
 
@@ -94,8 +94,19 @@ public final class Panel extends JFrame
 		}
     }
 
-    void showTime(int i) {
+    public void showTime(int i) {
         for (Simulation sim: listSimulation)
             sim.showTime(i);
+    }
+
+    public String printTaskBatch()
+    {
+	String s = new String();
+	s += Integer.toString(listSimulation[0].getTaskBatch().length) + "\n";
+	for (Task t:listSimulation[0].getTaskBatch())
+	{
+	    s += t.print() + "\n";
+	}
+	return s;
     }
 }
