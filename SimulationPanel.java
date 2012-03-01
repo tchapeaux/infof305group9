@@ -48,7 +48,7 @@ public class SimulationPanel extends JPanel {
 					g.drawLine(lastPix,8+i*height,lastPix, 8+(i+1)*height);
 				}
 			}
-			g.setColor(Main.getColor()[task.getId()]);
+			g.setColor(Main.getColor()[i]);
 
 			//draw Completion
 			{
