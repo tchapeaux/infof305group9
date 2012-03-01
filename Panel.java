@@ -11,8 +11,8 @@ import javax.swing.JPanel;
 public final class Panel extends JFrame
 {
 
-    protected JPanel container = new JPanel();
-    protected JPanel controlContainer = new JPanel();
+    protected JPanel container;
+    protected JPanel controlContainer;
     protected GeneratorPanel genContainer = new GeneratorPanel(this);
 
     protected static final long serialVersionUID = 1L;
@@ -32,30 +32,12 @@ public final class Panel extends JFrame
 
     public Panel(int width, int height, Simulation[] listSimulations)
     {
-
         listSimulation=listSimulations;
 
         this.setTitle("Task Scheduler Simulation");
         this.setSize(width, height);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setLocationRelativeTo(null);
-
-        container.setBackground(Color.white);
-        controlContainer.setBackground(Color.white);
-
-        container.setLayout(new GridLayout(Main.NUMBER_OF_SIMS,1));
-
-        for (int i=0; i<listSimulations.length; i++)
-        {
-            SimulationPanel tmp = new SimulationPanel(listSimulations[i]);
-            tmp.setVisible(true);
-            container.add(tmp);
-        }
-        container.setPreferredSize(new Dimension(this.getWidth()-20, this.getHeight()-100));
-        control.setPreferredSize(new Dimension(this.getWidth()-20, 50));
-
-        controlContainer.add(container, BorderLayout.PAGE_START);
-        controlContainer.add(control, BorderLayout.PAGE_END);
 
         this.setContentPane(genContainer);
         this.setVisible(true);
@@ -125,7 +107,28 @@ public final class Panel extends JFrame
         }
         else if (this.getContentPane() == genContainer)
         {
+            
+            controlContainer = new JPanel();
+            controlContainer.setBackground(Color.white);
+        
+            container = new JPanel();
+            container.setBackground(Color.white);
+            container.setLayout(new GridLayout(Main.NUMBER_OF_SIMS,1));
+
+            for (int i=0; i<listSimulation.length; i++)
+            {
+                SimulationPanel tmp = new SimulationPanel(listSimulation[i]);
+                tmp.setVisible(true);
+                container.add(tmp);
+            }
+            container.setPreferredSize(new Dimension(this.getWidth()-20, this.getHeight()-100));
+            control.setPreferredSize(new Dimension(this.getWidth()-20, 50));
+
+            controlContainer.add(container, BorderLayout.PAGE_START);
+            controlContainer.add(control, BorderLayout.PAGE_END);
+System.out.println("test");
             this.setContentPane(controlContainer);
+System.out.println("test2");
             this.wait=false;
 
         }
