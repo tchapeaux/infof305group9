@@ -5,12 +5,14 @@ import java.awt.Graphics;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.LinkedList;
 import java.util.Stack;
-import javax.swing.JButton;
-import javax.swing.JPanel;
+import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 
-public class GeneratorPanel extends JPanel implements ActionListener {
+public class GeneratorPanel extends JPanel implements ActionListener,ChangeListener {
 
     protected JButton randomGen = new JButton("Generate Random batch");
     protected JButton fileGen = new JButton("Generate batch from file");
@@ -21,6 +23,9 @@ public class GeneratorPanel extends JPanel implements ActionListener {
     protected Checkbox DumbSched = new Checkbox("Dumb Scheduler", null, true);
     protected Checkbox HumanSched = new Checkbox("Human Scheduler", null, false);
 
+    protected LinkedList<JFormattedTextField> CPUSpeed;
+    protected LinkedList<JSlider> timeInterval;
+    
     GeneratorPanel(Panel father)
     {
         this.father=father;
@@ -68,11 +73,13 @@ public class GeneratorPanel extends JPanel implements ActionListener {
         SmallestPath.setVisible(true);
         confirm.setVisible(true);
 
-        this.repaint();
     }
 
     @Override
 	public void paintComponent(Graphics g){
+            g.setColor(Color.white);
+            g.fillRect(0, 0, getWidth(), getHeight());
+            g.setColor(Color.black);
             g.drawString("Choose your parameters:", this.getWidth()/2-80, 50);
             g.drawString("Choose "+Main.NUMBER_OF_SIMS+" algorithms:", 200, 100);
             g.drawString("If you choose Human Scheduler, schedule the tasks:", 200, 250);
@@ -85,11 +92,13 @@ public class GeneratorPanel extends JPanel implements ActionListener {
         if ("random".equals(e.getActionCommand()))
         {
             father.generateRandomBatch();
+            createProgressBar();
             this.repaint();
         }
         else if ("fromFile".equals(e.getActionCommand()))
 	{
 	    father.generateBatchFromFile();
+            createProgressBar();
             this.repaint();
 	}
         else if ("confirm".equals(e.getActionCommand()))
@@ -127,4 +136,53 @@ public class GeneratorPanel extends JPanel implements ActionListener {
                                     
         }
     }
+
+    private void createProgressBar() {
+        //CPUSpeed = new LinkedList<JSpinner>();
+        
+        CPUSpeed = new LinkedList<JFormattedTextField>();
+        
+        timeInterval = new LinkedList<JSlider>();
+        CPUSpeed.add(new JFormattedTextField(1.0));
+        timeInterval.add(new JSlider());
+        
+        CPUSpeed.getLast().setValue(1.0);
+        timeInterval.getLast().setMajorTickSpacing(5);
+        
+        CPUSpeed.getLast().setColumns(10);
+        //CPUSpeed.getLast().addChangeListener(this);
+        timeInterval.getLast().addChangeListener(this);
+        
+        Insets insets = this.getInsets();
+
+        this.add(CPUSpeed.getLast());
+        this.add(timeInterval.getLast());
+
+        CPUSpeed.getLast().setBounds(this.getWidth()-200 + insets.left,
+                    250+20+31*father.getTasks().length + 30* CPUSpeed.size() + insets.top,
+                    100,
+                    25);
+        timeInterval.getLast().setBounds(100 + insets.left,
+                    250+20+31*father.getTasks().length + 30* CPUSpeed.size() + insets.top,
+                    this.getWidth()-300,
+                    25);
+        
+    }
+    
+    
+    @Override
+    public void stateChanged(ChangeEvent e)
+    {
+        JSlider source = (JSlider)e.getSource();
+        if (!source.getValueIsAdjusting())
+        {
+            addSlider();
+            father.repaint();
+        }
+    }
+
+    private void addSlider() {
+        throw new UnsupportedOperationException("Not yet implemented");
+    }
+
 }
