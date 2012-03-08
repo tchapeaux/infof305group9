@@ -124,6 +124,7 @@ public class Task
                 }
             }
             while (!isFeasable(batch, timeInterval));
+            Arrays.sort(batch, new EndTimeComparator());
             return batch;
 	}
 
@@ -160,6 +161,7 @@ public class Task
 	    } catch (Exception e) {
 		System.err.println("Error: " + e.getMessage());
 	    }
+            Arrays.sort(batch, new EndTimeComparator());
 	    return batch;
 	}
 
