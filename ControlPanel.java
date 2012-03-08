@@ -59,7 +59,7 @@ class ControlPanel extends JPanel implements ActionListener, ChangeListener{
 
         progressBar.setValue(0);
 
-        timeSlide.setMajorTickSpacing(10);
+        timeSlide.setMajorTickSpacing(100);
         timeSlide.setVisible(false);
         timeSlide.addChangeListener(this);
 
@@ -77,6 +77,7 @@ class ControlPanel extends JPanel implements ActionListener, ChangeListener{
 
     }
 
+    @Override
     public void actionPerformed(ActionEvent e)
     {
         if ("speed+".equals(e.getActionCommand()))
