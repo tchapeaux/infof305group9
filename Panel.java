@@ -20,6 +20,8 @@ public final class Panel extends JFrame
 
     protected Simulation[] listSimulation;
     protected ControlPanel control = new ControlPanel(this);
+    
+    protected Task [] tasks;
 
     protected float timeFactor = 0.5F;
     public float getTimeFactor() {return timeFactor;}
@@ -27,13 +29,14 @@ public final class Panel extends JFrame
 
     public float getCurrentTime()
     {
-	return listSimulation[0].getCurrentTime();
+        if (listSimulation != null)
+            return listSimulation[0].getCurrentTime();
+        else
+            return 0;
     }
 
-    public Panel(int width, int height, Simulation[] listSimulations)
+    public Panel(int width, int height)
     {
-        listSimulation=listSimulations;
-
         this.setTitle("Task Scheduler Simulation");
         this.setSize(width, height);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -44,9 +47,9 @@ public final class Panel extends JFrame
         this.run();
     }
 
-    public Panel(Simulation[] listSimulations){
+    public Panel(){
 
-        this(800,600, listSimulations);
+        this(800,600);
     }
 
     public void run(){
@@ -126,9 +129,7 @@ public final class Panel extends JFrame
 
             controlContainer.add(container, BorderLayout.PAGE_START);
             controlContainer.add(control, BorderLayout.PAGE_END);
-System.out.println("test");
             this.setContentPane(controlContainer);
-System.out.println("test2");
             this.wait=false;
 
         }
@@ -155,10 +156,21 @@ System.out.println("test2");
         if (returnVal == JFileChooser.APPROVE_OPTION)
 	{
             File file = chooseFile.getSelectedFile();
-            Task [] tasks=Task.createBatchFromFile(file.getPath());
-            listSimulation[0] = new Simulation(new SmallestPathScheduler(), tasks);
-            listSimulation[1] = new Simulation(new SingleFrequencyScheduler(), tasks);
-            listSimulation[2] = new Simulation(new DumbScheduler(), tasks);
+            tasks=Task.createBatchFromFile(file.getPath());
         }
+    }
+
+    void generateRandomBatch() {
+        
+            tasks = null;
+	    tasks = Task.createRandomBatch(Main.NUMBER_OF_TASK, Main.TIME_INTERVAL);
+    }
+
+    Task[] getTasks() {
+        return tasks;
+    }
+
+    void setSimulations(Simulation[] simulations) {
+        listSimulation=simulations;
     }
 }

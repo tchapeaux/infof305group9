@@ -31,33 +31,8 @@ public class Main {
 
 	    createRandomBatchColor(NUMBER_OF_TASK);
 
-	    Task[] tasks = null;
-	    if (args.length == 1)
-	    {
-		tasks = Task.createBatchFromFile(args[0]);
-	    }
-	    else
-	    {
-		tasks = Task.createRandomBatch(NUMBER_OF_TASK, TIME_INTERVAL);
-		// tasks= Task.createTestBatch();
-	    }
+	    pannel = new Panel(1200,800);
 
-
-	    Simulation[] simulations = new Simulation[Main.NUMBER_OF_SIMS];
-
-	    simulations[0] = new Simulation(new SmallestPathScheduler(), tasks);
-	    simulations[1] = new Simulation(new SingleFrequencyScheduler(), tasks);
-	    simulations[2] = new Simulation(new DumbScheduler(), tasks);
-
-	    Date t = new Date();
-	    startTime = t.getTime(); // number of ms since epoch
-
-
-	    pannel = new Panel(1200,800,simulations);
-
-	    /*SmallestPathScheduler.testSmallestPathSchedulersArticleExample();
-	    SmallestPathScheduler.testSmallestPathSchedulersLimitCases();
-	    SmallestPathScheduler.testSmallestPathSchedulerWithRandomBatch();*/
         }
 
         public static Color[] getColor()
