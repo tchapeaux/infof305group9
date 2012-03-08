@@ -1,5 +1,6 @@
 
 import java.awt.Checkbox;
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
@@ -23,6 +24,7 @@ public class GeneratorPanel extends JPanel implements ActionListener {
     GeneratorPanel(Panel father)
     {
         this.father=father;
+        this.setBackground(Color.white);
         this.setLayout(null);
         Insets insets = this.getInsets();
 
@@ -74,8 +76,8 @@ public class GeneratorPanel extends JPanel implements ActionListener {
             g.drawString("Choose your parameters:", this.getWidth()/2-80, 50);
             g.drawString("Choose "+Main.NUMBER_OF_SIMS+" algorithms:", 200, 100);
             g.drawString("If you choose Human Scheduler, schedule the tasks:", 200, 250);
-
-            drawTasks(father.getTasks(),g);
+            if (father.getTasks() != null)
+                drawTasks(father.getTasks(),g);
     }
 
     @Override
@@ -83,15 +85,11 @@ public class GeneratorPanel extends JPanel implements ActionListener {
         if ("random".equals(e.getActionCommand()))
         {
             father.generateRandomBatch();
-            randomGen.setEnabled(false);
-            fileGen.setEnabled(true);
             this.repaint();
         }
         else if ("fromFile".equals(e.getActionCommand()))
 	{
 	    father.generateBatchFromFile();
-            fileGen.setEnabled(false);
-            randomGen.setEnabled(true);
             this.repaint();
 	}
         else if ("confirm".equals(e.getActionCommand()))
@@ -100,7 +98,7 @@ public class GeneratorPanel extends JPanel implements ActionListener {
             if (SmallestPath.getState()) pushMe.push(new SmallestPathScheduler());
             if (SingleFreq.getState()) pushMe.push(new SingleFrequencyScheduler());
             if (DumbSched.getState()) pushMe.push(new DumbScheduler());
-            if (HumanSched.getState()) new UnsupportedOperationException("Not yet implemented");//pushMe.push(new HumanScheduler());
+            if (HumanSched.getState()) pushMe.push(new HumanScheduler().initialize(new Point2DFloatList()));
 
             if (pushMe.size() == Main.NUMBER_OF_SIMS)
             {
@@ -116,6 +114,17 @@ public class GeneratorPanel extends JPanel implements ActionListener {
     }
 
     private void drawTasks(Task[] tasks, Graphics g) {
-        //throw new UnsupportedOperationException("Not yet implemented");
+        float maxTime = Main.TIME_INTERVAL;
+        this.getWidth();
+        for (int i=0; i<tasks.length; i++)
+        {
+            g.drawRect((int)(tasks[i].startTime/maxTime*this.getWidth()),
+                       250+20+31*i,
+                       (int)((tasks[i].endTime-tasks[i].startTime)/maxTime*this.getWidth()),
+                       30);
+                    /*tasks[i].endTime
+                            tasks[i].wcet*instantProcSpeed*/
+                                    
+        }
     }
 }

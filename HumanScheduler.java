@@ -2,9 +2,10 @@ public class HumanScheduler implements Scheduler
 {
     protected Point2DFloatList mySpeeds;
 
-    public void initialize(Point2DFloatList theSpeeds)
+    public HumanScheduler initialize(Point2DFloatList theSpeeds)
     {
 	mySpeeds = theSpeeds;
+        return this;
     }
 
     public void update(float deltaSpeed, float time)

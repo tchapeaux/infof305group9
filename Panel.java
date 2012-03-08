@@ -1,7 +1,4 @@
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.GridLayout;
+import java.awt.*;
 import java.io.File;
 import java.util.Date;
 import javax.swing.JFileChooser;
@@ -41,7 +38,7 @@ public final class Panel extends JFrame
         this.setSize(width, height);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setLocationRelativeTo(null);
-
+        this.setBackground(Color.white);
         this.setContentPane(genContainer);
         this.setVisible(true);
         this.run();
