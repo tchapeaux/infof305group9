@@ -32,22 +32,22 @@ public class GeneratorPanel extends JPanel implements ActionListener {
 
         randomGen.setBounds(1200/2 -325 + insets.left, 10 + insets.top,
              300, 25);
-        
-        
+
+
         fileGen.setActionCommand("fromFile");
         fileGen.addActionListener(this);
         this.add(fileGen);
-        
+
         fileGen.setBounds(1200/2 + 25 + insets.left, 10 + insets.top,
              300, 25);
-        
+
         confirm.setActionCommand("confirm");
         confirm.addActionListener(this);
         this.add(confirm);
-        
+
         confirm.setBounds(1200 - 350 + insets.left, 800 - 75 + insets.top,
              300, 25);
-        
+
         SmallestPath.setBounds(250 + insets.left, 120 + insets.top,
              300, 25);
         SingleFreq.setBounds(250 + insets.left, 150 + insets.top,
@@ -60,21 +60,21 @@ public class GeneratorPanel extends JPanel implements ActionListener {
         this.add(SingleFreq);
         this.add(HumanSched);
         this.add(DumbSched);
-        
+
         randomGen.setVisible(true);
         fileGen.setVisible(true);
         SmallestPath.setVisible(true);
         confirm.setVisible(true);
-        
+
         this.repaint();
     }
 
     @Override
 	public void paintComponent(Graphics g){
-            g.drawString("Choose your parameters :", this.getWidth()/2-80, 50);
-            g.drawString("Choose "+Main.NUMBER_OF_SIMS+" algorithms :", 200, 100);
-            g.drawString("If you choose Human Scheduler, ordonize the tasks :", 200, 250);
-            
+            g.drawString("Choose your parameters:", this.getWidth()/2-80, 50);
+            g.drawString("Choose "+Main.NUMBER_OF_SIMS+" algorithms:", 200, 100);
+            g.drawString("If you choose Human Scheduler, schedule the tasks:", 200, 250);
+
             drawTasks(father.getTasks(),g);
     }
 
@@ -101,7 +101,7 @@ public class GeneratorPanel extends JPanel implements ActionListener {
             if (SingleFreq.getState()) pushMe.push(new SingleFrequencyScheduler());
             if (DumbSched.getState()) pushMe.push(new DumbScheduler());
             if (HumanSched.getState()) new UnsupportedOperationException("Not yet implemented");//pushMe.push(new HumanScheduler());
-            
+
             if (pushMe.size() == Main.NUMBER_OF_SIMS)
             {
                 Simulation[] simulations = new Simulation[Main.NUMBER_OF_SIMS];
