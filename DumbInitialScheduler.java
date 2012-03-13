@@ -1,4 +1,4 @@
-public class DumbScheduler implements Scheduler
+public class DumbInitialScheduler implements InitialScheduler
 {
 	public boolean schedule(Task[] batch, Point2DFloatList speeds, float timeInterval)
 	{

@@ -130,7 +130,7 @@ public class SimulationPanel extends JPanel {
 
 		font = new Font("Arial", Font.PLAIN, 15);
 		g.setFont(font);
-		g.drawString(sim.getSchedulerType(), getWidth()-pixelsForText+15, 50);
+		g.drawString(sim.getInitialSchedulerType(), getWidth()-pixelsForText+15, 50);
 
 		font = new Font("Arial", Font.PLAIN, 15);
 		g.setFont(font);

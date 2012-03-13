@@ -4,7 +4,8 @@ import java.util.*;
 public class Simulation
 {
 	protected Task[] taskBatch;
-	protected Scheduler scheduler;
+	protected InitialScheduler myInitialScheduler;
+	protected InlineScheduler myInlineScheduler;
 	protected float currentTime=-2000; // elapsed time
         protected float showedTime=0;
 		public float getCurrentTime() {return this.currentTime+this.showedTime;}
@@ -32,7 +33,7 @@ public class Simulation
 	    public boolean isComputing() {return isComputing;}
 	    protected void setIsComputing(boolean newValue) {isComputing=newValue;}
 
-	public Simulation(Scheduler scheduler, Task[] taskBatch)
+	public Simulation(InitialScheduler initialScheduler, InlineScheduler inlineScheduler, Task[] taskBatch)
 	{
 		this.timeInterval = Main.TIME_INTERVAL;
 		this.taskBatch = new Task[Main.NUMBER_OF_TASK];
@@ -42,9 +43,11 @@ public class Simulation
 		for (int i=0; i<taskBatch.length; i++)
 			this.taskBatch[i] = taskBatch[i].clone();
 
-                scheduler.schedule(this.taskBatch, theSpeeds, timeInterval);
+		this.myInitialScheduler = initialScheduler;
+                myInitialScheduler.schedule(this.taskBatch, theSpeeds, timeInterval);
 
-		this.scheduler = scheduler;
+		this.myInlineScheduler = inlineScheduler;
+
 		this.speeds = theSpeeds;
 		isComputing = false;
 		isComputing = false;
@@ -66,7 +69,8 @@ public class Simulation
 		float endPoint = startPoint + elapsedMs;
 		Stack<Task> tasksInInterval = new Stack<Task>();
 
-		// TODO : if in-line algorithm : reschedule the tasks
+		myInlineScheduler.schedule(this.taskBatch, this.getSpeeds(), this.timeInterval);
+
 		for(int i = 0; i < taskBatch.length; i++) // ??-> does this go through the array in the logical order??
 		{
 		    Task eachTask = taskBatch[i];
@@ -120,9 +124,9 @@ public class Simulation
 		return taskBatch.length;
 	}
 
-	public String getSchedulerType()
+	public String getInitialSchedulerType()
 	{
-		return scheduler.getName();
+		return myInitialScheduler.getName();
 	}
 
     void showTime(int i) {

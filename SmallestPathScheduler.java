@@ -1,8 +1,8 @@
 import java.util.*;
 
-/* This Scheduler returns a speeds list for different time intervals
+/* This InitialScheduler returns a speeds list for different time intervals
 	and rearrange the tasks vector according to EDF priority */
-public class SmallestPathScheduler implements Scheduler
+public class SmallestPathScheduler implements InitialScheduler
 {
 	public boolean schedule(Task[] batch, Point2DFloatList speeds, float timeInterval)
 	{

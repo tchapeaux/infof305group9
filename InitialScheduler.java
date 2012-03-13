@@ -1,7 +1,8 @@
-interface Scheduler
+interface InitialScheduler
 {
 	public boolean schedule(Task[] batch, Point2DFloatList speeds, float timeInterval);
-	// Return the list of speeds in the time interval
+	// Put the list of speeds for the time interval in 'speeds'
 	// Reorder the Array with the most prioritary task first
+	// return false in case of trouble
 	public String getName();
 }
