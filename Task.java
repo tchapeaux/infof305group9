@@ -40,7 +40,7 @@ public class Task
 		public float getActualEt() {return this.actual_et;}
 
 	protected List<float[]> completion = new ArrayList<float[]>(); // float [0] = time; float [1] = completion (0->1)
-	
+
 
 	public float getCompletion() {return (this.completion.get(this.completion.size()-1))[1];}
 
@@ -90,10 +90,12 @@ public class Task
 
 	public static float generateInRange(float min, float max)
 	{
-		Random r = new Random();
-
-		int temp = r.nextInt(	(int)	((max-min)*1000)	);
-		return (float)(temp/1000.0) + min;
+	    if (min == max)
+		return max;
+	    // else
+	    Random r = new Random();
+	    int temp = r.nextInt(	(int)	((max-min)*1000)	);
+	    return (float)(temp/1000.0) + min;
 	}
 
 	public void generateValuesFor(float timeInterval, int id, int numberOfTasks)
@@ -125,6 +127,37 @@ public class Task
             }
             while (!isFeasable(batch, timeInterval));
             Arrays.sort(batch, new EndTimeComparator());
+            return batch;
+	}
+
+	public static Task[] createRandomFifoBatch(int numberOfTasks, float timeInterval)
+	{
+            Task[] batch;
+            batch = new Task[numberOfTasks];
+	    float eachInterv = timeInterval / (float)numberOfTasks;
+            do
+            {
+		float lastStart = 0;
+		float lastEnd = 0;
+                for (int i = 0; i < numberOfTasks; ++i)
+                {
+		    float startInterv = i*eachInterv;
+		    System.out.println("startInterv = " + Float.toString(startInterv));
+		    float endInterv = (i+1)*eachInterv;
+		    float st = Task.generateInRange(lastStart, lastStart + eachInterv);
+		    System.out.println("st = " + Float.toString(st));
+		    System.out.println("max("+ Float.toString(lastEnd) + "," + Float.toString(lastStart + eachInterv) + ")");
+		    float et = Task.generateInRange(Math.max(lastEnd, lastStart + eachInterv), endInterv);
+		    System.out.println("et = " + Float.toString(et));
+		    float wcet = Task.generateInRange((et-st)/2, et-st);
+		    float aet = Task.generateInRange(wcet/2, wcet);
+		    lastStart = st; // for next loop
+		    lastEnd = et;
+                    batch[i] = new Task();
+                    batch[i].setValues(st,et,wcet,aet);
+                }
+            }
+            while (!isFeasable(batch, timeInterval));
             return batch;
 	}
 
