@@ -1,7 +1,7 @@
 
 import java.util.*;
 
-public class SingleFrequencyScheduler implements Scheduler {
+public class SingleFrequencyScheduler implements InitialScheduler {
 
     public boolean schedule(Task[] batch, Point2DFloatList speeds, float timeInterval)
     {

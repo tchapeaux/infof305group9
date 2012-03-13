@@ -91,8 +91,8 @@ public class GeneratorPanel extends JPanel implements ActionListener,ChangeListe
     public void actionPerformed(ActionEvent e) {
         if ("random".equals(e.getActionCommand()))
         {
-	    // father.generateRandomBatch();
-	    father.generateRandomFifoBatch();
+	    father.generateRandomBatch();
+	    //father.generateRandomFifoBatch();
             createProgressBar();
             this.repaint();
         }
@@ -107,16 +107,16 @@ public class GeneratorPanel extends JPanel implements ActionListener,ChangeListe
             Stack pushMe = new Stack();
             if (SmallestPath.getState()) pushMe.push(new SmallestPathScheduler());
             if (SingleFreq.getState()) pushMe.push(new SingleFrequencyScheduler());
-            if (DumbSched.getState()) pushMe.push(new DumbScheduler());
+            if (DumbSched.getState()) pushMe.push(new DumbInitialScheduler());
             if (HumanSched.getState()) pushMe.push(new HumanScheduler().initialize(new Point2DFloatList()));
 
             if (pushMe.size() == Main.NUMBER_OF_SIMS)
             {
                 Simulation[] simulations = new Simulation[Main.NUMBER_OF_SIMS];
 
-                simulations[2] = new Simulation((Scheduler)pushMe.pop(), father.getTasks());
-                simulations[1] = new Simulation((Scheduler)pushMe.pop(), father.getTasks());
-                simulations[0] = new Simulation((Scheduler)pushMe.pop(), father.getTasks());
+                simulations[2] = new Simulation((InitialScheduler)pushMe.pop(), new DumbInlineScheduler(),  father.getTasks());
+                simulations[1] = new Simulation((InitialScheduler)pushMe.pop(), new DumbInlineScheduler(),  father.getTasks());
+                simulations[0] = new Simulation((InitialScheduler)pushMe.pop(), new DumbInlineScheduler(),  father.getTasks());
                 father.setSimulations(simulations);
                 father.switchView();
             }
