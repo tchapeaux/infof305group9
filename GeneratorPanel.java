@@ -7,7 +7,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.LinkedList;
 import java.util.Stack;
-import javax.swing.*;
+import javax.swing.JButton;
+import javax.swing.JFormattedTextField;
+import javax.swing.JPanel;
+import javax.swing.JSlider;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
@@ -25,7 +28,8 @@ public class GeneratorPanel extends JPanel implements ActionListener,ChangeListe
 
     protected LinkedList<JFormattedTextField> CPUSpeed;
     protected LinkedList<JSlider> timeInterval;
-
+    protected JFormattedTextField startSpeed;
+    
     GeneratorPanel(Panel father)
     {
         this.father=father;
@@ -108,7 +112,25 @@ public class GeneratorPanel extends JPanel implements ActionListener,ChangeListe
             if (SmallestPath.getState()) pushMe.push(new SmallestPathScheduler());
             if (SingleFreq.getState()) pushMe.push(new SingleFrequencyScheduler());
             if (DumbSched.getState()) pushMe.push(new DumbInitialScheduler());
-            if (HumanSched.getState()) pushMe.push(new HumanScheduler().initialize(new Point2DFloatList()));
+            if (HumanSched.getState())
+            {
+                Point2DFloatList temp = new Point2DFloatList();
+                temp.add(new Point2DFloat(Float.parseFloat(startSpeed.getText())/100,0));
+                
+                System.out.println(Float.parseFloat(startSpeed.getText())/100+" 0");
+                for (int i= 0 ; i< CPUSpeed.size(); i++)
+                {
+                    float temp_v = Float.parseFloat(CPUSpeed.get(i).getText())/100;
+                    float temp_t = timeInterval.get(i).getValue();
+                    temp.add(new Point2DFloat(temp_v,temp_t));
+                    
+                    System.out.println(temp_v+" "+temp_t);
+                }
+                HumanScheduler tempSched= new HumanScheduler();
+                tempSched.initialize(temp);
+                pushMe.push(tempSched);
+                
+            }
 
             if (pushMe.size() == Main.NUMBER_OF_SIMS)
             {
@@ -139,19 +161,56 @@ public class GeneratorPanel extends JPanel implements ActionListener,ChangeListe
     }
 
     private void createProgressBar() {
-        //CPUSpeed = new LinkedList<JSpinner>();
 
         CPUSpeed = new LinkedList<JFormattedTextField>();
 
         timeInterval = new LinkedList<JSlider>();
+        startSpeed = new JFormattedTextField ();
+        startSpeed.setBounds(getWidth()-75, 250+20+31*father.getTasks().length, 50, 25);
+        startSpeed.setValue(100.0);
+        this.add(startSpeed);
+        addSlider();
+        while (timeInterval.getLast().getBounds().getY() < this.getHeight() - 80)
+                addSlider();
+    }
+    
+    
+    @Override
+    public void stateChanged(ChangeEvent e)
+    {
+        JSlider source = (JSlider)e.getSource();
+        if (!source.getValueIsAdjusting())
+        {
+            boolean found=false;
+            for (int i = 0 ; i< timeInterval.size(); i++)
+            {
+                JSlider aSlider=timeInterval.get(i);
+                if (aSlider == source)
+                    found = true;
+                else if (! found)
+                    aSlider.setValue(Math.min(aSlider.getValue(), source.getValue()));
+                else
+                    aSlider.setValue(Math.max(aSlider.getValue(), source.getValue()));
+                
+            }
+            father.repaint();
+        }
+    }
+
+    private void addSlider() {
+        int lastVal=0;
+        if (timeInterval.size() > 0)
+            lastVal=timeInterval.getLast().getValue();
         CPUSpeed.add(new JFormattedTextField(1.0));
         timeInterval.add(new JSlider());
 
-        CPUSpeed.getLast().setValue(1.0);
-        timeInterval.getLast().setMajorTickSpacing(5);
+        timeInterval.getLast().setBackground(Color.WHITE);
 
-        CPUSpeed.getLast().setColumns(10);
-        //CPUSpeed.getLast().addChangeListener(this);
+        CPUSpeed.getLast().setValue(100.0);
+        timeInterval.getLast().setMajorTickSpacing(5);
+        timeInterval.getLast().setMinimum(0);
+        timeInterval.getLast().setMaximum(Main.TIME_INTERVAL);
+        timeInterval.getLast().setValue(lastVal);
         timeInterval.getLast().addChangeListener(this);
 
         Insets insets = this.getInsets();
@@ -159,31 +218,13 @@ public class GeneratorPanel extends JPanel implements ActionListener,ChangeListe
         this.add(CPUSpeed.getLast());
         this.add(timeInterval.getLast());
 
-        CPUSpeed.getLast().setBounds(this.getWidth()-200 + insets.left,
+        CPUSpeed.getLast().setBounds(this.getWidth()-75 + insets.left,
                     250+20+31*father.getTasks().length + 30* CPUSpeed.size() + insets.top,
-                    100,
+                    50,
                     25);
-        timeInterval.getLast().setBounds(100 + insets.left,
+        timeInterval.getLast().setBounds(75 + insets.left,
                     250+20+31*father.getTasks().length + 30* CPUSpeed.size() + insets.top,
-                    this.getWidth()-300,
+                    this.getWidth()-150,
                     25);
-
     }
-
-
-    @Override
-    public void stateChanged(ChangeEvent e)
-    {
-        JSlider source = (JSlider)e.getSource();
-        if (!source.getValueIsAdjusting())
-        {
-            addSlider();
-            father.repaint();
-        }
-    }
-
-    private void addSlider() {
-        throw new UnsupportedOperationException("Not yet implemented");
-    }
-
 }
