@@ -17,7 +17,7 @@ public final class Panel extends JFrame
 
     protected Simulation[] listSimulation;
     protected ControlPanel control = new ControlPanel(this);
-    
+
     protected Task [] tasks;
 
     protected float timeFactor = 0.5F;
@@ -107,10 +107,10 @@ public final class Panel extends JFrame
         }
         else if (this.getContentPane() == genContainer)
         {
-            
+
             controlContainer = new JPanel();
             controlContainer.setBackground(Color.white);
-        
+
             container = new JPanel();
             container.setBackground(Color.white);
             container.setLayout(new GridLayout(Main.NUMBER_OF_SIMS,1));
@@ -158,9 +158,12 @@ public final class Panel extends JFrame
     }
 
     void generateRandomBatch() {
-        
             tasks = null;
 	    tasks = Task.createRandomBatch(Main.NUMBER_OF_TASK, Main.TIME_INTERVAL);
+    }
+    void generateRandomFifoBatch() {
+            tasks = null;
+	    tasks = Task.createRandomFifoBatch(Main.NUMBER_OF_TASK, Main.TIME_INTERVAL);
     }
 
     Task[] getTasks() {

@@ -25,7 +25,7 @@ public class GeneratorPanel extends JPanel implements ActionListener,ChangeListe
 
     protected LinkedList<JFormattedTextField> CPUSpeed;
     protected LinkedList<JSlider> timeInterval;
-    
+
     GeneratorPanel(Panel father)
     {
         this.father=father;
@@ -91,7 +91,8 @@ public class GeneratorPanel extends JPanel implements ActionListener,ChangeListe
     public void actionPerformed(ActionEvent e) {
         if ("random".equals(e.getActionCommand()))
         {
-            father.generateRandomBatch();
+	    // father.generateRandomBatch();
+	    father.generateRandomFifoBatch();
             createProgressBar();
             this.repaint();
         }
@@ -133,26 +134,26 @@ public class GeneratorPanel extends JPanel implements ActionListener,ChangeListe
                        30);
                     /*tasks[i].endTime
                             tasks[i].wcet*instantProcSpeed*/
-                                    
+
         }
     }
 
     private void createProgressBar() {
         //CPUSpeed = new LinkedList<JSpinner>();
-        
+
         CPUSpeed = new LinkedList<JFormattedTextField>();
-        
+
         timeInterval = new LinkedList<JSlider>();
         CPUSpeed.add(new JFormattedTextField(1.0));
         timeInterval.add(new JSlider());
-        
+
         CPUSpeed.getLast().setValue(1.0);
         timeInterval.getLast().setMajorTickSpacing(5);
-        
+
         CPUSpeed.getLast().setColumns(10);
         //CPUSpeed.getLast().addChangeListener(this);
         timeInterval.getLast().addChangeListener(this);
-        
+
         Insets insets = this.getInsets();
 
         this.add(CPUSpeed.getLast());
@@ -166,10 +167,10 @@ public class GeneratorPanel extends JPanel implements ActionListener,ChangeListe
                     250+20+31*father.getTasks().length + 30* CPUSpeed.size() + insets.top,
                     this.getWidth()-300,
                     25);
-        
+
     }
-    
-    
+
+
     @Override
     public void stateChanged(ChangeEvent e)
     {
