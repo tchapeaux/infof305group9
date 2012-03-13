@@ -2,10 +2,9 @@ public class HumanScheduler implements InitialScheduler
 {
     protected Point2DFloatList mySpeeds;
 
-    public HumanScheduler initialize(Point2DFloatList theSpeeds)
+    public void initialize(Point2DFloatList theSpeeds)
     {
-	mySpeeds = theSpeeds;
-        return this;
+	this.mySpeeds = theSpeeds;
     }
 
     public void update(float deltaSpeed, float time)
@@ -22,7 +21,11 @@ public class HumanScheduler implements InitialScheduler
 
     public boolean schedule(Task[] batch, Point2DFloatList speeds, float timeInterval)
     {
-	speeds = mySpeeds;
+	speeds.clear();
+	for(Point2DFloat speed:mySpeeds)
+	{
+	    speeds.add(speed);
+	}
 	return true;
     }
 

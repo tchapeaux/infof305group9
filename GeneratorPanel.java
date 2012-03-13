@@ -29,7 +29,7 @@ public class GeneratorPanel extends JPanel implements ActionListener,ChangeListe
     protected LinkedList<JFormattedTextField> CPUSpeed;
     protected LinkedList<JSlider> timeInterval;
     protected JFormattedTextField startSpeed;
-    
+
     GeneratorPanel(Panel father)
     {
         this.father=father;
@@ -116,20 +116,19 @@ public class GeneratorPanel extends JPanel implements ActionListener,ChangeListe
             {
                 Point2DFloatList temp = new Point2DFloatList();
                 temp.add(new Point2DFloat(Float.parseFloat(startSpeed.getText())/100,0));
-                
+
                 System.out.println(Float.parseFloat(startSpeed.getText())/100+" 0");
                 for (int i= 0 ; i< CPUSpeed.size(); i++)
                 {
                     float temp_v = Float.parseFloat(CPUSpeed.get(i).getText())/100;
                     float temp_t = timeInterval.get(i).getValue();
                     temp.add(new Point2DFloat(temp_v,temp_t));
-                    
-                    System.out.println(temp_v+" "+temp_t);
+
                 }
                 HumanScheduler tempSched= new HumanScheduler();
                 tempSched.initialize(temp);
                 pushMe.push(tempSched);
-                
+
             }
 
             if (pushMe.size() == Main.NUMBER_OF_SIMS)
@@ -173,8 +172,8 @@ public class GeneratorPanel extends JPanel implements ActionListener,ChangeListe
         while (timeInterval.getLast().getBounds().getY() < this.getHeight() - 80)
                 addSlider();
     }
-    
-    
+
+
     @Override
     public void stateChanged(ChangeEvent e)
     {
@@ -191,7 +190,7 @@ public class GeneratorPanel extends JPanel implements ActionListener,ChangeListe
                     aSlider.setValue(Math.min(aSlider.getValue(), source.getValue()));
                 else
                     aSlider.setValue(Math.max(aSlider.getValue(), source.getValue()));
-                
+
             }
             father.repaint();
         }
