@@ -21,19 +21,21 @@ public class SmallestPathScheduler implements InitialScheduler
 				return false;
 			this.makeStartPoint(batch, La, Ld, Lv, Lw, L);
 			this.makeUpperPointsList(La, batch);
-			//System.out.println("------------------------La");
-			//La.print();
+			System.out.println("------------------------La");
+			La.print();
 			this.makeLowerPointsList(Ld, batch);
-			//System.out.println("------------------------Ld");
-			//Ld.print();
+			System.out.println("------------------------Ld");
+			Ld.print();
 			// check A(t) >= D(t)
 			this.meltLists(La, Ld, L);
-			//System.out.println("------------------------L");
-			//L.print();
+			System.out.println("------------------------L");
+			L.print();
 			this.makeSmallestPath(L, La, Ld, Lv, Lw, V);
-			//System.out.println("------------------------V");
-			//V.print();
+			System.out.println("------------------------V");
+			V.print();
             		this.computeSpeeds(V, theSpeeds);
+			System.out.println("------------------------speeds");
+			theSpeeds.print();
             		if (!this.checkSpeeds(theSpeeds))
 				return false;
 			this.EDF(batch);
