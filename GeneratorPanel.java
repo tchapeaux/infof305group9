@@ -5,6 +5,7 @@ import java.awt.Graphics;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Stack;
 import javax.swing.JButton;
@@ -88,7 +89,11 @@ public class GeneratorPanel extends JPanel implements ActionListener,ChangeListe
             g.drawString("Choose "+Main.NUMBER_OF_SIMS+" algorithms:", 200, 100);
             g.drawString("If you choose Human Scheduler, schedule the tasks:", 200, 250);
             if (father.getTasks() != null)
+            {
                 drawTasks(father.getTasks(),g);
+                drawTimeSeparation(father.getTasks().length,g);
+                g.drawString("Start speed:", this.getWidth()-148, 287 + 31*father.getTasks().length);
+            }
     }
 
     @Override
@@ -147,9 +152,63 @@ public class GeneratorPanel extends JPanel implements ActionListener,ChangeListe
     private void drawTasks(Task[] tasks, Graphics g) {
         float maxTime = Main.TIME_INTERVAL;
         this.getWidth();
+        int start= Main.TIME_INTERVAL;
+        float taskStart [] = new float [tasks.length];
+        float taskWCET [] = new float [tasks.length];
+        int startingTask=0;
+        for (int i=0; i< tasks.length; i++)
+        {
+            if (Math.min(start, (int)tasks[i].startTime) != start)
+            {
+                start = Math.min(start, (int)tasks[i].startTime);
+                startingTask =i;
+            }
+            taskStart [i] = tasks[i].startTime;
+            taskWCET[i]=tasks[i].wcet;
+        }
+        
+        float newtSeparator=Main.TIME_INTERVAL;
+        int numberOfTheTask=99;
+        int numberOfTheSlider=99;
+        int numberOfBreakingTask=99;
+        for (int i=0; i< taskWCET.length; i++)
+        {
+            if (taskWCET[i]>start)
+            {
+                newtSeparator = Math.min(newtSeparator, taskWCET[i]);
+                numberOfTheTask=i;                                              // we are gonna finish this work
+            }
+        }
+        for (int i=0; i< timeInterval.size(); i++)
+        {
+            if (timeInterval.get(i).getValue()>start)
+            {
+                newtSeparator = Math.min(newtSeparator, timeInterval.get(i).getValue());
+                numberOfTheTask=99;
+                numberOfTheSlider=i;                                            // Slider limit progression
+            }
+        }
+        for (int i=0; i< startingTask; i++)
+        {
+            if (taskStart[i]>start && taskStart[i] < newtSeparator)
+            {
+                newtSeparator = taskStart[i];
+                numberOfTheTask=99;
+                numberOfBreakingTask=1;
+                numberOfTheTask=99;                                              // another task begin before end of current
+            }
+        }
+        
         for (int i=0; i<tasks.length; i++)
         {
-            g.drawRect((int)(tasks[i].startTime/maxTime*this.getWidth()),
+            g.setColor(Color.blue);
+            
+            g.fillRect((int)(tasks[i].startTime*this.getWidth()/maxTime),
+                       250+21+31*i,
+                       (int)((tasks[i].wcet)/maxTime*this.getWidth()),
+                       29);
+            g.setColor(Color.black);
+            g.drawRect((int)(tasks[i].startTime*this.getWidth()/maxTime),
                        250+20+31*i,
                        (int)((tasks[i].endTime-tasks[i].startTime)/maxTime*this.getWidth()),
                        30);
@@ -221,9 +280,19 @@ public class GeneratorPanel extends JPanel implements ActionListener,ChangeListe
                     250+20+31*father.getTasks().length + 30* CPUSpeed.size() + insets.top,
                     50,
                     25);
-        timeInterval.getLast().setBounds(75 + insets.left,
+        timeInterval.getLast().setBounds(insets.left,
                     250+20+31*father.getTasks().length + 30* CPUSpeed.size() + insets.top,
-                    this.getWidth()-150,
+                    this.getWidth()-75,
                     25);
+    }
+
+    private void drawTimeSeparation(int numberOfTask, Graphics g) {
+        float maxTime = Main.TIME_INTERVAL;
+        g.setColor(Color.red);
+        for (Iterator<JSlider> it = timeInterval.iterator(); it.hasNext();) {
+            JSlider separat = it.next();
+            g.drawLine((int)(separat.getValue()*this.getWidth()/maxTime), 270, (int)(separat.getValue()*this.getWidth()/maxTime), 270+ 31*numberOfTask);
+        }
+        g.setColor(Color.black);
     }
 }
