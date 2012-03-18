@@ -72,8 +72,9 @@ class ControlPanel extends JPanel implements ActionListener, ChangeListener{
 
     @Override
 	public void paintComponent(Graphics g){
-
+	super.paintComponent(g);
          g.drawString("Speed: "+father.getTimeFactor(),this.getWidth()-100,this.getHeight()/2);
+	 g.drawString("CurrentTime: " + father.getCurrentTime(), this.getWidth() - 300, this.getHeight()/2 + 10);
 
     }
 

@@ -24,9 +24,15 @@ public class Simulation
 		{
 		    Point2DFloat p = getSpeeds().get(i);
 			if (p.getY() > getCurrentTime())
-				return p.getX();
+			{
+			    return p.getX();
+			}
 		}
-		return 1;
+		// No correct value was found => return last value or 1
+		if (!getSpeeds().isEmpty())
+		    return getSpeeds().get(getSpeeds().size()-1).getX();
+		else
+		    return 1;
 	}
 
 	protected boolean isComputing;
@@ -51,8 +57,8 @@ public class Simulation
 		this.speeds = theSpeeds;
 		isComputing = false;
 		isComputing = false;
-		//    System.out.println("I'm " + myInitialScheduler.getName() + " and I got this :");
-		//    this.speeds.print();
+		//System.out.println("I'm " + myInitialScheduler.getName() + " and I got this :");
+		//this.speeds.print();
 	}
 
 	public float upperAcceptedSpeed(float speed)

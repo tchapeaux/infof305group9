@@ -1,4 +1,4 @@
-public class HumanScheduler implements InitialScheduler
+public class HumanScheduler implements InitialScheduler, InlineScheduler
 {
     protected Point2DFloatList mySpeeds;
 

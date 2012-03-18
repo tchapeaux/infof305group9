@@ -90,6 +90,7 @@ public final class Panel extends JFrame
 				e.printStackTrace();
 			}
                         control.setProgress((int)listSimulation[0].getCurrentTime());
+			control.repaint();
 		}
     }
 
