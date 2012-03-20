@@ -106,7 +106,9 @@ public class Task
 		float newEt = newSt + duration;
                 float tempMax = Math.min(duration/2,timeInterval/numberOfTasks);
 		float newWcet = Task.generateInRange(tempMax/2, tempMax);
-		float newActualEt = Task.generateInRange(newWcet/2, newWcet);
+
+		// float newActualEt = Task.generateInRange(newWcet/2, newWcet); // "realistic" algorithm
+		float newActualEt = newWcet; // quick-fix, easier to understand for the general public
 
 		this.setValues(newSt, newEt, newWcet, newActualEt, id);
 	}
@@ -142,13 +144,9 @@ public class Task
                 for (int i = 0; i < numberOfTasks; ++i)
                 {
 		    float startInterv = i*eachInterv;
-		    System.out.println("startInterv = " + Float.toString(startInterv));
 		    float endInterv = (i+1)*eachInterv;
 		    float st = Task.generateInRange(lastStart, lastStart + eachInterv);
-		    System.out.println("st = " + Float.toString(st));
-		    System.out.println("max("+ Float.toString(lastEnd) + "," + Float.toString(lastStart + eachInterv) + ")");
 		    float et = Task.generateInRange(Math.max(lastEnd, lastStart + eachInterv), endInterv);
-		    System.out.println("et = " + Float.toString(et));
 		    float wcet = Task.generateInRange((et-st)/2, et-st);
 		    float aet = Task.generateInRange(wcet/2, wcet);
 		    lastStart = st; // for next loop

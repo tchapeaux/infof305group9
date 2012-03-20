@@ -57,10 +57,10 @@ public class GeneratorPanel extends JPanel implements ActionListener,ChangeListe
 
         confirm.setActionCommand("confirm");
         confirm.addActionListener(this);
-        
+
         repaint.setActionCommand("repaint");
         repaint.addActionListener(this);
-        
+
         SmallestPath.setBounds(250 + insets.left, 120 + insets.top,
              300, 25);
         SingleFreq.setBounds(250 + insets.left, 150 + insets.top,
@@ -110,7 +110,7 @@ public class GeneratorPanel extends JPanel implements ActionListener,ChangeListe
             confirm.setBounds(this.getWidth() - 350 + insets.left, this.getHeight() - 30 + insets.top, 300, 25);
             repaint.setBounds(this.getWidth() - 700 + insets.left, this.getHeight() - 30 + insets.top, 300, 25);
             this.repaint();
-            
+
         }
         else if ("fromFile".equals(e.getActionCommand()))
 	{
@@ -134,7 +134,7 @@ public class GeneratorPanel extends JPanel implements ActionListener,ChangeListe
                 Point2DFloatList temp = new Point2DFloatList();
                 temp.add(new Point2DFloat(Float.parseFloat(startSpeed.getText())/100,0));
 
-                System.out.println(Float.parseFloat(startSpeed.getText())/100+" 0");
+                //System.out.println(Float.parseFloat(startSpeed.getText())/100+" 0");
                 for (int i= 0 ; i< CPUSpeed.size(); i++)
                 {
                     float temp_v = Float.parseFloat(CPUSpeed.get(i).getText())/100;
@@ -144,7 +144,7 @@ public class GeneratorPanel extends JPanel implements ActionListener,ChangeListe
                 }
                 HumanScheduler tempSched= new HumanScheduler();
                 tempSched.initialize(temp);
-                pushMe.push(tempSched);
+		pushMe.push(tempSched);
 
             }
 
@@ -168,20 +168,22 @@ public class GeneratorPanel extends JPanel implements ActionListener,ChangeListe
     private void drawTasks(Task[] tasks, Graphics g) {
         float maxTime = Main.TIME_INTERVAL;
         {
-            Point2DFloatList temp = new Point2DFloatList();
-            temp.add(new Point2DFloat(Float.parseFloat(startSpeed.getText())/100,0));
+            Point2DFloatList tempSpeeds = new Point2DFloatList();
+            tempSpeeds.add(new Point2DFloat(Float.parseFloat(startSpeed.getText())/100,0));
 
             for (int i= 0 ; i< CPUSpeed.size(); i++)
             {
                 float temp_v = Float.parseFloat(CPUSpeed.get(i).getText())/100;
                 float temp_t = timeInterval.get(i).getValue();
-                temp.add(new Point2DFloat(temp_v,temp_t));
+                tempSpeeds.add(new Point2DFloat(temp_v,temp_t));
             }
             HumanScheduler tempSched= new HumanScheduler();
-            tempSched.initialize(temp);
-            Simulation tempSim = new Simulation ((InitialScheduler)tempSched, new DumbInlineScheduler(), tasks);
+            tempSched.initialize(tempSpeeds);
+	    System.out.println("drawTask");
+	    tempSpeeds.print();
+            Simulation tempSim = new Simulation (tempSched, new DumbInlineScheduler(), tasks);
             while (!tempSim.isDone())
-                tempSim.compute(100);
+                tempSim.compute(10);
             for (int j=0; j<tempSim.getTaskBatch().length; j++) //Task task: tempSim.getTaskBatch())
             {
                 g.setColor(Main.colorList[j]);
@@ -192,9 +194,9 @@ public class GeneratorPanel extends JPanel implements ActionListener,ChangeListe
                             (int) (250+20+31*j+evolution.get(i-1)[1]*29),
                             (int) (5+evolution.get(i)[0]*this.getWidth()/Main.TIME_INTERVAL),
                             (int) (250+20+31*j+evolution.get(i)[1]*29));
-                                            
+
             }
-        }      
+        }
         g.setColor(Color.black);
         for (int i=0; i<tasks.length; i++)
         {
@@ -289,7 +291,7 @@ public class GeneratorPanel extends JPanel implements ActionListener,ChangeListe
             if (taskStart[i] <= Main.TIME_INTERVAL)
                 test = false;
         return test;
-        
+
         /*for (int i=0; i<taskWCET.length; i++)
             if (taskWCET[i] != 0)
                 return false;
@@ -348,8 +350,8 @@ public class GeneratorPanel extends JPanel implements ActionListener,ChangeListe
                 numberOfTheSlider=99;                                              // another task begin before end of current
             }
         }
-        
-        
+
+
         {
             if (numberOfTheTask != 99)
             {
@@ -426,7 +428,7 @@ public class GeneratorPanel extends JPanel implements ActionListener,ChangeListe
             }
             else
                 throw new UnsupportedOperationException("Didnt found breaking task/slider");
-            
+
             System.out.println("start:");
             for (int i=0; i<taskStart.length; i++)
                 System.out.println(i+" "+taskStart[i]);
