@@ -5,14 +5,12 @@ import java.awt.Graphics;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Stack;
-import javax.swing.JButton;
-import javax.swing.JFormattedTextField;
-import javax.swing.JPanel;
-import javax.swing.JSlider;
+import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
@@ -23,6 +21,7 @@ public class GeneratorPanel extends JPanel implements ActionListener,ChangeListe
     protected JButton fileGen = new JButton("Generate batch from file");
     protected JButton confirm = new JButton("Confirm");
     protected JButton repaint = new JButton("Repaint");
+    protected JButton fileSche = new JButton("Generate scheduling from file");
     protected Panel father;
     protected Checkbox SmallestPath = new Checkbox("Smallest Path Scheduler", null, true);
     protected Checkbox SingleFreq = new Checkbox("Single Frequency Scheduler", null, true);
@@ -60,6 +59,9 @@ public class GeneratorPanel extends JPanel implements ActionListener,ChangeListe
 
         repaint.setActionCommand("repaint");
         repaint.addActionListener(this);
+
+	fileSche.setActionCommand("scheFromFile");
+	fileSche.addActionListener(this);
 
         SmallestPath.setBounds(250 + insets.left, 120 + insets.top,
              300, 25);
@@ -106,9 +108,11 @@ public class GeneratorPanel extends JPanel implements ActionListener,ChangeListe
             createProgressBar();
             this.add(confirm);
             this.add(repaint);
+	    this.add(fileSche);
             Insets insets = this.getInsets();
             confirm.setBounds(this.getWidth() - 350 + insets.left, this.getHeight() - 30 + insets.top, 300, 25);
             repaint.setBounds(this.getWidth() - 700 + insets.left, this.getHeight() - 30 + insets.top, 300, 25);
+	    fileSche.setBounds(this.getWidth() - 1050 + insets.left, this.getHeight() - 30 + insets.top, 300,25);
             this.repaint();
 
         }
@@ -159,10 +163,31 @@ public class GeneratorPanel extends JPanel implements ActionListener,ChangeListe
                 father.switchView();
             }
         }
-        else if ("repaint".equals(e.getActionCommand()))
+	else if ("repaint".equals(e.getActionCommand()))
         {
             father.repaint();
         }
+	else if ("scheFromFile".equals(e.getActionCommand()))
+	{
+	    // !!! TODO !!! //
+
+        JFileChooser chooseFile = new JFileChooser();
+        int returnVal = chooseFile.showOpenDialog(this);
+
+        if (returnVal == JFileChooser.APPROVE_OPTION)
+	{
+            File file = chooseFile.getSelectedFile();
+	    Point2DFloatList pl = new Point2DFloatList();
+	    pl.fillWithFile(file.getPath());
+	    /* AND NOW ????? */
+	    // pl contient la liste des vitesses, il faut mettre à jour les sliders & les valeurs en conséquence
+	    // Bonne chance!
+        }
+
+
+
+
+	}
     }
 
     private void drawTasks(Task[] tasks, Graphics g) {
@@ -179,9 +204,7 @@ public class GeneratorPanel extends JPanel implements ActionListener,ChangeListe
             }
             HumanScheduler tempSched= new HumanScheduler();
             tempSched.initialize(tempSpeeds);
-	    System.out.println("drawTask");
-	    tempSpeeds.print();
-            Simulation tempSim = new Simulation (tempSched, new DumbInlineScheduler(), tasks);
+	    Simulation tempSim = new Simulation (tempSched, new DumbInlineScheduler(), tasks);
             while (!tempSim.isDone())
                 tempSim.compute(10);
             for (int j=0; j<tempSim.getTaskBatch().length; j++) //Task task: tempSim.getTaskBatch())

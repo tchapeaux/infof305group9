@@ -107,8 +107,8 @@ public class Task
                 float tempMax = Math.min(duration/2,timeInterval/numberOfTasks);
 		float newWcet = Task.generateInRange(tempMax/2, tempMax);
 
-		// float newActualEt = Task.generateInRange(newWcet/2, newWcet); // "realistic" algorithm
-		float newActualEt = newWcet; // quick-fix, easier to understand for the general public
+		float newActualEt = Task.generateInRange(newWcet/2, newWcet); // "realistic" algorithm
+		//float newActualEt = newWcet; // quick-fix, easier to understand for the general public
 
 		this.setValues(newSt, newEt, newWcet, newActualEt, id);
 	}
