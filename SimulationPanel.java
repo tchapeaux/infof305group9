@@ -37,7 +37,7 @@ public class SimulationPanel extends JPanel {
 		    g.drawLine(lineX, 0, lineX, getHeight());
 		    g.drawString(Float.toString(p.getX()), lineX + 5, 20);
 		}
-		*/
+		//*/
 
                 // Draw tasks
 		int i=0;

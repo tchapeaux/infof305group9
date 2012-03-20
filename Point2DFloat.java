@@ -12,13 +12,13 @@ public class Point2DFloat implements Cloneable{
 		this.x = 0;
 		this.y = 0;
 	}
-        
+
 	public Point2DFloat(float x, float y)
 	{
 		this.x = x;
 		this.y = y;
 	}
-        
+
         public boolean equals(Point2DFloat pt)
         {
             if(this.getX() == pt.getX() && this.getY() == pt.getY())
@@ -41,25 +41,24 @@ public class Point2DFloat implements Cloneable{
 	{
 		return ( (p2.getY() - p1.getY()) / (p2.getX() - p1.getX()) );
 	}
-        
+
         public Object clone()
         {
             Object o = null;
-            try 
+            try
             {
                 o = super.clone();
-            } 
-            catch(CloneNotSupportedException e) 
+            }
+            catch(CloneNotSupportedException e)
             {
                 e.printStackTrace();
             }
             return o;
         }
-        
+
         public void print()
         {
-            System.out.println(this.getX());
-            System.out.println(this.getY());
+	    System.out.println("v:" + this.getX() + "|t:"+this.getY());
         }
 }
 

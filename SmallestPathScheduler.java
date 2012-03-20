@@ -21,20 +21,20 @@ public class SmallestPathScheduler implements InitialScheduler
 				return false;
 			this.makeStartPoint(batch, La, Ld, Lv, Lw, L);
 			this.makeUpperPointsList(La, batch);
-			System.out.println("------------------------La");
+			//System.out.println("------------------------La");
 			La.print();
 			this.makeLowerPointsList(Ld, batch);
-			System.out.println("------------------------Ld");
+			//System.out.println("------------------------Ld");
 			Ld.print();
 			// check A(t) >= D(t)
 			this.meltLists(La, Ld, L);
-			System.out.println("------------------------L");
+			//System.out.println("------------------------L");
 			L.print();
 			this.makeSmallestPath(L, La, Ld, Lv, Lw, V);
-			System.out.println("------------------------V");
+			//System.out.println("------------------------V");
 			V.print();
             		this.computeSpeeds(V, theSpeeds);
-			System.out.println("------------------------speeds");
+			//System.out.println("------------------------speeds");
 			theSpeeds.print();
             		if (!this.checkSpeeds(theSpeeds))
 				return false;
@@ -190,10 +190,10 @@ public class SmallestPathScheduler implements InitialScheduler
                                         }
 				}
 			}
-			/*System.out.println("-------------------------");
-			System.out.println("Lv");
+			/*//System.out.println("-------------------------");
+			//System.out.println("Lv");
 			Lv.print();
-			System.out.println("Lw");
+			//System.out.println("Lw");
 			Lw.print();*/
 		}
 		V.addAll(startPointsList);
@@ -333,20 +333,20 @@ public class SmallestPathScheduler implements InitialScheduler
 			else
 				theRealDuration = theDuration / theSpeed;
 
-			/*System.out.println("\ni");
-			System.out.println(i);
-			System.out.println("j");
-			System.out.println(j);
-			System.out.println("theTime");
-			System.out.println(theTime);
-			System.out.println("theDuration");
-			System.out.println(theDuration);
-			System.out.println("theRealDuration");
-			System.out.println(theRealDuration);
-			System.out.println("theSpeed");
-			System.out.println(theSpeed);
-			System.out.println("theSpeedTimeLimit");
-			System.out.println(theSpeedTimeLimit);*/
+			/*//System.out.println("\ni");
+			//System.out.println(i);
+			//System.out.println("j");
+			//System.out.println(j);
+			//System.out.println("theTime");
+			//System.out.println(theTime);
+			//System.out.println("theDuration");
+			//System.out.println(theDuration);
+			//System.out.println("theRealDuration");
+			//System.out.println(theRealDuration);
+			//System.out.println("theSpeed");
+			//System.out.println(theSpeed);
+			//System.out.println("theSpeedTimeLimit");
+			//System.out.println(theSpeedTimeLimit);*/
 
 			if (theTime + theRealDuration <= theSpeedTimeLimit)
 			{
@@ -405,8 +405,8 @@ public class SmallestPathScheduler implements InitialScheduler
 		SmallestPathScheduler Sp = new SmallestPathScheduler();
 		Sp.schedule(batch, speeds, timeInterval);
 
-		System.out.println("\nExample Test:");
-		System.out.println("speeds from SmallestPathScheduler: ");
+		//System.out.println("\nExample Test:");
+		//System.out.println("speeds from SmallestPathScheduler: ");
 		speeds.print();
         }
 
@@ -423,8 +423,8 @@ public class SmallestPathScheduler implements InitialScheduler
 		SmallestPathScheduler Sp = new SmallestPathScheduler();
 		Sp.schedule(batch, speeds, timeInterval);
 
-		System.out.println("\nLimit Cases Test:");
-		System.out.println("speeds from SmallestPathScheduler: ");
+		//System.out.println("\nLimit Cases Test:");
+		//System.out.println("speeds from SmallestPathScheduler: ");
 		speeds.print();
         }
 
@@ -436,14 +436,14 @@ public class SmallestPathScheduler implements InitialScheduler
 		Point2DFloatList speeds = new Point2DFloatList();
 		Sp.schedule(batch, speeds, Main.TIME_INTERVAL);
 
-		System.out.println("\nTest 3:");
-		System.out.println("speeds from SmallestPathScheduler");
+		//System.out.println("\nTest 3:");
+		//System.out.println("speeds from SmallestPathScheduler");
 		speeds.print();
 
 		if (!Sp.testBatchAndSpeeds(batch, speeds))
-			System.out.println("RandomTest failed");
+			;//System.out.println("RandomTest failed");
 		else
-			System.out.println("RandomTest succeed");
+			;//System.out.println("RandomTest succeed");
         }
 
 	public String getName()
