@@ -22,21 +22,21 @@ public class SmallestPathScheduler implements InitialScheduler
 			this.makeStartPoint(batch, La, Ld, Lv, Lw, L);
 			this.makeUpperPointsList(La, batch);
 			//System.out.println("------------------------La");
-			La.print();
+			//System.out.println(La.asString());
 			this.makeLowerPointsList(Ld, batch);
 			//System.out.println("------------------------Ld");
-			Ld.print();
+			//System.out.println(Ld.asString());
 			// check A(t) >= D(t)
 			this.meltLists(La, Ld, L);
 			//System.out.println("------------------------L");
-			L.print();
+			//System.out.println(L.asString());
 			this.makeSmallestPath(L, La, Ld, Lv, Lw, V);
 			//System.out.println("------------------------V");
-			V.print();
-            		this.computeSpeeds(V, theSpeeds);
+			//System.out.println(V.asString());
+			this.computeSpeeds(V, theSpeeds);
 			//System.out.println("------------------------speeds");
-			theSpeeds.print();
-            		if (!this.checkSpeeds(theSpeeds))
+			//System.out.println(theSpeeds.asString());
+			if (!this.checkSpeeds(theSpeeds))
 				return false;
 			this.EDF(batch);
 			if (!this.testBatchAndSpeeds(batch, theSpeeds))
@@ -407,8 +407,8 @@ public class SmallestPathScheduler implements InitialScheduler
 
 		//System.out.println("\nExample Test:");
 		//System.out.println("speeds from SmallestPathScheduler: ");
-		speeds.print();
-        }
+		//System.out.println(speeds.asString());
+			        }
 
 	public static void testSmallestPathSchedulersLimitCases()
         {
@@ -425,7 +425,7 @@ public class SmallestPathScheduler implements InitialScheduler
 
 		//System.out.println("\nLimit Cases Test:");
 		//System.out.println("speeds from SmallestPathScheduler: ");
-		speeds.print();
+		System.out.println(speeds.asString());
         }
 
 	public static void testSmallestPathSchedulerWithRandomBatch()
@@ -438,7 +438,8 @@ public class SmallestPathScheduler implements InitialScheduler
 
 		//System.out.println("\nTest 3:");
 		//System.out.println("speeds from SmallestPathScheduler");
-		speeds.print();
+		System.out.println(speeds.asString());
+
 
 		if (!Sp.testBatchAndSpeeds(batch, speeds))
 			;//System.out.println("RandomTest failed");

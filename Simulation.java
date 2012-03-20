@@ -6,6 +6,7 @@ public class Simulation
 	protected Task[] taskBatch;
 	protected InitialScheduler myInitialScheduler;
 	protected InlineScheduler myInlineScheduler;
+	public boolean hasHumanInitialScheduler() {return (myInitialScheduler.getName() == "You");}
 	protected float currentTime=-2000; // elapsed time
         protected float showedTime=0;
 		public float getCurrentTime() {return this.currentTime+this.showedTime;}
@@ -134,7 +135,7 @@ public class Simulation
 	{
 		return myInitialScheduler.getName();
 	}
-        
+
     void showTime(int i) {
         this.showedTime=i;
     }

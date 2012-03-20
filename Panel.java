@@ -147,6 +147,15 @@ public final class Panel extends JFrame
 	return s;
     }
 
+
+    public String printHumanScheduling()
+    {
+	for (Simulation simu:listSimulation)
+	    if (simu.hasHumanInitialScheduler())
+		return simu.getSpeeds().asString();
+
+	return "No Human Scheduling";
+    }
     public void generateBatchFromFile() {
         JFileChooser chooseFile = new JFileChooser();
         int returnVal = chooseFile.showOpenDialog(this);

@@ -56,9 +56,9 @@ public class Point2DFloat implements Cloneable{
             return o;
         }
 
-        public void print()
+        public String asString()
         {
-	    System.out.println("v:" + this.getX() + "|t:"+this.getY());
+	    return  Float.toString(this.getX()) + " , "+ Float.toString(this.getY());
         }
 }
 

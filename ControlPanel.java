@@ -108,9 +108,13 @@ class ControlPanel extends JPanel implements ActionListener, ChangeListener{
 	    Date t = new Date();
 	    long nowTime = t.getTime();
 	    try {
-		BufferedWriter out = new BufferedWriter(new FileWriter(Long.toString(nowTime) + ".txt"));
+		BufferedWriter out = new BufferedWriter(new FileWriter(Long.toString(nowTime) + "_batch.txt"));
 		out.write(father.printTaskBatch());
 		out.close();
+		out = new BufferedWriter(new FileWriter(Long.toString(nowTime) + "_scheduling.txt"));
+		out.write(father.printHumanScheduling());
+		out.close();
+
 	    } catch (IOException ex) {
 		ex.printStackTrace();
 	    }
