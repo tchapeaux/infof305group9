@@ -134,7 +134,7 @@ public class Simulation
 	{
 		return myInitialScheduler.getName();
 	}
-
+        
     void showTime(int i) {
         this.showedTime=i;
     }
