@@ -122,9 +122,11 @@ public class GeneratorPanel extends JPanel implements ActionListener,ChangeListe
             createProgressBar();
             this.add(confirm);
             this.add(repaint);
+            this.add(fileSche);
             Insets insets = this.getInsets();
             confirm.setBounds(this.getWidth() - 350 + insets.left, this.getHeight() - 30 + insets.top, 300, 25);
             repaint.setBounds(this.getWidth() - 700 + insets.left, this.getHeight() - 30 + insets.top, 300, 25);
+            fileSche.setBounds(this.getWidth() - 1050 + insets.left, this.getHeight() - 30 + insets.top, 300,25);
             this.repaint();
 	}
         else if ("confirm".equals(e.getActionCommand()))
@@ -182,6 +184,17 @@ public class GeneratorPanel extends JPanel implements ActionListener,ChangeListe
 	    /* AND NOW ????? */
 	    // pl contient la liste des vitesses, il faut mettre à jour les sliders & les valeurs en conséquence
 	    // Bonne chance!
+            if (pl.size()-1> CPUSpeed.size())
+                System.out.println("pl size:"+pl.size()+" cpuSpeedSize:"+CPUSpeed.size());
+            else
+            {
+                startSpeed.setText(String.valueOf(pl.get(0).getX()*100));
+                for (int i=1; i<pl.size(); i++)
+                {
+                    CPUSpeed.get(i-1).setText(String.valueOf(pl.get(i).getX()*100));
+                    timeInterval.get(i-1).setValue((int)(pl.get(i).getY()));
+                }
+            }
         }
 
 
@@ -213,9 +226,9 @@ public class GeneratorPanel extends JPanel implements ActionListener,ChangeListe
                 Task task = tempSim.getTaskBatch()[j];
                 List<float[]> evolution=task.getCompletionEvolution();
                 for (int i=1; i<evolution.size(); i++)
-                    g.drawLine((int) (5+evolution.get(i-1)[0]*this.getWidth()/Main.TIME_INTERVAL),
+                    g.drawLine((int) (evolution.get(i-1)[0]*this.getWidth()/Main.TIME_INTERVAL),
                             (int) (250+20+31*j+evolution.get(i-1)[1]*29),
-                            (int) (5+evolution.get(i)[0]*this.getWidth()/Main.TIME_INTERVAL),
+                            (int) (evolution.get(i)[0]*this.getWidth()/Main.TIME_INTERVAL),
                             (int) (250+20+31*j+evolution.get(i)[1]*29));
 
             }

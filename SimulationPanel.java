@@ -26,7 +26,7 @@ public class SimulationPanel extends JPanel {
 		 * (Thomas) J'ai mis en commentaire parce que même si ça marche,
 		 * c'est un peu moche pour le PdS. Je pense qu'en modifiant 2-3 trucs
 		 * ça pourrait donner bien, donc n'hésitez pas à décommenter
-		 * pour tester !
+		 * pour tester !*/
 		for (Point2DFloat p:sim.getSpeeds())
 		{
 		    g.setColor(Color.black);
@@ -34,8 +34,10 @@ public class SimulationPanel extends JPanel {
 		    g.setFont(font);
 		    System.out.println(getPresentTimeLine());
 		    int lineX = getPresentTimeLine() + (int)(-t1 + p.getY())*pixelsPerSecond/1000;
-		    g.drawLine(lineX, 0, lineX, getHeight());
-		    g.drawString(Float.toString(p.getX()), lineX + 5, 20);
+                    if (lineX > 5 && lineX < this.getWidth()-pixelsForText)
+                    {
+                        g.drawString(Float.toString(p.getX()), lineX + 5, 20);
+                    }
 		}
 		//*/
 
