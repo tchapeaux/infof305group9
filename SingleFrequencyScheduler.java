@@ -1,14 +1,28 @@
 
 import java.util.*;
-
+/** 
+  * This InitialScheduler returns a single speed for the hole time interval
+  * and sorts the tasks vector according to EDF priority
+  * @see InitialScheduler
+  * @author de Kryger Ode
+  * @version 2012.04.14
+  */
 public class SingleFrequencyScheduler implements InitialScheduler {
 
+    /** 
+     * computes the speeds according to Single Frequency's algorithm
+     * @params batch a set of jobs
+     * @params speeds write a single point with the speed and the time interval
+     * @params timeInterval time interval
+     * @return true if it succeeds to schedule the set of jobs
+    */	
     public boolean schedule(Task[] batch, Point2DFloatList speeds, float timeInterval)
     {
         float theSpeed = this.computeSpeed(batch,timeInterval);
     	try
     	{
-            this.checkFeasability(theSpeed);
+            if (!this.checkFeasability(theSpeed))
+		return false;
             this.EDF(batch);
     	}
     	catch (Exception e)
@@ -22,6 +36,12 @@ public class SingleFrequencyScheduler implements InitialScheduler {
         return true;
     }
 
+    /** 
+     * computes the single speed
+     * @params batch a set of jobs
+     * @params timeInterval time interval
+     * @return the computed speed
+    */	
     protected float computeSpeed(Task[] batch,float timeInterval)
     {
         float theSpeed = 0;
@@ -30,10 +50,16 @@ public class SingleFrequencyScheduler implements InitialScheduler {
         return theSpeed;
     }
 
-    protected void checkFeasability(float theSpeed) throws Exception
+    /** 
+     * @return true if the utility factor is below or equal to 1
+     * @params theSpeed the computed speed is the utility factor
+     * @see computeSpeed
+    */	
+    protected boolean checkFeasability(float theSpeed)
     {
     	if (theSpeed > 1)
-            throw new Exception("Unfeasable System: speed exceeds unit");
+            return false;
+	return true;
     }
 
     protected void EDF(Task[] batch) throws Exception

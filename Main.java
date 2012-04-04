@@ -28,6 +28,8 @@ public class Main {
 
 
         public static void main(String[] args){
+	
+	    SmallestPathScheduler.runScheduleTest();
 
 	    createRandomBatchColor(NUMBER_OF_TASK);
 
