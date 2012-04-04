@@ -11,9 +11,9 @@ public class SingleFrequencyScheduler implements InitialScheduler {
 
     /** 
      * computes the speeds according to Single Frequency's algorithm
-     * @params batch a set of jobs
-     * @params speeds write a single point with the speed and the time interval
-     * @params timeInterval time interval
+     * @param batch a set of jobs
+     * @param speeds write a single point with the speed and the time interval
+     * @param timeInterval time interval
      * @return true if it succeeds to schedule the set of jobs
     */	
     public boolean schedule(Task[] batch, Point2DFloatList speeds, float timeInterval)
@@ -38,8 +38,8 @@ public class SingleFrequencyScheduler implements InitialScheduler {
 
     /** 
      * computes the single speed
-     * @params batch a set of jobs
-     * @params timeInterval time interval
+     * @param batch a set of jobs
+     * @param timeInterval time interval
      * @return the computed speed
     */	
     protected float computeSpeed(Task[] batch,float timeInterval)
@@ -52,8 +52,7 @@ public class SingleFrequencyScheduler implements InitialScheduler {
 
     /** 
      * @return true if the utility factor is below or equal to 1
-     * @params theSpeed the computed speed is the utility factor
-     * @see computeSpeed
+     * @param theSpeed the computed speed is the utility factor
     */	
     protected boolean checkFeasability(float theSpeed)
     {
