@@ -1,4 +1,7 @@
-
+/** 
+  * @author de Kryger Ode
+  * @version 2012.04.14
+  */
 public class Point2DFloat implements Cloneable{
 
     float x;

@@ -5,6 +5,10 @@ import java.io.FileInputStream;
 import java.io.InputStreamReader;
 import java.util.*;
 
+/** 
+  * @author de Kryger Ode
+  * @version 2012.04.14
+  */
 public class Point2DFloatList extends LinkedList<Point2DFloat>{
 
 
@@ -15,14 +19,17 @@ public class Point2DFloatList extends LinkedList<Point2DFloat>{
         return (Point2DFloat)super.get(i);
     }
 
-    /*public boolean add(Point2DFloat p)
+    public boolean equals(Point2DFloatList l)
     {
-	//System.out.println("addekes");
-	Point2DFloat thePoint = new Point2DFloat(p.getX(), p.getY());
-	super.add( thePoint );
-	//System.out.println("add");
+	if (this.size() != l.size())
+		return false;
+	for(int i = 0; i < this.size(); i++)
+	{
+		if ( !this.get(i).equals(l.get(i)) )
+			return false;
+	}
 	return true;
-    }*/
+    }
 
     public boolean contains(Point2DFloat inPoint)
     {

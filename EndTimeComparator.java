@@ -1,5 +1,9 @@
 import java.util.*;
 
+/** 
+  * @author de Kryger Ode
+  * @version 2012.04.14
+  */
 public class EndTimeComparator implements Comparator<Task>
 {
 	public int compare(Task task1, Task task2)
