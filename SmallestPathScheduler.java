@@ -11,9 +11,9 @@ public class SmallestPathScheduler implements InitialScheduler
 {
 	/** 
 	  * compute the speeds according to Smallest Path's algorithm
-          * @params batch a set of jobs
-          * @params speeds write a speeds list for different time intervals
-          * @params timeInterval time interval
+          * @param batch a set of jobs
+          * @param speeds write a speeds list for different time intervals
+          * @param timeInterval time interval
           * @return true if it succeeds to schedule the set of jobs
           */	
 	public boolean schedule(Task[] batch, Point2DFloatList speeds, float timeInterval)
@@ -78,9 +78,6 @@ public class SmallestPathScheduler implements InitialScheduler
 		}
 	}
 
-	/** 
-	* @see makeUpperPointsList
-        */
 	protected float computeUpperPoint(Task[] inBatchTemp, Task inTask)
 	{
 		float res = 0;
@@ -104,9 +101,6 @@ public class SmallestPathScheduler implements InitialScheduler
 		}
 	}
 
-	/** 
-	* @see makeLowerPointsList
-        */
 	protected float computeLowerPoint(Task[] inBatchTemp, Task inTask)
 	{
 		float res = 0;
@@ -314,7 +308,7 @@ public class SmallestPathScheduler implements InitialScheduler
 	}
 
        /** 
-        * @params batch the set of jobs received from outside
+        * @param batch the set of jobs received from outside
         * @return true if the utility factor is below or equal to 1
         */	
 	protected boolean checkFeasability(Task[] batch)
