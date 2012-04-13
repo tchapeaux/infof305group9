@@ -36,7 +36,9 @@ public class SimulationPanel extends JPanel {
 		    int lineX = getPresentTimeLine() + (int)(-t1 + p.getY())*pixelsPerSecond/1000;
                     if (lineX > 5 && lineX < this.getWidth()-pixelsForText)
                     {
-                        g.drawString(Float.toString(p.getX()), lineX + 5, 20);
+			g.drawLine(lineX, 5, lineX, getHeight()-5);
+			double roundedSpeed =  Math.round(p.getX()*100.0)/100.0;
+                        g.drawString(Double.toString(roundedSpeed), lineX + 5, 20);
                     }
 		}
 		//*/

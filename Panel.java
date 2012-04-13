@@ -5,6 +5,12 @@ import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+/**
+ * Main Panel class during the simulation, which contains the different SimulationPanel and update them synchronously
+ * @author bernard
+ * @version 2012.04.14
+ */
+
 public final class Panel extends JFrame
 {
 
@@ -171,11 +177,6 @@ public final class Panel extends JFrame
             tasks = null;
 	    tasks = Task.createRandomBatch(Main.NUMBER_OF_TASK, Main.TIME_INTERVAL);
     }
-    void generateRandomFifoBatch() {
-            tasks = null;
-	    tasks = Task.createRandomFifoBatch(Main.NUMBER_OF_TASK, Main.TIME_INTERVAL);
-    }
-
     Task[] getTasks() {
         return tasks;
     }

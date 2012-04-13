@@ -1,7 +1,11 @@
+/**
+ * Used by TimeDivision to store information on one task in the interval
+ * This is essentially a C++ struct, which is why everything is public
+ * (Consistency is handled by the TimeDivision class)
+ * @author thomas
+ */
+
 public class TimeDivisionElem
-// Used by TimeDivision to store information on one task in the interval
-// This is essentially a C++ struct so everything is public
-// (Consistency is handled by the TimeDivision class)
 {
 	public long taskID; // can be equal to 0 (--> no task to compute)
 	public float computationStartTime;

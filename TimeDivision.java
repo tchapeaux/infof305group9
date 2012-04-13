@@ -1,7 +1,11 @@
 import java.util.*;
 
+/**
+ * Encapsulate the algorithm used by Simulation to divide a time interval between several tasks
+ * @author thomas
+ */
+
 public class TimeDivision
-// Used by Simulation to divide a time interval between several tasks to be computed
 {
 
 	protected final float startTime;
@@ -18,15 +22,12 @@ public class TimeDivision
 	}
 
 	public void addTask(Task t)
-	// "pre-condition" : the tasks must be provided in the least-to-most prioritary order
 	{
-		//TODO: check the pre-condition
-
 		ListIterator<TimeDivisionElem> li = computationTimes.listIterator();
 		TimeDivisionElem tmpTDE = null;
 
 		// computationTimes is never empty -> no need to check here
-		
+
 		TimeDivisionElem elem;
 		do
 		// Note: chronological order.

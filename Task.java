@@ -4,6 +4,11 @@ import java.io.FileInputStream;
 import java.io.InputStreamReader;
 import java.util.*;
 
+/**
+ * Represent a real-time task in our model.
+ * @author thomas
+ * @version 2012.04.14
+ */
 public class Task
 {
 
@@ -31,22 +36,26 @@ public class Task
 			return (this.getEndTime() - currentTime);
 		}
 
-	// actual_et -> time needed to execute the task at CPU speed = 1.
-	// wcet -> "advertised" execution time (worst scenario)
-	// typically: actual_et is used by the simulation, wcet is used by the scheduler.
-	protected float wcet;
-		public float getWcet() {return this.wcet;}
+	/**
+	 * actual_et -> time needed to execute the task at CPU speed = 1.
+	 */
 	protected float actual_et;
 		public float getActualEt() {return this.actual_et;}
 
-	protected List<float[]> completion = new ArrayList<float[]>(); // float [0] = time; float [1] = completion (0->1)
+	/**
+	 * wcet -> "advertised" execution time (worst scenario)
+	 * typically: actual_et is used by the simulation, wcet is used by the scheduler.
+	 */
+	protected float wcet;
+		public float getWcet() {return this.wcet;}
+		protected List<float[]> completion = new ArrayList<float[]>(); // float [0] = time; float [1] = completion (0->1)
 
 
 	public float getCompletion() {return (this.completion.get(this.completion.size()-1))[1];}
 
 	public List<float[]> getCompletionEvolution() {return completion;}
 
-	public void updateCompletion(float duration, float interv, float actualTime)
+	protected void updateCompletion(float duration, float interv, float actualTime)
 	{
 		float newCompletionPoint[]=new float[2];
 		newCompletionPoint[0]=actualTime;
@@ -54,11 +63,20 @@ public class Task
 		this.completion.add(newCompletionPoint);
 	}
 
+	/**
+	 * Method to call to update the task completion during Simulation
+	 * @param duration duration of the time interval during which the CPU compute this Task
+	 * @param speed the speed at which the CPU is computing this task
+	 * @param actualTime current time in the simulation
+	 */
 	public void giveCPU(float duration, float speed, float actualTime)
 	{
 		this.updateCompletion(duration, speed*(duration/this.getActualEt()), actualTime);
 	}
 
+	/**
+	 * @return the estimated worst computation time, calculated as (1-completion)*wcet
+	 */
 	public float worstComputationTimeLeft()
 	{
 		return (1-this.getCompletion())*wcet;
@@ -73,6 +91,13 @@ public class Task
 		this.id = Task.getNextID();
 	}
 
+	/**
+	 * Method to call right after the constructor, to initialize the attributes
+	 * @param st time at which the Task enters the system, and can be computed
+	 * @param et time at which the Task leaves the system, and must be computed entirely
+	 * @param wcet worst case execution time, to be considered the actual time at maximal speed by the initial scheduling algorithm
+	 * @param actual_et actual execution time at maximal speed, to be used by the simulation
+	 */
 	public void setValues(float st, float et, float wcet, float actual_et)
 	{
 		this.startTime = st;
@@ -88,7 +113,7 @@ public class Task
 		this.id=id;
 	}
 
-	public static float generateInRange(float min, float max)
+	protected static float generateInRange(float min, float max)
 	{
 	    if (min == max)
 		return max;
@@ -98,8 +123,13 @@ public class Task
 	    return (float)(temp/1000.0) + min;
 	}
 
+	/**
+	 * set random values for the task, with start and ending time in timeInterval
+	 * @param timeInterval duration of the time interval to consider
+	 * @param id id of the task
+	 * @param numberOfTasks total number of tasks in the system
+	 */
 	public void generateValuesFor(float timeInterval, int id, int numberOfTasks)
-	// set random values for the task, with start and ending time in timeInterval
 	{
 		float duration = Task.generateInRange(timeInterval/10, timeInterval/4);
 		float newSt = Task.generateInRange((float)0.0, timeInterval - duration);
@@ -113,9 +143,14 @@ public class Task
 		this.setValues(newSt, newEt, newWcet, newActualEt, id);
 	}
 
+	/**
+	 * Create a random batch of Tasks with the specified parameters
+	 * @param numberOfTasks number of tasks in the batch
+	 * @param timeInterval duration of the time interval containing the batch
+	 * @return an array containing the tasks in the generated batch
+	 */
 	public static Task[] createRandomBatch(int numberOfTasks, float timeInterval)
 	{
-            // TODO : better generation (considering number of tasks, etc)
 
             Task[] batch;
             batch = new Task[numberOfTasks];
@@ -132,33 +167,11 @@ public class Task
             return batch;
 	}
 
-	public static Task[] createRandomFifoBatch(int numberOfTasks, float timeInterval)
-	{
-            Task[] batch;
-            batch = new Task[numberOfTasks];
-	    float eachInterv = timeInterval / (float)numberOfTasks;
-            do
-            {
-		float lastStart = 0;
-		float lastEnd = 0;
-                for (int i = 0; i < numberOfTasks; ++i)
-                {
-		    float startInterv = i*eachInterv;
-		    float endInterv = (i+1)*eachInterv;
-		    float st = Task.generateInRange(lastStart, lastStart + eachInterv);
-		    float et = Task.generateInRange(Math.max(lastEnd, lastStart + eachInterv), endInterv);
-		    float wcet = Task.generateInRange((et-st)/2, et-st);
-		    float aet = Task.generateInRange(wcet/2, wcet);
-		    lastStart = st; // for next loop
-		    lastEnd = et;
-                    batch[i] = new Task();
-                    batch[i].setValues(st,et,wcet,aet);
-                }
-            }
-            while (!isFeasable(batch, timeInterval));
-            return batch;
-	}
-
+	/**
+	 * Create a batch of Tasks described in the file located at filepath
+	 * @param filepath location of the file containing the description of the batch
+	 * @return an array containing the tasks in the generated batch
+	 */
 	public static Task[] createBatchFromFile(String filepath)
 	{
 	    Task[] batch = null;
