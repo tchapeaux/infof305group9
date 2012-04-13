@@ -95,7 +95,7 @@ public class GeneratorPanel extends JPanel implements ActionListener,ChangeListe
             {
                 drawTasks(father.getTasks(),g);
                 drawTimeSeparation(father.getTasks().length,g);
-                g.drawString("Start speed:", this.getWidth()-148, 287 + 31*father.getTasks().length);
+                //g.drawString("Start speed:", this.getWidth()-148, 287 + 31*father.getTasks().length);
             }
     }
 
@@ -171,8 +171,6 @@ public class GeneratorPanel extends JPanel implements ActionListener,ChangeListe
         }
 	else if ("scheFromFile".equals(e.getActionCommand()))
 	{
-	    // !!! TODO !!! //
-
         JFileChooser chooseFile = new JFileChooser();
         int returnVal = chooseFile.showOpenDialog(this);
 
@@ -181,9 +179,6 @@ public class GeneratorPanel extends JPanel implements ActionListener,ChangeListe
             File file = chooseFile.getSelectedFile();
 	    Point2DFloatList pl = new Point2DFloatList();
 	    pl.fillWithFile(file.getPath());
-	    /* AND NOW ????? */
-	    // pl contient la liste des vitesses, il faut mettre à jour les sliders & les valeurs en conséquence
-	    // Bonne chance!
             if (pl.size()-1> CPUSpeed.size())
                 System.out.println("pl size:"+pl.size()+" cpuSpeedSize:"+CPUSpeed.size());
             else

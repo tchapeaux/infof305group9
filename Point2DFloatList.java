@@ -5,7 +5,8 @@ import java.io.FileInputStream;
 import java.io.InputStreamReader;
 import java.util.*;
 
-/** 
+/**
+  * Encapsulation of LinkedList<Point2DFloat>
   * @author de Kryger Ode
   * @version 2012.04.14
   */

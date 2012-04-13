@@ -1,4 +1,5 @@
-/** 
+/**
+  * Rewrite of Point2D.Float, better suited to our needs
   * @author de Kryger Ode
   * @version 2012.04.14
   */

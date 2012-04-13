@@ -1,6 +1,9 @@
 import java.util.*;
-//import java.lang.*;
 
+/**
+ * Represents a unique system of Tasks being computed by a CPU using energy, with the help of an initial and inline algorithm.
+ * @author thomas
+ */
 public class Simulation
 {
 	protected Task[] taskBatch;
@@ -14,11 +17,23 @@ public class Simulation
 	protected float energyUsed=0;
 		public float getEnergyUsed() {return this.energyUsed;}
 	protected float timeInterval; // duration of the time interval considered by the simulation
+
+	/**
+	 *
+	 * @return true if the simulation is done computing
+	 */
 	public boolean isDone() { return (currentTime >= timeInterval); }
 
+	/**
+	 * each speeds[i] means that the CPU has to go at speed speeds[i].x until currentTime = speeds[i].y
+	 */
 	protected Point2DFloatList speeds;
 	protected Point2DFloatList getSpeeds() {return speeds;}
-	// each speeds[i] means that the CPU has to go at speed speeds[i].x until currentTime = speeds[i].y
+
+	/**
+	 *
+	 * @return the speed at which the CPU is currently computing
+	 */
 	public float getCurrentSpeed()
 	{
 		for (int i = 0; i < getSpeeds().size(); i++)
@@ -40,6 +55,12 @@ public class Simulation
 	    public boolean isComputing() {return isComputing;}
 	    protected void setIsComputing(boolean newValue) {isComputing=newValue;}
 
+	/**
+	 * Constructor of Simulation
+	 * @param initialScheduler the InitialScheduler to be used by the Simulation
+	 * @param inlineScheduler the InlineScheduler to be used by the Simulation
+	 * @param taskBatch  the system of Task to be computed by the Simulation
+	 */
 	public Simulation(InitialScheduler initialScheduler, InlineScheduler inlineScheduler, Task[] taskBatch)
 	{
 		this.timeInterval = Main.TIME_INTERVAL;
@@ -62,15 +83,11 @@ public class Simulation
 		//this.speeds.print();
 	}
 
-	public float upperAcceptedSpeed(float speed)
-	// return the closest speed achievable by the CPU which is superior or equal to speed
-	{
-		// TODO
-		return speed;
-	}
-
+	/**
+	 * Compute the evolution of the system in the interval between currentTime and currentTime + elapsedMs
+	 * @param elapsedMs the number of ms to be computed during this call
+	 */
 	public void compute(float elapsedMs)
-	// Compute the evolution of the system in the interval between currentTime and currentTime + elapsedMs
 	{
 		float startPoint = this.currentTime;
 		float endPoint = startPoint + elapsedMs;
