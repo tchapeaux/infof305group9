@@ -18,8 +18,8 @@ interface InitialScheduler
 	public boolean schedule(Task[] batch, Point2DFloatList speeds, float timeInterval);
 
 	/**
-	 *
-	 * @return
+	 * Return the name as a string for displaying purpose.
+	 * @return the name as a String
 	 */
 
 	public String getName();

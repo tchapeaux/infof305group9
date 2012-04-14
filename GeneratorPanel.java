@@ -14,7 +14,17 @@ import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-
+/**
+ * Panel used for configuration of the simulations.
+ * Functionnalities :
+ * - Allow the user to generate Systems of Tasks randomly or from a custom file.
+ * - Allow the user to choose which algorithms will be given to each simulation
+ * - Allow the user to try and schedule the system of tasks him/herself, or with a custom file.
+ * @see JPanel
+ * @see ActionListener
+ * @see ChangeListener
+ * @author bernard
+ */
 public class GeneratorPanel extends JPanel implements ActionListener,ChangeListener {
 
     protected JButton randomGen = new JButton("Generate Random batch");
