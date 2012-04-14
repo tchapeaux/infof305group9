@@ -1,7 +1,9 @@
 import java.util.*;
 
-/** 
+/**
+  * Comparator used by EDF to order an array of tasks by priority
   * @author de Kryger Ode
+  * @see Comparator
   * @version 2012.04.14
   */
 public class EndTimeComparator implements Comparator<Task>

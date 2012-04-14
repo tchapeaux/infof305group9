@@ -78,14 +78,12 @@ public final class Panel extends JFrame
 			lastTime = currentTime;
 			currentTime = t.getTime();
 			float interval = (currentTime - lastTime)*timeFactor;
-//System.out.println("interval: "+interval+ " lastTime:"+lastTime+" currentTime:"+currentTime+" RealCurrentTime:"+t.getTime());
 
 			for (int i=0; i< listSimulation.length; i++)
 			{
 				listSimulation[i].compute(interval);
 				if (listSimulation[i].isDone())
 				    allSimulationsAreDone = true;
-				// !!! this suppose that all simulations are going at the same speed
 			}
 			container.repaint();
 			try {
@@ -105,6 +103,9 @@ public final class Panel extends JFrame
             sim.showTime(i);
     }
 
+    /**
+     * Switch from GeneratorPanel to the Simulation screen (Simulation¨anems + ControlPanel)
+     */
     public void switchView() {
         this.setVisible(false);
         if (this.getContentPane() == controlContainer)

@@ -12,6 +12,20 @@ import javax.swing.JSlider;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+/**
+ * GUI allowing the user to have an input on the simulation.
+ * Functionalities :
+ * - Speed up/down (max : 2x normal speed, min : stopped)
+ * - create dump files : a file describing the system of Tasks, another describing the scheduling of the user.
+ * - Display current speed and current time in the simulations
+ * - Display the progression of the simulations (progress bar)
+ * - Once the simulations are finished, allow the user to move across the progress bar to observe the whole simulation
+ * @see JPanel
+ * @see ActionListener
+ * @see ChangeListener
+ * @author bernard
+ * @version 2012.04.14
+ */
 class ControlPanel extends JPanel implements ActionListener, ChangeListener{
 
     protected static final float maxSpeed = 2;
@@ -22,10 +36,15 @@ class ControlPanel extends JPanel implements ActionListener, ChangeListener{
     JProgressBar progressBar = new JProgressBar(0, Main.TIME_INTERVAL);
     JSlider timeSlide = new JSlider(JSlider.HORIZONTAL,-Main.TIME_INTERVAL/2,0, 0);
 
-    public void setProgress(int i)
+    /**
+     * Tell the ControlPanel that progress has been made in the simulations.
+     * If max time is reached, the time slider is displayed.
+     * @param newtime the updated current time in the simulations
+     */
+    public void setProgress(int newTime)
     {
-        progressBar.setValue(i);
-        if (i>=Main.TIME_INTERVAL)
+        progressBar.setValue(newTime);
+        if (newTime>=Main.TIME_INTERVAL)
         {
             progressBar.setVisible(false);
             timeSlide.setVisible(true);
