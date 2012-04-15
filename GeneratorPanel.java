@@ -23,7 +23,7 @@ import javax.swing.event.ChangeListener;
  * @see JPanel
  * @see ActionListener
  * @see ChangeListener
- * @author bernard
+ * @author Mayeur Bernard
  */
 public class GeneratorPanel extends JPanel implements ActionListener,ChangeListener {
 
@@ -105,7 +105,6 @@ public class GeneratorPanel extends JPanel implements ActionListener,ChangeListe
             {
                 drawTasks(father.getTasks(),g);
                 drawTimeSeparation(father.getTasks().length,g);
-                //g.drawString("Start speed:", this.getWidth()-148, 287 + 31*father.getTasks().length);
             }
     }
 

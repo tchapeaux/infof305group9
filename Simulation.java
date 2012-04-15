@@ -2,7 +2,7 @@ import java.util.*;
 
 /**
  * Represents a unique system of Tasks being computed by a CPU using energy, with the help of an initial and inline algorithm.
- * @author thomas
+ * @author Chapeaux Thomas
  */
 public class Simulation
 {

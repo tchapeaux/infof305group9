@@ -4,6 +4,11 @@ import java.awt.Graphics;
 import java.util.List;
 import javax.swing.JPanel;
 
+/**
+ * Pannel for making an output of a simulation to the user.
+ * @author Mayeur Bernard
+ */
+
 public class SimulationPanel extends JPanel {
 
 	public static final int pixelsPerSecond = 100;
@@ -21,12 +26,7 @@ public class SimulationPanel extends JPanel {
 		double t1 = sim.getCurrentTime();
 		int taskHeight = Math.min(50,(getHeight())/sim.getNumberOfTasks()-6);
 
-		// Draw speed zones
-		/*
-		 * (Thomas) J'ai mis en commentaire parce que même si ça marche,
-		 * c'est un peu moche pour le PdS. Je pense qu'en modifiant 2-3 trucs
-		 * ça pourrait donner bien, donc n'hésitez pas à décommenter
-		 * pour tester !*/
+		// Draw speed zone
 		for (Point2DFloat p:sim.getSpeeds())
 		{
 		    g.setColor(Color.black);
@@ -40,7 +40,6 @@ public class SimulationPanel extends JPanel {
                         g.drawString(Double.toString(roundedSpeed), lineX + 5, 20);
                     }
 		}
-		//*/
 
                 // Draw tasks
 		int i=0;

@@ -2,7 +2,7 @@
  * Used by TimeDivision to store information on one task in the interval
  * This is essentially a C++ struct, which is why everything is public
  * (Consistency is handled by the TimeDivision class)
- * @author thomas
+ * @author Chapeaux Thomas
  */
 
 public class TimeDivisionElem

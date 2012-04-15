@@ -3,7 +3,7 @@ import java.awt.Color;
 import java.util.*;
 /**
  * Main class, initialize all variables and call the main Panel
- * @author thomas
+ * @author Chapeaux Thomas
  * @version 2012.04.14
  */
 public class Main {
