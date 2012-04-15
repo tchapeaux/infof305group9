@@ -32,7 +32,6 @@ public class SimulationPanel extends JPanel {
 		    g.setColor(Color.black);
 		    Font font = new Font("Arial", Font.PLAIN, 15);
 		    g.setFont(font);
-		    System.out.println(getPresentTimeLine());
 		    int lineX = getPresentTimeLine() + (int)(-t1 + p.getY())*pixelsPerSecond/1000;
                     if (lineX > 5 && lineX < this.getWidth()-pixelsForText)
                     {

@@ -150,7 +150,6 @@ public class GeneratorPanel extends JPanel implements ActionListener,ChangeListe
                 Point2DFloatList temp = new Point2DFloatList();
                 temp.add(new Point2DFloat(Float.parseFloat(startSpeed.getText())/100,0));
 
-                //System.out.println(Float.parseFloat(startSpeed.getText())/100+" 0");
                 for (int i= 0 ; i< CPUSpeed.size(); i++)
                 {
                     float temp_v = Float.parseFloat(CPUSpeed.get(i).getText())/100;
@@ -190,7 +189,7 @@ public class GeneratorPanel extends JPanel implements ActionListener,ChangeListe
 	    Point2DFloatList pl = new Point2DFloatList();
 	    pl.fillWithFile(file.getPath());
             if (pl.size()-1> CPUSpeed.size())
-                System.out.println("pl size:"+pl.size()+" cpuSpeedSize:"+CPUSpeed.size());
+                ; // Error handling
             else
             {
                 startSpeed.setText(String.valueOf(pl.get(0).getX()*100));
@@ -333,148 +332,9 @@ public class GeneratorPanel extends JPanel implements ActionListener,ChangeListe
                 test = false;
         return test;
 
-        /*for (int i=0; i<taskWCET.length; i++)
-            if (taskWCET[i] != 0)
-                return false;
-        return true;*/
     }
 }
 
 
 
 
-/*int start= Main.TIME_INTERVAL;
-        float taskStart [] = new float [tasks.length];
-        float taskWCET [] = new float [tasks.length];
-        int startingTask=0;
-        for (int i=0; i< tasks.length; i++)
-        {
-            if (Math.min(start, (int)tasks[i].startTime) < start)
-            {
-                start = Math.min(start, (int)tasks[i].startTime);
-                startingTask =i;
-            }
-            taskStart [i] = tasks[i].startTime;
-            taskWCET[i]=tasks[i].wcet;
-        }
-        g.setColor(Color.blue);
-        while (!done(taskWCET,taskStart))
-        {
-        float newtSeparator=Main.TIME_INTERVAL;
-        int numberOfTheTask=99;
-        int numberOfTheSlider=99;
-        int numberOfBreakingTask=99;
-        for (int i=0; i< taskWCET.length; i++)
-        {
-            if (taskWCET[i]>start)
-            {
-                newtSeparator = Math.min(newtSeparator, taskWCET[i]);
-                numberOfTheTask=i;                                              // we are gonna finish this work
-            }
-        }
-        for (int i=0; i< timeInterval.size(); i++)
-        {
-            if (timeInterval.get(i).getValue() > start & timeInterval.get(i).getValue() < newtSeparator)
-            {
-                newtSeparator = Math.min(newtSeparator, timeInterval.get(i).getValue());
-                numberOfTheTask=99;
-                numberOfTheSlider=i;                                            // Slider limit progression
-            }
-        }
-        for (int i=0; i< startingTask; i++)
-        {
-            if (taskStart[i]>start & taskStart[i] < newtSeparator)
-            {
-                newtSeparator = taskStart[i];
-                numberOfTheTask=99;
-                numberOfBreakingTask=i;
-                numberOfTheSlider=99;                                              // another task begin before end of current
-            }
-        }
-
-
-        {
-            if (numberOfTheTask != 99)
-            {
-                if (startingTask == 0)
-                    g.fillRect((int)(taskStart[startingTask]*this.getWidth()/maxTime),
-                       250+21+31*startingTask,
-                       (int)(
-                                (
-                                    taskWCET[startingTask]
-                                    / Float.parseFloat(startSpeed.getText())*100
-                                )   / maxTime*this.getWidth()
-                            ),
-                       29);
-                else
-                    g.fillRect((int)(taskStart[startingTask]*this.getWidth()/maxTime),
-                       250+21+31*startingTask,
-                       (int)(
-                                (
-                                    taskWCET[startingTask]
-                                    / Float.parseFloat(CPUSpeed.get(startingTask-1).getText())*100
-                                )   / maxTime*this.getWidth()
-                            ),
-                       29);
-                taskWCET[startingTask]=0;
-                for(int i=startingTask+1; i< taskStart.length; i++)
-                    if (taskStart[i] < taskWCET[startingTask] + taskStart[startingTask])
-                        taskStart[i] = taskWCET[startingTask] + taskStart[startingTask];
-                taskStart[startingTask]=Main.TIME_INTERVAL+1;
-            }
-            else if (numberOfTheSlider != 99)
-            {
-                g.fillRect((int)(taskStart[startingTask]*this.getWidth()/maxTime),
-                       250+21+31*startingTask,
-                       (int)(
-                                (
-                                    (
-                                        timeInterval.get(numberOfTheSlider).getValue()
-                                        - (taskStart[startingTask])
-                                    )
-                                    // Float.parseFloat(CPUSpeed.get(startingTask-1).getText()) * 100
-                                )   / maxTime*this.getWidth()
-                            ),
-                       29);
-                if (startingTask == 0)
-                    taskWCET[startingTask] = taskWCET[startingTask]- (timeInterval.get(numberOfTheSlider).getValue() - (taskWCET[startingTask])) / Float.parseFloat(startSpeed.getText()) / 100;
-                else
-                    taskWCET[startingTask] = taskWCET[startingTask]- (timeInterval.get(numberOfTheSlider).getValue() - (taskWCET[startingTask])) / Float.parseFloat(CPUSpeed.get(startingTask-1).getText()) / 100;
-                taskStart[startingTask] = timeInterval.get(numberOfTheSlider).getValue();
-                for(int i=startingTask; i< taskStart.length; i++)
-                    if (taskStart[i] < timeInterval.get(numberOfTheSlider).getValue())
-                        taskStart[i] = timeInterval.get(numberOfTheSlider).getValue();
-            }
-            else if (numberOfBreakingTask != 99)
-            {
-                g.fillRect((int)(taskStart[startingTask]*this.getWidth()/maxTime),
-                       250+21+31*startingTask,
-                       (int)(
-                                (
-                                    (
-                                        taskStart[numberOfBreakingTask]
-                                        - taskStart[startingTask]
-                                    )
-                                    // Float.parseFloat(CPUSpeed.get(startingTask-1).getText()) * 100
-                                )   / maxTime * this.getWidth()
-                            ),
-                       29);
-                if (startingTask == 0)
-                    taskWCET[startingTask] = taskWCET[startingTask] - (taskStart[numberOfBreakingTask] - taskStart[startingTask] ) * Float.parseFloat(startSpeed.getText()) / 100;
-                else
-                    taskWCET[startingTask] = taskWCET[startingTask] - (taskStart[numberOfBreakingTask] - taskStart[startingTask] ) * Float.parseFloat(CPUSpeed.get(startingTask-1).getText()) / 100;
-                for(int i=startingTask; i< taskStart.length; i++)
-                    if (taskStart[i] < taskStart[numberOfBreakingTask])
-                        taskStart[i] = taskStart[numberOfBreakingTask];
-            }
-            else
-                throw new UnsupportedOperationException("Didnt found breaking task/slider");
-
-            System.out.println("start:");
-            for (int i=0; i<taskStart.length; i++)
-                System.out.println(i+" "+taskStart[i]);
-            System.out.println("WCET:");
-            for (int i=0; i<taskWCET.length; i++)
-                System.out.println(i+" "+taskWCET[i]);
-        }
-        }*/
