@@ -1,7 +1,7 @@
 /**
  * Interface allowing to have a strategy pattern for the inline scheduling algorithm
  *
- * @author thomas
+ * @author Chapeaux Thomas
  * @version 2012.04.14
  */
 

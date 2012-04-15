@@ -2,7 +2,7 @@ import java.util.*;
 
 /**
  * Encapsulate the algorithm used by Simulation to divide a time interval between several tasks
- * @author thomas
+ * @author Chapeaux Thomas
  */
 
 public class TimeDivision

@@ -6,7 +6,7 @@ import java.util.*;
 
 /**
  * Represent a real-time task in our model.
- * @author thomas
+ * @author Chapeaux Thomas
  * @version 2012.04.14
  */
 public class Task

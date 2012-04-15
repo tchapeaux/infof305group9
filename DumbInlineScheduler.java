@@ -1,7 +1,7 @@
 /**
  * Example of inline scheduler, which doesn't do any real scheduling
  * @see InlineScheduler
- * @author thomas
+ * @author Chapeaux Thomas
  */
 public class DumbInlineScheduler implements InlineScheduler
 {

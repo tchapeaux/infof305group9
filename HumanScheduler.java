@@ -1,6 +1,6 @@
 /**
  * This Initial and Inline scheduler allows a human (the user) to define and modify dynamically his/her scheduling.
- * @author thomas
+ * @author Chapeaux Thomas
  * @version 2012.04.14
  */
 

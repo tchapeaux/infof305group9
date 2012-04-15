@@ -7,7 +7,7 @@ import javax.swing.JPanel;
 
 /**
  * Main Panel class during the simulation, which contains the different SimulationPanel and update them synchronously
- * @author bernard
+ * @author Mayeur Bernard
  * @version 2012.04.14
  */
 
@@ -163,6 +163,7 @@ public final class Panel extends JFrame
 
 	return "No Human Scheduling";
     }
+    
     public void generateBatchFromFile() {
         JFileChooser chooseFile = new JFileChooser();
         int returnVal = chooseFile.showOpenDialog(this);
@@ -178,6 +179,7 @@ public final class Panel extends JFrame
             tasks = null;
 	    tasks = Task.createRandomBatch(Main.NUMBER_OF_TASK, Main.TIME_INTERVAL);
     }
+    
     Task[] getTasks() {
         return tasks;
     }

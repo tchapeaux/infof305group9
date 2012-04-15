@@ -23,7 +23,7 @@ import javax.swing.event.ChangeListener;
  * @see JPanel
  * @see ActionListener
  * @see ChangeListener
- * @author bernard
+ * @author Mayeur Bernard
  * @version 2012.04.14
  */
 class ControlPanel extends JPanel implements ActionListener, ChangeListener{
@@ -58,10 +58,7 @@ class ControlPanel extends JPanel implements ActionListener, ChangeListener{
 
         this.setVisible(true);
         moreSpeed.setLocation(this.getWidth()-150, this.getHeight()/2);
-        //moreSpeed.setSize(20, 20);
         lessSpeed.setLocation(this.getWidth()-130, this.getHeight()/2);
-        //lessSpeed.setSize(20, 20);
-
 
         moreSpeed.setActionCommand("speed+");
         moreSpeed.setVisible(true);
