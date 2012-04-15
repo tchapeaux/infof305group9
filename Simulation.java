@@ -79,8 +79,6 @@ public class Simulation
 		this.speeds = theSpeeds;
 		isComputing = false;
 		isComputing = false;
-		//System.out.println("I'm " + myInitialScheduler.getName() + " and I got this :");
-		//this.speeds.print();
 	}
 
 	/**

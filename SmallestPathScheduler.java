@@ -1,6 +1,6 @@
 import java.util.*;
 
-/** 
+/**
   * This InitialScheduler returns a speeds list for different time intervals
   * and sorts the tasks vector according to EDF priority
   * @see InitialScheduler
@@ -9,13 +9,13 @@ import java.util.*;
   */
 public class SmallestPathScheduler implements InitialScheduler
 {
-	/** 
+	/**
 	  * compute the speeds according to Smallest Path's algorithm
           * @param batch a set of jobs
           * @param speeds write a speeds list for different time intervals
           * @param timeInterval time interval
           * @return true if it succeeds to schedule the set of jobs
-          */	
+          */
 	public boolean schedule(Task[] batch, Point2DFloatList speeds, float timeInterval)
 	{
 		Point2DFloatList L = new Point2DFloatList();
@@ -63,7 +63,7 @@ public class SmallestPathScheduler implements InitialScheduler
 		L.add(startPoint);
 	}
 
-	/** 
+	/**
 	* compute La, the "ceiling"
         */
 	protected void makeUpperPointsList(Point2DFloatList La, Task[] batch)
@@ -86,7 +86,7 @@ public class SmallestPathScheduler implements InitialScheduler
 		return res;
 	}
 
-	/** 
+	/**
 	* compute Ld, the "floor"
         */
 	protected void makeLowerPointsList(Point2DFloatList Ld, Task[] batch)
@@ -109,9 +109,9 @@ public class SmallestPathScheduler implements InitialScheduler
 		return res;
 	}
 
-	/** 
+	/**
 	* melts La and Ld into L
-        */	
+        */
 	protected void meltLists(Point2DFloatList La, Point2DFloatList Ld, Point2DFloatList L)
 	{
 		int i = 1, j = 1;
@@ -144,7 +144,7 @@ public class SmallestPathScheduler implements InitialScheduler
 			L.addAll(Ld.subList(j, Ld.size()));
 	}
 
-	/** 
+	/**
 	* the computed smallest path is set into V
         */
 	protected void makeSmallestPath(Point2DFloatList L, Point2DFloatList La, Point2DFloatList Ld, Point2DFloatList Lv, Point2DFloatList Lw, Point2DFloatList V)
@@ -209,10 +209,10 @@ public class SmallestPathScheduler implements InitialScheduler
 		V.addAll(Lw);
 	}
 
-	/** 
+	/**
 	  * search the last Lw's point which is upper than the straight line between origin and currentPoint
           * @return the last upper point or null
-          */	
+          */
 	protected Point2DFloat lastUpperPoint(Point2DFloatList Lw, Point2DFloat origin, Point2DFloat currentPoint)
 	{
 		Point2DFloat res = null;
@@ -229,7 +229,7 @@ public class SmallestPathScheduler implements InitialScheduler
 		return res;
 	}
 
-	/** 
+	/**
 	  * search the last Lv's point which is lower than the straight line between origin and currentPoint
           * @return the last lower point or null
           */
@@ -289,7 +289,7 @@ public class SmallestPathScheduler implements InitialScheduler
 		}
 	}
 
-	/** 
+	/**
 	  * computes the speeds from each straight line segment from V
           * the speed is added with his last moment of time
           */
@@ -307,10 +307,10 @@ public class SmallestPathScheduler implements InitialScheduler
 		Arrays.sort(batch, new EndTimeComparator());
 	}
 
-       /** 
+       /**
         * @param batch the set of jobs received from outside
         * @return true if the utility factor is below or equal to 1
-        */	
+        */
 	protected boolean checkFeasability(Task[] batch)
 	{
 		float sum = 0, limit = 1;
@@ -321,9 +321,9 @@ public class SmallestPathScheduler implements InitialScheduler
 		return true;
 	}
 
-       /** 
+       /**
         * checks if all the computed speeds are below or equal to 1
-        */	
+        */
 	protected boolean checkSpeeds(Point2DFloatList speeds)
 	{
             for(int i = 0; i < speeds.size()-1; i++)
@@ -335,9 +335,9 @@ public class SmallestPathScheduler implements InitialScheduler
 	    return true;
 	}
 
-	/** 
+	/**
         * simules execution to test if there's no error
-        */	
+        */
 	protected boolean testBatchAndSpeeds(Task[] batch, Point2DFloatList speeds)
         {
         	float theTime, theDuration, theSpeed, theSpeedTimeLimit, theRealDuration;
@@ -422,13 +422,8 @@ public class SmallestPathScheduler implements InitialScheduler
 		Sp.schedule(batch, speeds, timeInterval);
 
 		expectedSpeeds.add(new Point2DFloat((float)0.52, (float)250));
-		expectedSpeeds.add(new Point2DFloat((float)0.12, (float)500));	
-		expectedSpeeds.add(new Point2DFloat((float)0.2, (float)550));	
-
-		if (speeds.equals(expectedSpeeds))
-			System.out.println("\nSmallestPathScheduler.runScheduleTest() succeed");
-		else
-			System.out.println("\nSmallestPathScheduler.runScheduleTest() failed");
+		expectedSpeeds.add(new Point2DFloat((float)0.12, (float)500));
+		expectedSpeeds.add(new Point2DFloat((float)0.2, (float)550));
 	}
 
 	public String getName()
